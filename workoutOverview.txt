@@ -1,0 +1,7 @@
+mobile web app, to protocol workout sessions:
+
+ 1) Listing:
+	- name of exercise
+	- amount of sets
+	- amount of reps
+	- used weights (kg)

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js" defer></script>
+        <script type="text/plain" src="data.txt" defer></script>
+        <script src="script.js" defer></script>
+        <script src="https://kit.fontawesome.com/b1e1bb97e7.js" crossorigin="anonymous" defer></script>
+        <title>wO</title>
+    </head>
+
+    <body>
+        <div class="main">
+            <div class="title">
+                <h2>Welcome Pipi<sup>[wO]</sup></h2>
+            </div>
+            <div class="content-front">
+                <button class="add-session-button">
+                    Start workout session
+                </button>
+            </div>
+
+            <div class="back-top">
+                <button class="back-button">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <div class="current-date">
+
+                </div>
+            </div>
+            <div class="content-back">
+                <div class="select-exercise">
+                    <p>EXERCISE</p>
+                    <input type="text" onfocus="inputClicked(this)" onfocusout="inputLeft(this)">
+                    <div class="body-weight"><label for="bw">body weight only?<i class="fa-solid fa-check"></i></label><input type="checkbox" id="bw" onchange="markChecked(this)"></div>
+                </div>
+                <div class="select-sets">
+                    <p>SETS</p>
+                    <input type="text" onfocus="inputClicked(this)" onfocusout="inputLeft(this)" onchange="initSets(this)">
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
