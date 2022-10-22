@@ -5,3 +5,23 @@ mobile web app, to protocol workout sessions:
 	- amount of sets
 	- amount of reps
 	- used weights (kg)
+
+
+// filtern nach Übungen
+// durchschnitt wiederholungen / gewicht pro monat
+// graph für den monat
+// körpergewicht + username auf startbildschirm
+// zeit eintragen wenn man will
+
+// körpergewicht pro monat anzeigen
+// graph für körpergewicht
+// nachtragen können !! (extra button am startscreen zum nachtragen)
+// aufzählen wie oft in dem monat eine gewisse übung gemacht wurde
+// welche übung hat man insgesamt am öftesten trainiert ( bei dropdown dazu in [] klammern)
+// maximalgewicht für jede übung anzeigen (bzw für eine übung anzeigen)
+// optional: profilbild ? 
+// wie oft pro monat/woche trainiert !! ( regernerationszeiten)
+
+// optional: button um schlaf eintragen zu können
+
+// exercise drop down

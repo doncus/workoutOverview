@@ -5,25 +5,52 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="style.css">
-        <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js" defer></script>
-        <script type="text/plain" src="data.txt" defer></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Murecho:wght@500&display=swap" rel="stylesheet"> 
+        <script src="globalVariables.js" defer></script>
+        <script src="buttonFunctions.js" defer></script>
+        <script src="local.js" defer></script>
+        <script src="init.js" defer></script>
         <script src="script.js" defer></script>
+        <script src="dropDownLists.js" defer></script>
         <script src="https://kit.fontawesome.com/b1e1bb97e7.js" crossorigin="anonymous" defer></script>
         <title>wO</title>
     </head>
 
     <body>
-        <div class="main">
-            <div class="title">
-                <h2>Welcome Pipi<sup>[wO]</sup></h2>
+        <div class="login-container">
+            <div class="login-content">
+                <p class="input-label">Select a username</p>
+                <input type="text">
+                <div class="condition-container">
+                    <p id="min">- min length: 3 characters.</p>
+                    <p id="max">- max length: 12 characters.</p>
+                </div>
+                <button class="login-button">create user</button>
+            </div>
+        </div>
+
+        <div class="main-container">
+            <div class="content-front-top">
+                <div class="title">
+                    <h2>Welcome </h2>
+                </div>
+                <button class="user">
+                    <i class="fa-solid fa-user"></i>
+                </button>
             </div>
             <div class="content-front">
                 <button class="add-session-button">
-                    Start workout session
+                    Save workout session
                 </button>
+                <div class="previous-session-div">
+                    <p>Previous Sessions:</p>
+                    
+                </div>
             </div>
 
-            <div class="back-top">
+            <div class="content-back-top">
                 <button class="back-button">
                     <i class="fa-solid fa-arrow-left"></i>
                 </button>
@@ -32,14 +59,17 @@
                 </div>
             </div>
             <div class="content-back">
+                <div class="previous-days-div">
+                
+                </div>
                 <div class="select-exercise">
                     <p>EXERCISE</p>
-                    <input type="text" onfocus="inputClicked(this)" onfocusout="inputLeft(this)">
+                    <input type="text" onfocus="inputClicked(this), showExercises(this)" onfocusout="inputLeft(this)" oninput="showExercises(this)">
                     <div class="body-weight"><label for="bw">body weight only?<i class="fa-solid fa-check"></i></label><input type="checkbox" id="bw" onchange="markChecked(this)"></div>
                 </div>
                 <div class="select-sets">
                     <p>SETS</p>
-                    <input type="text" onfocus="inputClicked(this)" onfocusout="inputLeft(this)" onchange="initSets(this)">
+                    <input type="text" onfocus="inputClicked(this)" onfocusout="inputLeft(this)" oninput="initSets(this)">
                 </div>
             </div>
         </div>
