@@ -1,0 +1,40 @@
+mobile web app, to protocol workout sessions:
+
+ 1) Auflistung:
+	- Name der Übung					[DONE]
+	- Anzahl der Sätze					[DONE]
+	- Anzahl der Wiederholungen			[DONE]
+	- verwendetes gewicht (kg)			[DONE]
+	- Drop-Satz
+
+2) Filter:
+	- nach Übung:
+		-- Gewichterhöhung anzeigen
+
+3) Analyse:
+	- Körpergewicht
+	- Schlaf
+	- Personal record					[DONE]
+	- Durchschnittliche Wiederholungen	[DONE]
+	- Graph gesamt:
+		-- Körpergewicht
+		-- Gewicht, Wiederholungen
+			und Sets einer Übung
+	- Graph pro Monat:
+		-- Körpergewicht
+		-- Gewicht, Wiederholungen
+			und Sets einer Übung
+
+
+4) Allgemein:
+	- Nachtragen können					[DONE]
+	- Zeit einstellen können			[DONE]
+	- Datum auswählen können			[DONE]
+	- Wie oft pro Monat/Woche trainiert
+	- Profilbild
+
+--------------------------- Am Handy:
+
+- input felder bei user settings flackern klein oben rechts auf bevor ihre animation startet
+- drag & drop feld lässt sich nicht nochmal öffnen,
+  wenn es durch drücken unter der drag & drop liste geschlossen wird

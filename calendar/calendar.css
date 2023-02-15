@@ -1,0 +1,93 @@
+.calendar-div {
+    z-index: 99;
+    position: absolute;
+    width: 100%;
+    opacity: 0;
+    transition: all 300ms;
+}
+.active {
+    background-color: hsl(60, 25%, 60%);
+    color: black;
+}
+
+.calendar-div .calendar-month, .time-picker {
+    background-color: hsl(var(--olive), 40%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+
+    color: var(--gray);
+    font-size: 20px;
+}
+.time-picker {
+    background-color: hsl(var(--olive), 30%);
+    border: 8px solid hsl(var(--olive), 10%);
+    font-size: 22px;
+}
+.time-picker .time-value {
+    text-align: center;
+    width: 28px;
+    margin: 0 4px;
+    border: none;
+    background-color: hsl(var(--olive), 30%);
+    font-size: 22px;
+    color: var(--gray);
+}
+.time-picker .time-value:focus {
+    text-decoration: underline var(--highlight);
+    outline: none;
+}
+
+.calendar-div .calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+
+    background-color: hsl(var(--olive), 30%);
+    border: 5px solid hsl(var(--olive), 10%);
+}
+.calendar-days .calendar-day {
+    aspect-ratio: 1;
+    outline: solid 1px black;
+    color: var(--gray);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+
+    font-size: 20px;
+}
+.calendar-day.today {
+    aspect-ratio: 0;
+    grid-column: 6 / 8;
+}
+.calendar-days .calendar-day.selected-day {
+    color: rgb(182, 248, 0);
+    font-weight: bold;
+}
+
+.calendar-month .month-button {
+    display: flex;
+    align-items: center;
+    background-color: hsl(var(--olive), 40%);
+    width: 100%;
+    height: 100%;
+    border: none;
+    font-size: 20px;
+}
+.month-button#prevButton {
+    padding-left: 20px;
+    justify-content: left;
+}
+.month-button#nextButton {
+    padding-right: 20px;
+    justify-content: right;
+}
+.month-button#prevButton:active {
+    background: linear-gradient(90deg, hsl(60, 25%, 60%), hsl(var(--olive), 40%));
+}
+.month-button#nextButton:active {
+    background: linear-gradient(90deg, hsl(var(--olive), 40%), hsl(60, 25%, 60%));
+}

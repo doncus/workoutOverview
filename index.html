@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="styleLogin.css">
+        <link rel="stylesheet" href="styleFront.css">
+        <link rel="stylesheet" href="./userSettings/userSettings.css">
+        <link rel="stylesheet" href="styleBackAddSession.css">
+        <link rel="stylesheet" href="styleBackDays.css">
+        <link rel="stylesheet" href="./calendar/calendar.css">
+        <script src="./userSettings/userSettings.js" defer></script>
+        <script src="./calendar/calendar.js" defer></script>
+        <script src="menuSelection.js" defer></script>
+        <script src="globalVariables.js" defer></script>
+        <script src="testData.js" defer></script>
+        <script src="buttonFunctions.js" defer></script>
+        <script src="local.js" defer></script>
+        <script src="init.js" defer></script>
+        <script src="script.js" defer></script>
+        <script src="checkForValue.js" defer></script>
+        <script src="dropDownLists.js" defer></script>
+        <script src="https://kit.fontawesome.com/b1e1bb97e7.js" crossorigin="anonymous" defer></script>
+        <title>wO</title>
+    </head>
+
+    <body>
+        <div class="login-container">
+            <div class="login-content">
+                <p class="input-label">Select a username</p>
+                <input type="text">
+                <div class="condition-container">
+                    <p id="min">- min: 3 characters.</p>
+                    <p id="max">- max: 12 characters.</p>
+                </div>
+                <button class="login-button">create user</button>
+            </div>
+        </div>
+
+        <div class="main-container">
+            <div class="content-front-top">
+                <div class="title">
+                    <h2>Welcome </h2>
+                </div>
+                <button class="user-button">
+                    <i class="fa-solid fa-user"></i>
+                </button>
+            </div>
+            <div class="content-front">
+                <div class="menu-select">
+                    <button class="add-session-button">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                    <button class="monthly-sessions-button">
+                        <i class="fa-solid fa-dumbbell"></i>
+                    </button>
+                    <button class="overview-button">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </button>
+                    <button class="records-button">
+                        <i class="fa-solid fa-crown"></i>
+                    </button>
+                </div>
+                <div class="selected-menu-div">
+                    
+                </div>
+            </div>
+
+            <div class="content-back-top">
+                <button class="back-button">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <div class="current-date">
+
+                </div>
+            </div>
+            <div class="content-back">
+                <div class="previous-days-div">
+                    
+                </div>
+                <div class="select-exercise">
+                    <p>EXERCISE</p>
+                    <input 
+                        type="text" 
+                        onfocus="inputClicked(this), showExercises(this)" 
+                        onfocusout="inputLeft(this)" 
+                        oninput="showExercises(this)"
+                        autocomplete="off"
+                    >
+                </div>
+                <div class="select-sets">
+                    <p>SETS</p>
+                    <input 
+                        type="text" 
+                        onfocus="inputClicked(this)" 
+                        onfocusout="inputLeft(this)" 
+                        oninput="initSets()"
+                        autocomplete="off"
+                    >
+                    <div class="body-weight">
+                        <label for="bw">body weight only?
+                            <i class="fa-solid fa-check"></i>
+                        </label>
+                        <input type="checkbox" id="bw" onchange="markChecked(this)">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

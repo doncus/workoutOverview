@@ -1,0 +1,118 @@
+.user-button.active {
+    background-color: hsl(60, 25%, 60%);
+}
+.user-settings {
+    z-index: 20;
+    margin-top: 10px;
+    padding-top: 30px;
+    width: 100%;
+    background-color: hsl(var(--olive), 18%);
+    border: 5px solid hsl(var(--olive), 37%);
+
+    transform: scale(0, 0);
+    transition: all 200ms;
+    transform-origin: top right;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.user-change-exercises {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 16px;
+}
+.user-change-name {
+    border-bottom: 2px solid hsl(var(--olive), 37%);
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-settings .add-exercise-div,
+.user-settings .remove-exercise-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.remove-exercise-div:last-of-type {
+    padding-bottom: 20px;
+}
+
+.user-change-name span,
+.user-change-exercises span {
+    z-index: 5;
+    left: 10%;
+    position: absolute;
+    padding: 2px 8px;
+    background-color: hsl(var(--olive), 14%);
+    text-align: center;
+    opacity: 0;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    transition: all 400ms, opacity 600ms;
+    color: var(--highlight);
+    font-weight: bold;
+    font-style: italic;
+    user-select: none;
+}
+
+.user-settings label {
+    z-index: 4;
+    background-color: hsl(var(--olive), 14%);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding: 2px 8px;
+    position: absolute;
+    left: 10%;
+    transform: translateY(-25px);
+    transition: opacity 500ms;
+    opacity: 0;
+    color: hsl(var(--olive), 60%);
+    font-weight: bold;
+    font-style: italic;
+    user-select: none;
+}
+
+.user-settings input {
+    z-index: 6;
+    width: 70%;
+    border: none;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    padding: 4px 12px 4px 10px;
+    outline: none;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: all 400ms;
+
+    font-size: 18px;
+}
+
+.user-settings button {
+    width: 50px; 
+    height: 50px; 
+    z-index: 6;
+    background-color: hsl(var(--olive), 70%);
+    padding: 2px 10px;
+    margin-left: -8px;
+    font-size: 18px;
+    border: 6px solid hsl(var(--olive), 14%);
+    border-left: 3px solid hsl(var(--olive), 14%);
+    border-radius: 12px;
+    transition: all 200ms;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.user-settings .set-username-button {
+    font-size: 14px;
+    font-weight: bold;
+}
+.user-settings button:active {
+    background-color: hsl(60, 25%, 60%);
+}

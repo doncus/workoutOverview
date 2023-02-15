@@ -1,0 +1,66 @@
+:root {
+    --olive: 60, 25%; /* 21% */
+    --gray: rgb(230, 230, 230);
+    --highlight: rgb(182, 248, 0);
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+html {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: hsl(var(--olive), 10%);
+    overflow-x: hidden;
+}
+body {
+    height: 100vh;
+    width: 100vw;
+    max-width: 500px;
+    background-color: black;
+    outline: 4px hsl(var(--olive), 37%) solid;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    overflow-x: hidden;
+}
+input {
+    background-color: var(--gray);
+}
+
+.main-container {
+    width: 90%;
+    background-color: black;
+    margin: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.content-back {
+    width: 100%;
+    margin-top: 10px;
+    
+    opacity: 0;
+    transition: opacity 1000ms;
+
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+button:active {
+    background-color: hsl(60, 25%, 60%);
+    color: black;
+}
