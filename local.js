@@ -37,7 +37,22 @@ const generatePrevSessionData = (delay = 100) => {
     previousSessionDiv.append(title);
 
     // check if workoutData hast actual data in it
-    if (workoutData == undefined || !workoutData.length) return;
+    if (workoutData == undefined || !workoutData.length)
+    {
+        let text = document.createElement("span");
+        text.classList.add("no-data-span");
+        text.innerHTML = "No workout sessions saved yet.";
+        text.style.marginTop = "40px";
+        text.style.borderBottom = "none";
+        previousSessionDiv.append(text);
+        text = document.createElement("span");
+        text.classList.add("no-data-span");
+        text.innerHTML = "Select the plus symbol to add a session.";
+        previousSessionDiv.append(text);
+        
+        setTimeout(() => previousSessionDiv.querySelectorAll("span").forEach(span => span.style.opacity = 1), 100);
+        return;
+    }
 
     curData = [];
     curData.push(workoutData[0]);

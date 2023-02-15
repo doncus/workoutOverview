@@ -47,7 +47,6 @@ const openOverviewMenu = () => {
     title.innerHTML = "Overview";
     title.classList.add("title");
     selectedMenuDiv.append(title);
-    if (workoutData == undefined || !workoutData.length) return;
     
     const backgroundDiv = document.createElement("div");
     backgroundDiv.classList.add("overview-div");
@@ -133,11 +132,13 @@ const showDataOfSelectedExercise = (input) => {
         rowDiv.style.justifyContent = "center";
         
         let text = document.createElement("span");
+        text.classList.add("no-data-span");
         text.style.marginTop = "80px";
         text.innerHTML = "No data for this exercise.";
         rowDiv.append(text);
         selectedMenuDiv.append(rowDiv);
         setTimeout(() => rowDiv.style.opacity = 1, 20);
+        setTimeout(() => text.style.opacity = 1, 20);
         return;
     }
 

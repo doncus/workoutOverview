@@ -85,7 +85,7 @@
     user-select: none;
     display: flex;
     justify-content: center;
-    transition: all 200ms;
+    transition: all 200ms, visibility 0ms;
 }
 .body-weight input[type="checkbox"] {
     display: none;
