@@ -105,6 +105,7 @@
 }
 
 .autocomplete-list {
+    z-index: 99;
     position: absolute;
 
     background-color: hsl(var(--olive), 30%);

@@ -516,12 +516,11 @@ const openUserButtonFunction = () => {
     userButton.classList.add("active");
 
     const userSettings = document.createElement("DIV");
-
-    userSettings.style.transform = "scale(1)";
+    setTimeout(() => userSettings.style.transform = "scale(1)", 10);
     userSettings.classList.add("user-settings");
 
     contentFront.style.display = "none";
     document.querySelector(".main-container").append(userSettings);
 
-    createUserContent();
+    setTimeout(() => createUserContent(), 100);
 }

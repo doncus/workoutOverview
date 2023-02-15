@@ -35,6 +35,6 @@ mobile web app, to protocol workout sessions:
 
 --------------------------- Am Handy:
 
-- input felder bei user settings flackern klein oben rechts auf bevor ihre animation startet
+- input felder bei user settings flackern klein oben rechts auf bevor ihre animation startet [DONE]
 - drag & drop feld lässt sich nicht nochmal öffnen,
   wenn es durch drücken unter der drag & drop liste geschlossen wird

@@ -40,14 +40,14 @@ const menuButtonAction = ({target}) => {
 }
 
 const openOverviewMenu = () => {
-    if (workoutData == undefined || !workoutData.length) return;
     const selectedMenuDiv = document.querySelector(".selected-menu-div");
     selectedMenuDiv.innerHTML = "";
 
     const title = document.createElement("p");
-    title.innerHTML = "Overview:";
+    title.innerHTML = "Overview";
     title.classList.add("title");
     selectedMenuDiv.append(title);
+    if (workoutData == undefined || !workoutData.length) return;
     
     const backgroundDiv = document.createElement("div");
     backgroundDiv.classList.add("overview-div");
@@ -60,7 +60,7 @@ const openOverviewMenu = () => {
     const dropDownInput = document.createElement("input");
     dropDownInput.style.width = 80 + "%";
     dropDownInput.setAttribute("type", "text");
-    dropDownInput.setAttribute("onfocus", "resetInputValue(this); showExercises(this)");
+    dropDownInput.setAttribute("onfocus", "resetInputValue(this), showExercises(this)");
     dropDownInput.setAttribute("oninput", "showExercises(this)");
     dropDownInput.setAttribute("onfocusout", "handleOverviewRows(this)");
     dropDownInput.setAttribute("autocomplete", "off");
@@ -68,10 +68,6 @@ const openOverviewMenu = () => {
     backgroundDiv.append(dropDownInput);
 
     selectedMenuDiv.append(backgroundDiv);
-}
-
-const resetInputValue = (input) => {
-    input.value = "";
 }
 
 const handleOverviewRows = (input) => {
@@ -157,7 +153,7 @@ const showDataOfSelectedExercise = (input) => {
         rowDiv.classList.add("overview-row-div");
         rowDiv.id = "info" + i;
         if (i == 0)
-            rowDiv.style.marginTop = "80px";
+            rowDiv.style.marginTop = "60px";
         
         let text = document.createElement("span");
         let data = document.createElement("span");

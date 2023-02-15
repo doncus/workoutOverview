@@ -1,6 +1,9 @@
 const setInputValue = ({target}) => {
     inputValue = target.value;
 }
+const resetInputValue = (input) => {
+    input.value = "";
+}
 
 const checkIfNumber = ({target}) => {
     target.value = target.value.replace(/[^0-9.]/g, '');

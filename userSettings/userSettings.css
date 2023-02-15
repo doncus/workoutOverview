@@ -5,6 +5,7 @@
     z-index: 20;
     margin-top: 10px;
     padding-top: 30px;
+    min-height: 280px;
     width: 100%;
     background-color: hsl(var(--olive), 18%);
     border: 5px solid hsl(var(--olive), 37%);

@@ -30,14 +30,14 @@ const generatePrevSessionData = (delay = 100) => {
     const previousSessionDiv = document.querySelector(".selected-menu-div");
     // delete all content of parent div because it gets generated again
     previousSessionDiv.innerHTML = "";
-    
-    // check if workoutData hast actual data in it
-    if (workoutData == undefined || !workoutData.length) return;
 
     const title = document.createElement("p");
     title.classList.add("title");
-    title.innerHTML = "Previous Sessions:";
+    title.innerHTML = "Previous Sessions";
     previousSessionDiv.append(title);
+
+    // check if workoutData hast actual data in it
+    if (workoutData == undefined || !workoutData.length) return;
 
     curData = [];
     curData.push(workoutData[0]);
