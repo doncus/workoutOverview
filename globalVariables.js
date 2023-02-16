@@ -4,6 +4,10 @@ const addSessionButton = contentFront.querySelector(".add-session-button");
 
 let weightOfLastSession = 0;
 let nrSetsOfLastSession = 0;
+let lastExercise = undefined;
+let averageReps = 0;
+let maxWeight = 0;
+let exerciseCounter = 0;
 
 // let exercises = [];
 let exercises = [
