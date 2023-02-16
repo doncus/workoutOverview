@@ -2,6 +2,9 @@ const contentFront = document.querySelector(".content-front");
 const contentBack = document.querySelector(".content-back");
 const addSessionButton = contentFront.querySelector(".add-session-button");
 
+let weightOfLastSession = 0;
+let nrSetsOfLastSession = 0;
+
 // let exercises = [];
 let exercises = [
     "Air-squats", "Squats", "Hip-thrusts", "Bulgarian-split-squats", "Leg-curls",

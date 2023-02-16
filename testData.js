@@ -38,11 +38,11 @@ const addTestData = () => {
     clone2.date.month = 10;
     clone2.date.year = 2022;
     clone2.date.monthName = "October";
-    workoutData.push(clone2);
-    clone3.date.month = 10;
-    clone3.date.year = 2024;
-    clone3.date.monthName = "October";
-    workoutData.push(clone3);
+    // workoutData.push(clone2);
+    // clone3.date.month = 10;
+    // clone3.date.year = 2024;
+    // clone3.date.monthName = "October";
+    // workoutData.push(clone3);
     clone4.date.month = 12;
     clone4.date.year = 2022;
     clone4.date.monthName = "December";

@@ -33,6 +33,9 @@ mobile web app, to protocol workout sessions:
 	- Wie oft pro Monat/Woche trainiert
 	- Profilbild
 
+Anzahl der Sätze automatisch eingeben wenn Übung aus Drop down gewählt !!!!!!!!!!!!!!!!!!!!!!!!!
+
+
 --------------------------- Am Handy:
 
 - input felder bei user settings flackern klein oben rechts auf bevor ihre animation startet [DONE]

@@ -72,9 +72,7 @@ const openOverviewMenu = () => {
 const handleOverviewRows = (input) => {
     const overViewDiv = document.querySelectorAll(".overview-row-div");
     if (overViewDiv)
-    {
-        overViewDiv.forEach(div => div.remove())
-    }
+        overViewDiv.forEach(div => div.remove());
     setTimeout(() => showDataOfSelectedExercise(input), 200);
 }
 

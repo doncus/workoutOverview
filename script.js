@@ -65,6 +65,59 @@ const inputLeft = (input) => {
     inputLabel.style.fontWeight = "normal";
     inputLabel.style.removeProperty("color");
 }
+const getLastSessionData = (input) => {
+    setTimeout(() => {
+        let selectedExercise = input.value;
+        let lastExercise;
+        weightOfLastSession = "";
+        nrSetsOfLastSession = "";
+
+        for (let i = 0; i < workoutData.length; i++)
+        {
+            if (workoutData[i].exercise == selectedExercise)
+            {
+                if (!lastExercise)
+                    lastExercise = workoutData[i];
+                else
+                {
+                    if (lastExercise.date.year < workoutData[i].date.year)
+                        lastExercise = workoutData[i];
+                    else if (lastExercise.date.year == workoutData[i].date.year &&
+                            lastExercise.date.month < workoutData[i].date.month)
+                        lastExercise = workoutData[i];
+                    else if (lastExercise.date.year == workoutData[i].date.year &&
+                            lastExercise.date.month == workoutData[i].date.month &&
+                            lastExercise.date.day < workoutData[i].date.day)
+                        lastExercise = workoutData[i];
+                }
+            }
+        }
+        if (lastExercise)
+        {
+            let checkbox = document.querySelector(".body-weight input[type=checkbox]");
+            if (lastExercise.weightAdded)
+            {
+                weightOfLastSession = lastExercise.sets[0].weight;
+                checkbox.checked = false;
+                markChecked(checkbox);
+            }
+            else
+            {
+                checkbox.checked = true;
+                markChecked(checkbox);
+            }
+            nrSetsOfLastSession = lastExercise.sets.length;
+        }
+        
+        let weightInputs = document.querySelectorAll(".select-weight input");
+        if (weightInputs)
+            weightInputs.forEach(input => input.value = weightOfLastSession);
+
+        let setInput = document.querySelector(".select-sets input");
+        setInput.value = nrSetsOfLastSession;
+        initSets();
+    }, 200);
+}
 
 const getDateAsObject = () => {
     let year = selectedDate.getFullYear();
@@ -139,14 +192,14 @@ const markChecked = (checkbox) => {
 }
 
 const initSets = () => {
-    const MAX = 20;
+    const MAX_SETS = 20;
     let setInput = document.querySelector(".select-sets input");
     if (isNaN(setInput.value)) return;
     let nrSets = parseInt(setInput.value);
-    if (nrSets > MAX)
+    if (nrSets > MAX_SETS)
     {
-        nrSets = MAX;
-        setInput.value = MAX;
+        nrSets = MAX_SETS;
+        setInput.value = MAX_SETS;
     }
 
     if (contentBack.querySelector(".set-parent"))
@@ -181,9 +234,10 @@ const initSets = () => {
 
             input = document.createElement("input");
             input.setAttribute("type", "text");
-            input.setAttribute("onfocus", "inputClicked(this)");
+            input.setAttribute("onfocus", "inputClicked(this), resetInputValue(this)");
             input.setAttribute("onfocusout", "inputLeft(this)");
             input.addEventListener("input", checkIfNumber);
+            input.value = weightOfLastSession;
             div.append(input);
         }
 
@@ -259,11 +313,7 @@ const putDataToArray = () => {
 }
 
 const buttonAnimation = ({target}) => {
-    let clickedButton;
-    if (target.tagName.toLowerCase() === 'i')
-        clickedButton = target.parentElement;
-    else
-        clickedButton = target;
+    let clickedButton = target.tagName.toLowerCase() === 'i' ? target.parentElement : target;
     if (clickedButton.classList.contains("active")) return;
     
     clickedButton.style.transform = "scale(" + 1.2 + ")";
