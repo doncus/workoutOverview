@@ -82,6 +82,11 @@ const saveButtonFunction = ({target}) => {
             inputEmpty = true;
             return;
         }
+        if (inputs[i].parentElement.classList.contains("select-reps") && inputs[i].value == 0)
+        {
+            inputEmpty = true;
+            return;
+        }
         if (inputs[i].value.startsWith('.'))
             inputs[i].value = '0' + inputs[i].value;
     }
