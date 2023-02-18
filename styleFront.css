@@ -79,6 +79,8 @@
     color: white;
     font-size: 18px;
     user-select: none;
+    transition: all 100ms;
+    transform: translateX(-120%);
 }
 
 .menu-select {
@@ -154,6 +156,7 @@
 }
 
 .drop-down-div {
+    z-index: 3;
     width: 100%;
     background-color: hsl(var(--olive), 21%);
     border: 5px solid hsl(var(--olive), 10%);
@@ -213,3 +216,43 @@
     transition: opacity 400ms;
     opacity: 0;
 }
+
+.chart-top-navbar-div {
+    width: 100%;
+    align-self: flex-start;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.chart-top-navbar-div .time-filter-div,
+.chart-top-navbar-div .value-filter-div {
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+}
+
+.chart-top-navbar-div button {
+    padding: 6px 10px;
+    width: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: hsl(var(--olive), 18%);
+    border: 5px solid hsl(var(--olive), 10%);
+    border-bottom: 2px;
+    border-top: none;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    color: var(--gray);
+    font-size: 12px;
+    transition: transform 500ms;
+    transform: translateY(0);
+}
+.chart-top-navbar-div button.active {
+    background-color: hsl(60, 25%, 60%);
+    color: black;
+  }
+.chart-top-navbar-div button:active {
+    background-color: hsl(60, 25%, 60%);
+    color: black;
+  }

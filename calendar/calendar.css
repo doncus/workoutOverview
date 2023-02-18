@@ -10,7 +10,9 @@
     color: black;
 }
 
-.calendar-div .calendar-month, .time-picker {
+.calendar-month, .time-picker {
+    z-index: 2;
+    width: 100%;
     background-color: hsl(var(--olive), 40%);
     display: flex;
     justify-content: center;

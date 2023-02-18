@@ -35,6 +35,7 @@ const generatePrevSessionData = (delay = 100) => {
     title.classList.add("title");
     title.innerHTML = "Previous Sessions";
     previousSessionDiv.append(title);
+    setTimeout(() => title.style.transform = "translateX(0)", 10);
 
     // check if workoutData hast actual data in it
     if (workoutData == undefined || !workoutData.length)
@@ -79,17 +80,12 @@ const generatePrevSessionData = (delay = 100) => {
         if (newEntry)
         curData.push(workoutData[i]);
     }
+
     // sort previous sessions by currency
     curData.sort((session1, session2) => {
-        if (session1.date.year > session2.date.year)
+        if (session1.date.ms > session2.date.ms)
             return -1;
-        if (session1.date.year < session2.date.year)
-            return 1;
-        if (session1.date.year == session2.date.year &&
-            session1.date.month > session2.date.month)
-            return -1;
-        if (session1.date.year == session2.date.year &&
-            session1.date.month < session2.date.month)
+        if (session1.date.ms < session2.date.ms)
             return 1;
     })
 
@@ -101,7 +97,7 @@ const generatePrevSessionData = (delay = 100) => {
 // create relevant buttons on the front page
 const showPrevSessionButtons = (delay) => {
     const prevSessionDiv = document.querySelector(".selected-menu-div");
-    let year, monthOfYear;
+    let year;
     for (let i = 0; i < curData.length; i++)
     {
         year = curData[i].date.year;

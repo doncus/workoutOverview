@@ -74,23 +74,15 @@ const backButtonFunctionTwo = ({target}) => {
 
 const saveButtonFunction = ({target}) => {
     const inputs = contentBack.querySelectorAll("input:not([type=checkbox])");
-    let inputEmpty = false;
     for (let i = 0; i < inputs.length; i++)
     {
-        if (inputs[i].value == "")
-        {
-            inputEmpty = true;
-            return;
-        }
-        if (inputs[i].parentElement.classList.contains("select-reps") && inputs[i].value == 0)
-        {
-            inputEmpty = true;
-            return;
-        }
+        if (inputs[i].value == "") return;
+        if (inputs[i].parentElement.classList.contains("select-reps") && inputs[i].value == 0) return;
         if (inputs[i].value.startsWith('.'))
             inputs[i].value = '0' + inputs[i].value;
     }
-    if (inputEmpty) return;
+    if (selectedDate > new Date()) return; // ----------------------------------------------------------- TELL USER WHY SAVE BUTTON WONT WORK
+
     target.style.backgroundColor = "hsl(60, 25%, 60%)";
     target.style.color = "black";
     target.style.width = 40 + "%";
@@ -103,7 +95,7 @@ const saveButtonFunction = ({target}) => {
     putDataToArray();
     setTimeout(() => {
         contentBack.querySelectorAll(".set-parent").forEach(input => input.remove());
-        selectedDate = new Date();
+        // selectedDate = new Date();
         addSessionButton.disabled = false;
     }, 2000);
 }
@@ -134,6 +126,7 @@ const previousDayButtonFunction = ({target}) => {
     button.style.transition = "all 500ms";
     transY = button.getBoundingClientRect().top - filter.getBoundingClientRect().top;
     button.style.transform = "translateY(" + (-transY) + "px)";
+    button.style.borderRadius = "10px";
     
     prevButtons.forEach(btn => {
         btn.disabled = true;
@@ -164,6 +157,7 @@ const previousDayButtonFunction = ({target}) => {
 
     //////////
     const prevDays = document.querySelector(".previous-days-div");
+    
     let divSave = [];
 
     for (let i = 0; i < curDay.length; i++)

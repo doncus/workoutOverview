@@ -8,6 +8,9 @@ let lastExercise = undefined;
 let averageReps = 0;
 let maxWeight = 0;
 let exerciseCounter = 0;
+let allOfExercise = [];
+let yearOfExercise = [];
+let monthOfExercise = [];
 
 // let exercises = [];
 let exercises = [
