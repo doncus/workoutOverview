@@ -60,6 +60,7 @@ const showDropDownInput = (isChartMenu) => {
 
     const dropDownInput = document.createElement("input");
     dropDownInput.style.width = 80 + "%";
+    dropDownInput.id = "chartInput";
     dropDownInput.setAttribute("type", "text");
     dropDownInput.setAttribute("onfocus", "resetInputValue(this), showExercises(this)");
     dropDownInput.setAttribute("oninput", "showExercises(this)");
@@ -71,7 +72,7 @@ const showDropDownInput = (isChartMenu) => {
     if (isChartMenu)
     {
         title.innerHTML = "Chart Of Progress";
-        dropDownInput.setAttribute("onfocusout", "createChartNav(), handleChart(this)");
+        dropDownInput.setAttribute("onfocusout", "createChartNav(), handleChart()");
     }
     else
     {
@@ -117,19 +118,29 @@ const getDataOfExercise = (input) => {
     });
     lastExercise = allOfExercise[0];
     exerciseCounter = allOfExercise.length;
+    getDataOfYear();
+    getDataOfMonth();
+}
 
-    /////////// JAHR AUSWÄHLEN wie beim Kalender
-    yearOfExercise.push(allOfExercise[0]);
+const getDataOfYear = () => {
     for (let i = 0; i < allOfExercise.length; i++)
     {
-        if (yearOfExercise[yearOfExercise.length-1].date.year != allOfExercise[i].date.year)
-            break;
-            
-        if (yearOfExercise[yearOfExercise.length-1].date.month === allOfExercise[i].date.month)
-            continue;
-        yearOfExercise.push(allOfExercise[i]);
+        if (allOfExercise[i].date.year === selectedDate.getFullYear())
+            yearOfExercise.push(allOfExercise[i]);
     }
-    /////////// für month of Exercise: MONAT AUSWÄHLEN wie beim Kalender
+    for (let i = 0; i < yearOfExercise.length-1; i++)
+    {
+        if (yearOfExercise[i].date.month === yearOfExercise[i+1].date.month)
+            yearOfExercise.splice(i--, 1);
+    }
+}
+const getDataOfMonth = () => {
+    for (let i = 0; i < allOfExercise.length; i++)
+    {
+        if (allOfExercise[i].date.year === selectedDate.getFullYear() &&
+            allOfExercise[i].date.month == selectedDate.getMonth()+1)
+            monthOfExercise.push(allOfExercise[i]);
+    }
 }
 
 const noDataFound = () => {
@@ -141,8 +152,8 @@ const noDataFound = () => {
     
     let text = document.createElement("span");
     text.classList.add("no-data-span");
-    text.style.marginTop = "80px";
-    text.innerHTML = "No data for this exercise.";
+    text.style.marginTop = "70px";
+    text.innerHTML = "No data found.";
     noDataDiv.append(text);
     selectedMenuDiv.append(noDataDiv);
     setTimeout(() => noDataDiv.style.opacity = 1, 20);
@@ -155,7 +166,7 @@ const createSelector = () => {
     // create month-selector
     const calendarMonthDiv = document.createElement("DIV");
     calendarMonthDiv.classList.add("calendar-month");
-    calendarMonthDiv.style.height = 50 + "px";
+    calendarMonthDiv.style.height = 46 + "px";
     calendarMonthDiv.style.border = "5px solid hsl(60, 25%, 10%)";
     calendarMonthDiv.style.borderTop = "none";
     calendarMonthDiv.innerHTML = "";
@@ -195,23 +206,33 @@ const createSelector = () => {
 }
 
 const selectorNextMonth = () => {
+    if (selectedDate.getMonth() == 11)
+        selectedDate.setFullYear(selectedDate.getFullYear() - 1);
     selectedDate.setMonth(selectedDate.getMonth() + 1);
     document.querySelector(".calendar-month span").innerHTML = months[selectedDate.getMonth()];
+    handleChart();
 }
 const selectorPrevMonth = () => {
+    if (selectedDate.getMonth() == 0)
+        selectedDate.setFullYear(selectedDate.getFullYear() + 1);
     selectedDate.setMonth(selectedDate.getMonth() - 1);
     document.querySelector(".calendar-month span").innerHTML = months[selectedDate.getMonth()];
+    handleChart();
 }
 const selectorNextYear = () => {
+    if (selectedDate.getFullYear() == new Date().getFullYear()) return;
     selectedDate.setFullYear(selectedDate.getFullYear() + 1);
     document.querySelector(".calendar-month span").innerHTML = selectedDate.getFullYear();
+    handleChart();
 }
 const selectorPrevYear = () => {
     selectedDate.setFullYear(selectedDate.getFullYear() - 1);
     document.querySelector(".calendar-month span").innerHTML = selectedDate.getFullYear();
+    handleChart();
 }
 
-const handleChart = (input) => {
+const handleChart = () => {
+    const input = document.querySelector("#chartInput");
     while (document.querySelector(".chart-top-navbar-div").nextElementSibling)
         document.querySelector(".chart-top-navbar-div").nextElementSibling.remove();
 
@@ -245,6 +266,7 @@ const createChartNav = () => {
         button.classList.add("chart-filter-button");
         button.id = "chartFilterButton" + i;
         button.style.transform = "translateY(-100%)";
+        button.addEventListener("click", handleChart);
 
         switch (i) {
             case 0:
@@ -264,11 +286,13 @@ const createChartNav = () => {
                 button.innerHTML = "Weight";
                 button.value = "weight";
                 button.classList.add("active");
+                button.addEventListener("click", chartFilterY);
                 valueFilterDiv.append(button);
                 break;
             case 3:
                 button.innerHTML = "Reps";
                 button.value = "reps";
+                button.addEventListener("click", chartFilterY);
                 valueFilterDiv.append(button);
                 break;
         }
@@ -291,7 +315,7 @@ const createChartNav = () => {
 
 const chartFilterMonth = ({target}) => {
     if (target.classList.contains("active")) return;
-    
+
     let allButtons = target.parentElement.querySelectorAll("button");
     allButtons.forEach(curBtn => curBtn.classList.remove("active"));
     target.classList.add("active");
@@ -335,6 +359,13 @@ const chartFilterYear = ({target}) => {
     nextButton.removeEventListener("click", selectorNextMonth);
     nextButton.addEventListener("click", selectorNextYear);
 }
+const chartFilterY = ({target}) => {
+    if (target.classList.contains("active")) return;
+
+    let allButtons = target.parentElement.querySelectorAll("button");
+    allButtons.forEach(curBtn => curBtn.classList.remove("active"));
+    target.classList.add("active");
+}
 
 // -------------------------------------------------------------- OVERVIEW
 const handleOverviewRows = (input) => {
@@ -367,7 +398,7 @@ const showDataOfSelectedExercise = () => {
         rowDiv.classList.add("overview-row-div");
         rowDiv.id = "info" + i;
         if (i == 0)
-            rowDiv.style.marginTop = "60px";
+            rowDiv.style.marginTop = "40px";
         
         let text = document.createElement("span");
         let data = document.createElement("span");

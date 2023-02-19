@@ -40,6 +40,7 @@ const createUserButtonFunction = () => {
 
 const addSessionButtonFunction = () => {
     calendarDate.addEventListener("click", createCalendar);
+    selectedDate = new Date();
     setDate();
     setTimeout(() => hideFrontContainer(), 200);
     
@@ -95,7 +96,7 @@ const saveButtonFunction = ({target}) => {
     putDataToArray();
     setTimeout(() => {
         contentBack.querySelectorAll(".set-parent").forEach(input => input.remove());
-        // selectedDate = new Date();
+        selectedDate = new Date();
         addSessionButton.disabled = false;
     }, 2000);
 }

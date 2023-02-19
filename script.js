@@ -48,6 +48,7 @@ const hideFrontContainer = () => {
         setTimeout(() => {
             frontTop.style.display = "none";
             contentFront.style.display = "none";
+            contentFront.querySelector(".selected-menu-div").innerHTML = "";
             backTop.style.opacity = 1;
             contentBack.style.opacity = 1;
         }, 400);
@@ -78,18 +79,8 @@ const getLastSessionData = (input) => {
             {
                 if (!lastExercise)
                     lastExercise = workoutData[i];
-                else
-                {
-                    if (lastExercise.date.year < workoutData[i].date.year)
-                        lastExercise = workoutData[i];
-                    else if (lastExercise.date.year == workoutData[i].date.year &&
-                            lastExercise.date.month < workoutData[i].date.month)
-                        lastExercise = workoutData[i];
-                    else if (lastExercise.date.year == workoutData[i].date.year &&
-                            lastExercise.date.month == workoutData[i].date.month &&
-                            lastExercise.date.day < workoutData[i].date.day)
-                        lastExercise = workoutData[i];
-                }
+                if (lastExercise.date.ms < workoutData[i].date.ms)
+                    lastExercise = workoutData[i];
             }
         }
         if (lastExercise)
