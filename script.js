@@ -68,14 +68,13 @@ const inputLeft = (input) => {
 }
 const getLastSessionData = (input) => {
     setTimeout(() => {
-        let selectedExercise = input.value;
-        let lastExercise;
+        lastExercise = undefined;
         weightOfLastSession = "";
         nrSetsOfLastSession = "";
 
         for (let i = 0; i < workoutData.length; i++)
         {
-            if (workoutData[i].exercise == selectedExercise)
+            if (workoutData[i].exercise == input.value)
             {
                 if (!lastExercise)
                     lastExercise = workoutData[i];
@@ -86,13 +85,13 @@ const getLastSessionData = (input) => {
         if (lastExercise)
         {
             let checkbox = document.querySelector(".body-weight input[type=checkbox]");
-            if (lastExercise.weightAdded)
+            if (lastExercise.weightAdded && checkbox.checked)
             {
                 weightOfLastSession = lastExercise.sets[0].weight;
                 checkbox.checked = false;
                 markChecked(checkbox);
             }
-            else
+            else if (!lastExercise.weightAdded && !checkbox.checked)
             {
                 checkbox.checked = true;
                 markChecked(checkbox);
@@ -289,7 +288,7 @@ const putDataToArray = () => {
             if (i%2 == 0 && i != sessionInputs.length)
             {
                 sets.push({
-                    "weight": parseInt(sessionInputs[i].value), 
+                    "weight": parseFloat(sessionInputs[i].value), 
                     "reps": parseInt(sessionInputs[i+1].value)
                 });
             }

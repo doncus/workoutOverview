@@ -27,7 +27,7 @@ window.onload = () => {
         else
             workoutData = getData('workoutData');
             
-        addTestData();
+        // addTestData();
         initFrontContainer();
     }
     // getExercises();

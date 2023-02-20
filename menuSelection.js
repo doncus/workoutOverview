@@ -86,6 +86,7 @@ const getDataOfExercise = (input) => {
     let sumReps = 0;
     exerciseCounter = 0;
     maxWeight = 0;
+    maxReps = 0;
     averageReps = 0;
     lastExercise = undefined;
     monthOfExercise = [];
@@ -97,6 +98,8 @@ const getDataOfExercise = (input) => {
         if (workoutData[i].exercise == input.value)
         {
             allOfExercise.push(workoutData[i]);
+            if (workoutData[i].sets[0].reps > maxReps)
+                maxReps = workoutData[i].sets[0].reps;
 
             for (let j = 0; j < workoutData[i].sets.length; j++)
             {
@@ -116,7 +119,7 @@ const getDataOfExercise = (input) => {
         if (session1.date.ms < session2.date.ms)
             return -1;
     });
-    lastExercise = allOfExercise[0];
+    lastExercise = allOfExercise[allOfExercise.length-1];
     exerciseCounter = allOfExercise.length;
     getDataOfYear();
     getDataOfMonth();
@@ -392,7 +395,7 @@ const showDataOfSelectedExercise = () => {
     hoursSinceLastTime = curDate.getTime() - lastExercise.date.ms;
     hoursSinceLastTime = Math.trunc(hoursSinceLastTime / 3600000);
 
-    for (let i = 0; i < 5; i++)
+    for (let i = 0; i < 6; i++)
     {
         let rowDiv = document.createElement("div");
         rowDiv.classList.add("overview-row-div");
@@ -409,14 +412,18 @@ const showDataOfSelectedExercise = () => {
                 data.innerHTML = maxWeight;
                 break;
             case 1:
+                text.innerHTML = "Personal record [reps]:";
+                data.innerHTML = maxReps;
+                break;
+            case 2:
                 text.innerHTML = "Average reps:";
                 data.innerHTML = averageReps;
                 break;
-            case 2:
+            case 3:
                 text.innerHTML = "Times performed:";
                 data.innerHTML = exerciseCounter;
                 break;
-            case 3:
+            case 4:
                 text.innerHTML = "Last time:";
                 data.innerHTML = lastExercise.date.day + "." + lastExercise.date.month + 
                     "." + lastExercise.date.year;

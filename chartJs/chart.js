@@ -33,7 +33,7 @@ const createProgressChart = () => {
             noDataFound();
             return;
         }
-        chartArray = monthOfExercise;
+        chartArray = JSON.parse(JSON.stringify(monthOfExercise));
         firstTime = chartArray[0].date.day;
         lastTime = chartArray[chartArray.length-1].date.day;
     }
@@ -45,7 +45,7 @@ const createProgressChart = () => {
             noDataFound();
             return;
         }
-        chartArray = yearOfExercise;
+        chartArray = JSON.parse(JSON.stringify(yearOfExercise));
         firstTime = chartArray[0].date.month-1;
         lastTime = parseInt(chartArray[chartArray.length-1].date.month)-1;
     }
@@ -198,16 +198,21 @@ const createProgressChart = () => {
                             padding: 0,
                         },
                     },
+                    grid: {
+                        color: 'rgb(60, 60, 60)',
+                    },
                     min: minY,
                     max: maxY,
                     color: "white",
                     ticks: {
                         stepSize: 2,
-                        padding: 6,
                         color: "hsl(60, 25%, 37%)",
                     },
                 },
                 x: {
+                    grid: {
+                        color: 'rgb(60, 60, 60)',
+                    },
                     type: "time",
                     time: {
                         displayFormats: formatX,
@@ -220,6 +225,9 @@ const createProgressChart = () => {
                     ticks: {
                         color: "hsl(60, 25%, 37%)",
                         padding: 6,
+                        autoSkip: false,
+                        maxRotation: 45,
+                        minRotation: 45,
                         // font: {
                         //     size: 15,
                         //     weight: 'bold',

@@ -1,4 +1,4 @@
-const showExercises = (input) => {
+const showExercises = (input, fnc) => {
     closeAllLists();
 
     const autocompleteList = document.createElement("div");
@@ -29,6 +29,7 @@ const showExercises = (input) => {
                 input.value = suggestion.innerText;
                 closeAllLists();
             });
+            suggestion.addEventListener("click", fnc);
             autocompleteList.appendChild(suggestion);
             dropDownArray.splice(i, 1);
         }
