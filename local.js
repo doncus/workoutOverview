@@ -9,7 +9,7 @@ const saveDataToStorage = (storage, data) => localStorage.setItem(storage, JSON.
 const getData = storage => {
     if (localStorage.getItem(storage) === null)
         return null;
-    data = JSON.parse(localStorage.getItem(storage));
+    let data = JSON.parse(localStorage.getItem(storage));
         return data;
 }
 
@@ -88,8 +88,6 @@ const generatePrevSessionData = (delay = 100) => {
             return 1;
     })
 
-    // console.log("curMonthsData: ");
-    // console.log(curData);
     showPrevSessionButtons(delay);
 };
 

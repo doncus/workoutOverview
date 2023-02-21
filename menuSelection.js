@@ -123,12 +123,8 @@ const getDataOfExercise = (inputValue) => {
     averageReps = Math.trunc(sumReps / sumSets);
     if (!allOfExercise.length) return;
 
-    allOfExercise.sort((session1, session2) => {
-        if (session1.date.ms > session2.date.ms)
-            return 1;
-        if (session1.date.ms < session2.date.ms)
-            return -1;
-    });
+    sortByDateAsc(allOfExercise);
+    
     lastExercise = allOfExercise[allOfExercise.length-1];
     exerciseCounter = allOfExercise.length;
     getDataOfYear();
@@ -146,7 +142,6 @@ const getDataOfExercise = (inputValue) => {
             isFound = true;
         }
     }
-    console.log(yearOfExercise)
 }
 
 const getDataOfYear = () => {

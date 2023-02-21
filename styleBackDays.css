@@ -18,7 +18,7 @@
     font-weight: bold;
 
     transform: translateX(120%);
-    transition: 800ms;
+    transition: 800ms, opacity 400ms;
     
     display: grid;
     grid-template-columns: 1fr 1fr;

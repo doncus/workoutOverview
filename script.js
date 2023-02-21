@@ -96,25 +96,19 @@ const getLastSessionData = (inputValue) => {
         }
         else
         {
-            repsOfLastSession = lastExercise.sets[0].reps;
             if (!checkbox.checked)
             {
                 checkbox.checked = true;
                 markChecked(checkbox);
             }
         }
+        repsOfLastSession = lastExercise.sets[0].reps;
         nrSetsOfLastSession = lastExercise.sets.length;
     }
 
     let setInput = document.querySelector(".select-sets input");
     setInput.value = nrSetsOfLastSession;
     initSets();
-    
-    let weightInputs = document.querySelectorAll(".select-weight input");
-    if (weightInputs.length)
-        weightInputs.forEach(inp => inp.value = weightOfLastSession);
-    else
-        document.querySelectorAll(".select-reps input").forEach(inp => inp.value = repsOfLastSession);
 }
 
 const getDateAsObject = () => {
@@ -262,6 +256,7 @@ const initSets = () => {
         input.setAttribute("onfocusout", "inputLeft(this), getLastValue(this)");
         input.setAttribute("oninput", "checkIfSmallerThan(this, 999)");
         input.addEventListener("input", checkIfInteger);
+        input.value = repsOfLastSession;
         div.append(input);
     }
 
@@ -315,6 +310,7 @@ const putDataToArray = () => {
     sessionData.sets = sets;
 
     workoutData.push(sessionData);
+    sortByDateAsc(workoutData);
     saveDataToStorage("workoutData", workoutData);
     console.log("workoutData: ");
     console.log(workoutData);

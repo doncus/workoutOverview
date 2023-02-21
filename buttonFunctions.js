@@ -290,7 +290,7 @@ const createPreviousDays = (slideTimeout) => {
         const prevDays = document.querySelectorAll(".previous-days-button");
         prevDays.forEach(prevDay => {
             prevDay.style.opacity = 0;
-            setTimeout(() => prevDay.remove(), 500);
+            setTimeout(() => prevDay.remove(), 300);
         });
     }
     if (document.querySelector(".day-container"))
@@ -298,7 +298,7 @@ const createPreviousDays = (slideTimeout) => {
         const days = document.querySelectorAll(".day-container");
         days.forEach(day => {
             day.style.opacity = 0;
-            setTimeout(() => day.remove(), 500);
+            setTimeout(() => day.remove(), 300);
         });
     }
 
@@ -372,7 +372,7 @@ const createFilterButtons = () => {
                 span.id = "date";
                 span.innerHTML = "Date";
                 span.classList.add("active");
-                span.addEventListener('click', filterDateFunction);
+                span.addEventListener('click', filterDateDesc);
                 break;
             default:
                 span.id = "weekday";
@@ -385,48 +385,52 @@ const createFilterButtons = () => {
     previousDaysDiv.append(button);
 };
 
-const filterDateFunction = ({target}) => {
-    if (target.classList.contains("active")) return;
-    
-    document.querySelectorAll(".previous-days-div button:not(.day-filter-button)").forEach(
-        button => button.disabled = true
-    );
+const filterDateDesc = ({target}) => {
+    let prevDayButtons = document.querySelectorAll(".previous-days-div button:not(.day-filter-button)");
+    prevDayButtons.forEach(button => button.disabled = true);
     const dayFilterButtons = document.querySelectorAll(".day-filter-button span");
     dayFilterButtons.forEach(filter => {
         filter.classList.remove("active");
     });
-    target.classList.add("active");
+    if (!target.classList.contains("active"))
+        target.classList.add("active");
 
-    let tempData = JSON.parse(JSON.stringify(curDaysData));
-    let sortedArray = [];
-    let sortedIndex;
-    let minDay;
+    sortByDateDesc(curDaysData);
+
+    target.removeEventListener('click', filterDateDesc);
+    setTimeout(() => {
+        target.addEventListener('click', filterDateAsc);
+        prevDayButtons.forEach(button => button.disabled = false);
+    }, 300);
+
+    createPreviousDays(300);
+}
+const filterDateAsc = ({target}) => {
+    let prevDayButtons = document.querySelectorAll(".previous-days-div button:not(.day-filter-button)");
+    prevDayButtons.forEach(button => button.disabled = true);
+    const dayFilterButtons = document.querySelectorAll(".day-filter-button span");
+    dayFilterButtons.forEach(filter => {
+        filter.classList.remove("active");
+    });
+    if (!target.classList.contains("active"))
+        target.classList.add("active");
+
+    sortByDateAsc(curDaysData);
     
-    while (sortedArray.length < curDaysData.length)
-    {
-        minDay = 31;
-        for(let i = 0; i < tempData.length; i++)
-        {
-            if (tempData[i].date.day < minDay)
-            {
-                minDay = tempData[i].date.day;
-                sortedIndex = i;
-            }
-        }
-        sortedArray.push(tempData[sortedIndex]);
-        tempData.splice(sortedIndex, 1);
-    }
-    curDaysData = sortedArray;
+    target.removeEventListener('click', filterDateAsc);
+    setTimeout(() => {
+        target.addEventListener('click', filterDateDesc);
+        prevDayButtons.forEach(button => button.disabled = false);
+    }, 300);
 
     createPreviousDays(300);
 }
 
 const filterWeekdayFunction = ({target}) => {
     if (target.classList.contains("active")) return;
-    
-    document.querySelectorAll(".previous-days-div button:not(.day-filter-button)").forEach(
-        button => button.disabled = true
-    );
+    let prevDayButtons = document.querySelectorAll(".previous-days-div button:not(.day-filter-button)");
+    prevDayButtons.forEach(button => button.disabled = true);
+
     const dayFilterButtons = document.querySelectorAll(".day-filter-button span");
     dayFilterButtons.forEach(filter => {
         filter.classList.remove("active");
@@ -443,13 +447,11 @@ const filterWeekdayFunction = ({target}) => {
         for(let i = 0; i < tempData.length; i++)
         {
             if (tempData[i].date.weekday === weekdays[j])
-            {
                 sortedArray.push(tempData[i]);
-            }
         }
     }
     curDaysData = sortedArray;
-    
+    setTimeout(() => prevDayButtons.forEach(button => button.disabled = false), 300);
     createPreviousDays(300);
 }
 
