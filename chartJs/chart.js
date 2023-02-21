@@ -3,8 +3,8 @@ const createProgressChart = () => {
 
     let chartCanvas = document.createElement("canvas");
     chartCanvas.id = "progressChart";
-    chartCanvas.style.height = "50px";
-    chartCanvas.style.width = "50px";
+    chartCanvas.style.height = "100px";
+    chartCanvas.style.width = "100px";
     chartCanvas.style.marginTop = "20px";
     chartCanvas.style.backgroundColor = "black";
     selectedMenuDiv.append(chartCanvas);
@@ -159,7 +159,10 @@ const createProgressChart = () => {
         
         // determine axis data (month/weight)
         for (let i = 0; i < chartArray.length; i++)
-            axisData.push({"x": chartArray[i].date.ms, "y": chartArray[i].sets[0].weight});
+        {
+            let yearData = new Date(chartArray[i].date.year, chartArray[i].date.month).getTime();
+            axisData.push({"x": yearData, "y": chartArray[i].sets[0].weight});
+        }
 
         // set minY and maxY
         minY = Math.trunc(minWeight - 6);
@@ -184,7 +187,10 @@ const createProgressChart = () => {
     {
         // determine axis data (month/reps)
         for (let i = 0; i < chartArray.length; i++)
-            axisData.push({"x": chartArray[i].date.ms, "y": chartArray[i].sets[0].reps});
+        {
+            let yearData = new Date(chartArray[i].date.year, chartArray[i].date.month).getTime();
+            axisData.push({"x": yearData, "y": chartArray[i].sets[0].reps});
+        }
         
         // set minY and maxY
         minY = Math.trunc(minReps - 6);
@@ -208,7 +214,7 @@ const createProgressChart = () => {
 
     console.log(chartArray);
 
-    new Chart(chartCanvas, {
+    let chart = new Chart(chartCanvas, {
         type: 'bar',
         data: {
             datasets: [{
@@ -221,6 +227,7 @@ const createProgressChart = () => {
         options: {
             scales: {
                 y: {
+                    beginAtZero: true,
                     title: {
                         text: yUnit,
                         display: true,
@@ -261,9 +268,8 @@ const createProgressChart = () => {
                         displayFormats: formatX,
                         tooltipFormat: 'dd.MM.yyyy',
                         unit: timeUnit,
+                        stepSize: 1,
                     },
-                    // min: '2023-01-01',
-                    // max: '2023-01-28',
                     min: minX,
                     max: maxX,
                     color: "white",
@@ -273,6 +279,9 @@ const createProgressChart = () => {
                         autoSkip: false,
                         maxRotation: 45,
                         minRotation: 45,
+                        font: {
+                            size: 14,
+                        }
                         // font: {
                         //     size: 15,
                         //     weight: 'bold',
@@ -303,7 +312,7 @@ const createProgressChart = () => {
                                 return " PR:  " + tooltipItem.chart.data.datasets[0].data[tooltipItem.dataIndex].y + yUnit;
                             else
                                 return "    " + tooltipItem.chart.data.datasets[0].data[tooltipItem.dataIndex].y + yUnit;
-                        })
+                        }),
                     },
                 },
                 legend: {
@@ -313,6 +322,14 @@ const createProgressChart = () => {
         }
     });
 
+    if (timeUnit === "month")
+    {
+        chart.options.plugins.tooltip.callbacks.title = (title) => {
+            return months[parseInt(title[0].label.substring(3, 5))-1] + ", " + selectedDate.getFullYear();
+        };
+    }
+
+    
     function getLimitsForMonth() {
         // determine first and last day of selected month
         let lastDay = new Date(chartArray[0].date.year, chartArray[0].date.month, 0).getDate();

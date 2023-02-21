@@ -77,7 +77,6 @@ const closeAllLists = (e) => {
     {
         document.querySelector('.autocomplete-list').remove();
         const dropDownInput = document.querySelector(".drop-down-input");
-        dropDownInput.blur();
         dropDownInput.classList.remove("drop-down-input");
     }
 }

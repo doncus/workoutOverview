@@ -3,6 +3,7 @@ const contentBack = document.querySelector(".content-back");
 const addSessionButton = contentFront.querySelector(".add-session-button");
 
 let weightOfLastSession = "";
+let lastValue = "";
 let repsOfLastSession = 0;
 let nrSetsOfLastSession = 0;
 let lastExercise = undefined;

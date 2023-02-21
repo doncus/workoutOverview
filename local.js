@@ -3,7 +3,6 @@ let userData;
 let curData;
 let curDaysData;
 let curDay;
-let lastValue;
 
 const saveDataToStorage = (storage, data) => localStorage.setItem(storage, JSON.stringify(data));
 
