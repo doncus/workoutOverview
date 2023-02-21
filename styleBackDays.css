@@ -57,11 +57,11 @@
     font-size: 20px;
 
     opacity: 0;
-    transition: all 500ms;
+    transition: all 500ms, height 200ms;
 
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 }
 .time-of-exercise-div {
@@ -97,6 +97,8 @@
     border-bottom: 2px solid var(--base-border);
     padding: 10px 0;
     user-select: none;
+
+    transition: all 500ms;
     
     display: flex;
     justify-content: space-around;
@@ -107,6 +109,9 @@
 }
 .day-container .set-counter {
     width: 100%;
+
+    transition: all 200ms;
+
     display: flex;
     justify-content: center;
     align-items: center;

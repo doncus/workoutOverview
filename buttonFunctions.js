@@ -266,21 +266,41 @@ const expandSetInfos = ({target}) => {
     let clickedExerciseId = parseInt(target.id.match(/\d+/)[0]);
     const parent = document.querySelector("#dayContainer" + clickedExerciseId);
     let setsToToggle = parent.querySelectorAll(".set-container");
+    const parendClosed = 101;
+    let wait = Math.trunc(120 / setsToToggle.length);
+    parent.style.height = parent.getBoundingClientRect().height + "px";
 
     if (window.getComputedStyle(setsToToggle[0]).display == "flex")
     {
+        parent.style.height = parendClosed + "px";
         setsToToggle.forEach(setInfo => setInfo.style.display = "none");
+
         let setCounter = document.createElement("DIV");
         setCounter.classList.add("set-counter");
         setCounter.innerHTML = setsToToggle.length + " SET";
+        setCounter.style.opacity = 0;
         if (setsToToggle.length > 1)
             setCounter.innerHTML += "S";
         parent.append(setCounter);
+        setTimeout(() => setCounter.style.opacity = 1, 80);
     }
     else
     {
+        parent.style.height = parent.getBoundingClientRect().height + (70 * setsToToggle.length) + "px";
         parent.querySelector(".set-counter").remove();
-        setsToToggle.forEach(setInfo => setInfo.style.display = "flex");
+        setsToToggle.forEach(setInfo => {
+            setInfo.style.opacity = 0;
+            setInfo.style.display = "flex";
+        });
+        let cnt = 0;
+        setTimeout(() => {
+            const slideInterval = setInterval(() => {
+                setsToToggle[cnt++].style.opacity = 1;
+                if (cnt >= setsToToggle.length)
+                    clearInterval(slideInterval);
+            }, wait);
+        }, 10);
+        setTimeout(() => parent.scrollIntoView({ behavior: 'smooth', block: 'center'}), 200);
     }
 }
 

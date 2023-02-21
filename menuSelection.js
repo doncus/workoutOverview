@@ -271,10 +271,10 @@ const handleChart = (inputValue) => {
         createProgressChart();
     else
         noDataFound();
-    
     // scroll to requested position
-    document.querySelector(".selected-menu-div").style.height = "600px";
-    document.body.scrollTo(0, document.body.scrollHeight);
+    const selMenu = document.querySelector(".selected-menu-div");
+    selMenu.style.height = "600px";
+    selMenu.scrollIntoView({ behavior: 'smooth', block: 'end'});
 }
 
 const createChartNav = () => {
