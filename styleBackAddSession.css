@@ -109,14 +109,16 @@
 .autocomplete-list {
     z-index: 99;
     position: absolute;
+    max-height: 260px;
 
     background-color: var(--base-bg);
     border: 3px solid var(--btn-active);
     
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
+    overflow-y: auto;
 }
 .autocomplete-list div {
     width: 100%;
@@ -208,7 +210,7 @@
     background-color: var(--btn-bg);
     border: 5px solid var(--btn-border);
     border-radius: 24px;
-    margin: 20px 0;
+    margin: 20px 0 10px 0;
 
     color: var(--gray);
     font-size: 20px;
@@ -221,3 +223,10 @@
     align-items: center;
 }
 
+.date-control {
+    color: var(--gray);
+    font-size: 16px;
+    transition: opacity 500ms;
+    opacity: 0;
+    margin-bottom: 20px;
+}

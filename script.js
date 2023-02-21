@@ -1,7 +1,7 @@
 const showFrontContainer = () => {
     calendarDate.removeEventListener("click", createCalendar);
-    let allButtons = contentFront.querySelectorAll(".menu-select button");
-    allButtons.forEach(curBtn => curBtn.removeEventListener("click", menuButtonAction));
+    let menuButtons = contentFront.querySelectorAll(".menu-select button");
+    menuButtons.forEach(curBtn => curBtn.removeEventListener("click", menuButtonAction));
 
     const backTop = document.querySelector(".content-back-top");
     const frontTop = document.querySelector(".content-front-top");
@@ -22,18 +22,15 @@ const showFrontContainer = () => {
             }, 400);
         }, 50);
     }, 600);
+    
 
-    setTimeout(() => {
-        if (contentBack.querySelector(".content-back button"))
-            contentBack.querySelectorAll(".content-back button").forEach(button => button.remove());
-    }, 800);
+    setTimeout(() => contentBack.querySelector(".previous-days-div").innerHTML = "", 800);
 
     generatePrevSessionData(1500);
     contentFront.querySelector(".add-session-button").classList.remove("active");
     contentFront.querySelector(".monthly-sessions-button").classList.add("active");
 
-    setTimeout(() => allButtons.forEach(
-        curBtn => curBtn.addEventListener("click", menuButtonAction)), 1500);
+    setTimeout(() => menuButtons.forEach(btn => btn.addEventListener("click", menuButtonAction)), 1500);
 }
 
 const hideFrontContainer = () => {
@@ -194,11 +191,8 @@ const initSets = () => {
         setInput.value = MAX_SETS;
     }
 
-    if (contentBack.querySelector(".set-parent"))
-    {
-        contentBack.querySelectorAll(".set-parent").forEach(element => element.remove());
-        contentBack.querySelector(".save-button").remove();
-    }
+    while (contentBack.querySelector(".select-sets").nextElementSibling)
+        contentBack.querySelector(".select-sets").nextElementSibling.remove();
 
     for (let i = 1; i < nrSets + 1; i++)
     {
@@ -260,15 +254,20 @@ const initSets = () => {
         div.append(input);
     }
 
-    if (setInput.value != "" && nrSets != 0)
-    {
-        let button = document.createElement("button");
-        button.classList.add("save-button");
-        button.innerHTML = "SAVE";
-        button.addEventListener('click', saveButtonFunction);
-        contentBack.append(button);
-        setTimeout(() => button.style.opacity = 1, 20);
-    }
+    if (setInput.value == "" || setInput.value == 0) return;
+
+    let button = document.createElement("button");
+    button.classList.add("save-button");
+    button.innerHTML = "SAVE";
+    button.addEventListener('click', saveButtonFunction);
+    contentBack.append(button);
+    setTimeout(() => button.style.opacity = 1, 20);
+
+    let span = document.createElement("span");
+    span.innerHTML = getWholeDate();
+    span.classList.add("date-control");
+    setTimeout(() => span.style.opacity = 1, 20);
+    contentBack.append(span);
 }
 
 const putDataToArray = () => {

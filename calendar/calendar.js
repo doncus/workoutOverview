@@ -110,6 +110,8 @@ const closeCalendar = ({target}) => {
     calendar.remove();
     calendarDate.classList.remove("active");
     contentBack.style.removeProperty("visibility");
+    if (document.querySelector(".date-control"))
+        document.querySelector(".date-control").innerHTML = getWholeDate();
 }
 
 const closeCalendarSmooth = () => {
@@ -118,6 +120,8 @@ const closeCalendarSmooth = () => {
     setTimeout(() => calendar.remove(), 300);
     calendarDate.classList.remove("active");
     contentBack.style.removeProperty("visibility");
+    if (document.querySelector(".date-control"))
+        document.querySelector(".date-control").innerHTML = getWholeDate();
 }
 
 const selectCalendarDay = ({target}) => {
@@ -200,7 +204,7 @@ const setCalendarDays = () => {
     const calendarDaysDiv = document.createElement("DIV");
     calendarDaysDiv.classList.add("calendar-days");
 
-    selectedDay = selectedDate.getDate();
+    let selectedDay = selectedDate.getDate();
     for (let i = 0; i < 34; i++)
     {
         let calendarDay = document.createElement("DIV");
@@ -236,4 +240,44 @@ const setTime = ({target}) => {
         selectedDate.setHours(target.value);
     else
         selectedDate.setMinutes(target.value);
+}
+
+const getWholeDate = () => {
+    let year = selectedDate.getFullYear();
+    let month = selectedDate.getMonth() + 1;
+    let day = selectedDate.getDate();
+    let weekday = selectedDate.getDay();
+    let minutes = selectedDate.getMinutes();
+    let hours = selectedDate.getHours();
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    hours = hours < 10 ? "0" + hours : hours;
+
+    if (month < 10)
+        month = "0" + month;
+    if (day < 10)
+        day = "0" + day;
+    switch (weekday) {
+        case 0:
+            weekday = "Sunday";
+            break;
+        case 1:
+            weekday = "Monday";
+            break;
+        case 2:
+            weekday = "Tuesday";
+            break;
+        case 3:
+            weekday = "Wednesday";
+            break;
+        case 4:
+            weekday = "Thursday";
+            break;
+        case 5:
+            weekday = "Friday";
+            break;
+        default:
+            weekday = "Saturday";
+    }
+
+    return weekday + " | " + day + "." + month + "." + year + " | "  + hours + ":" + minutes;
 }

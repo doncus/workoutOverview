@@ -13,37 +13,22 @@ const showExercises = (input, name) => {
     input.value = input.value.replace(/[^a-zA-Z -]/g, '');
     regExValue = input.value.replace(/[-\s]/g, '').toLowerCase();
     let dropDownArray = [...userData.exercises];
-
     // first: list all elements that starts with the users input
     for (let i = 0; i < dropDownArray.length; i++)
     {
         regExExercise = dropDownArray[i].replace('-', '').toLowerCase();
         
-        if (autocompleteList.childElementCount > 5) break;
+        // if (autocompleteList.childElementCount > 5) break;
         if (regExExercise.startsWith(regExValue))
         {
             const suggestion = document.createElement("div");
-
             suggestion.innerHTML = dropDownArray[i];
-            
             suggestion.addEventListener("click", () => {
                 input.value = suggestion.innerText;
                 closeAllLists();
             });
-            switch (name) {
-                case "session":
-                    suggestion.setAttribute("onclick", "getLastSessionData(this.innerText)");
-                    break;
-                case "chart":
-                    suggestion.setAttribute("onclick", "createChartNav()");
-                    suggestion.setAttribute("onclick", "handleChart(this.innerText)");
-                    break;
-                case "overview":
-                    suggestion.setAttribute("onclick", "getLastSessionData(this.innerText)");
-                    suggestion.setAttribute("onclick", "handleOverviewRows(this.innerText)");
-                    break;
-            }
-                
+            addOnClick(name, suggestion);
+            
             autocompleteList.appendChild(suggestion);
             dropDownArray.splice(i, 1);
         }
@@ -53,22 +38,38 @@ const showExercises = (input, name) => {
     {
         regExExercise = dropDownArray[i].replace('-', '').toLowerCase();
         
-        if (autocompleteList.childElementCount > 5) break;
+        // if (autocompleteList.childElementCount > 5) break;
         if (regExExercise.includes(regExValue))
         {
             const suggestion = document.createElement("div");
-
             suggestion.innerHTML = dropDownArray[i];
-            
             suggestion.addEventListener("click", () => {
                 input.value = suggestion.innerText;
                 closeAllLists();
             });
+            addOnClick(name, suggestion);
+
             autocompleteList.appendChild(suggestion);
         }
     }
     if (!autocompleteList.querySelector("div"))
         closeAllLists();
+}
+
+const addOnClick = (functionName, functionHolder) => {
+    switch (functionName) {
+        case "session":
+            functionHolder.setAttribute("onclick", "getLastSessionData(this.innerText)");
+            break;
+        case "chart":
+            functionHolder.setAttribute("onclick", "createChartNav()");
+            functionHolder.setAttribute("onclick", "handleChart(this.innerText)");
+            break;
+        case "overview":
+            functionHolder.setAttribute("onclick", "getLastSessionData(this.innerText)");
+            functionHolder.setAttribute("onclick", "handleOverviewRows(this.innerText)");
+            break;
+    }
 }
 
 const closeAllLists = (e) => {

@@ -14,3 +14,15 @@ const sortByDateDesc = (array) => {
             return 1;
     });
 }
+
+const getNextSiblings = (element) => {
+    let array = [];
+    let nextSibling = element.nextElementSibling;
+
+    while (nextSibling)
+    {
+        array.push(nextSibling)
+        nextSibling = nextSibling.nextElementSibling;
+    }
+    return array;
+}

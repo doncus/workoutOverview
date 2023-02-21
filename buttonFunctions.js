@@ -40,21 +40,8 @@ const createUserButtonFunction = () => {
 
 const addSessionButtonFunction = () => {
     calendarDate.addEventListener("click", createCalendar);
-    selectedDate = new Date();
     setDate();
     setTimeout(() => hideFrontContainer(), 200);
-    
-    // Necessary: if user types in a nr of sets, then returns to front screen and
-    //            back to the screen he was again, a save button must appear.
-    const setsEntered = document.querySelector(".select-sets input").value;
-    if (setsEntered != "" && setsEntered != "0")
-    {
-        let button = document.createElement("button");
-        button.classList.add("save-button");
-        button.innerHTML = "SAVE";
-        button.addEventListener('click', saveButtonFunction);
-        contentBack.append(button);
-    }
 }
 
 const backButtonFunction = ({target}) => {
@@ -63,6 +50,9 @@ const backButtonFunction = ({target}) => {
         addSessionButton.disabled = false;
         const contentBackDivs = document.querySelectorAll(".content-back div");
         contentBackDivs.forEach(div => div.style.display = "flex");
+        let addSessionElements = getNextSiblings(contentBack.querySelector(".select-sets"));
+        if (addSessionElements.length)
+            addSessionElements.forEach(ele => ele.style.removeProperty("display"));
     }, 1000);
 }
 const backButtonFunctionTwo = ({target}) => {
@@ -95,10 +85,11 @@ const saveButtonFunction = ({target}) => {
     }, 600);
     putDataToArray();
     setTimeout(() => {
-        contentBack.querySelectorAll(".set-parent").forEach(input => input.remove());
-        selectedDate = new Date();
+        while (contentBack.querySelector(".select-sets").nextElementSibling)
+            contentBack.querySelector(".select-sets").nextElementSibling.remove();
+        // selectedDate = new Date();
         addSessionButton.disabled = false;
-    }, 2000);
+    }, 1500);
 }
 
 const previousMonthButtonFunction = ({target}) => {
@@ -108,11 +99,19 @@ const previousMonthButtonFunction = ({target}) => {
     prevButtons.forEach(btn => btn.disabled = true);
     button.style.color = "black";
     button.style.backgroundColor = "hsl(60, 25%, 60%)";
-    const contentBackDivs = contentBack.querySelectorAll("div");
-    calendarDate.innerHTML = button.innerHTML;
+
+    let contentBackDivs = contentBack.querySelectorAll("div");
+    let addSessionElements = getNextSiblings(contentBack.querySelector(".select-sets"));
     contentBackDivs.forEach(div => div.style.display = "none");
-    setTimeout(() => hideFrontContainer(), 200);
-    showEachDay(id);
+    addSessionElements.forEach(ele => ele.style.display = "none");
+    
+    calendarDate.innerHTML = button.innerHTML;
+    
+    setTimeout(() => {
+        hideFrontContainer(); 
+        showEachDay(id);
+        document.body.style.overflowY = "hidden";
+    }, 200);
 }
 
 const previousDayButtonFunction = ({target}) => {
@@ -128,6 +127,7 @@ const previousDayButtonFunction = ({target}) => {
     transY = button.getBoundingClientRect().top - filter.getBoundingClientRect().top;
     button.style.transform = "translateY(" + (-transY) + "px)";
     button.style.borderRadius = "10px";
+    button.style.fontWeight = "bold";
     
     prevButtons.forEach(btn => {
         btn.disabled = true;
@@ -167,13 +167,21 @@ const previousDayButtonFunction = ({target}) => {
         div.classList.add("day-container");
         div.setAttribute("id", "dayContainer" + i);
 
+        let subDiv = document.createElement("div");
+        subDiv.classList.add("time-of-exercise-div");
+        subDiv.id = "exercise" + i;
+        subDiv.addEventListener("click", expandSetInfos);
+
+        let span = document.createElement("span");
+        span.innerHTML = curDay[i].date.time;
+        subDiv.append(span);
+
         let p = document.createElement("p");
-        p.addEventListener("click", expandSetInfos);
-        p.setAttribute("id", "exercise" + i);
         p.innerHTML = curDay[i].exercise;
+        subDiv.append(p);
 
-        div.append(p);
-
+        div.append(subDiv);
+        
         for (let j = 0; j < curDay[i].sets.length; j++)
         {
             let setDiv = document.createElement("div");
@@ -181,7 +189,7 @@ const previousDayButtonFunction = ({target}) => {
             setDiv.setAttribute("id", "setContainer" + j);
 
             // set number
-            let span = document.createElement("span");
+            span = document.createElement("span");
             span.innerHTML = "SET " + (j+1);
             span.style.fontStyle = "italic";
 
@@ -214,7 +222,7 @@ const previousDayButtonFunction = ({target}) => {
 
             span = document.createElement("span");
             span.classList.add("weight-label");
-            span.innerHTML = "weight";
+            span.innerHTML = "kg";
             setChildDiv.append(span);
             input = document.createElement("input");
             input.classList.add("weight-value");
@@ -231,8 +239,18 @@ const previousDayButtonFunction = ({target}) => {
 
             setDiv.append(setChildDiv);
             div.append(setDiv);
+
+            // minimize all sessions
+            setDiv.style.display = "none";
         }
         divSave.push(div);
+
+        let setCounter = document.createElement("div");
+        setCounter.classList.add("set-counter");
+        setCounter.innerHTML = curDay[i].sets.length + " SET";
+        if (curDay[i].sets.length > 1)
+            setCounter.innerHTML += "S";
+        div.append(setCounter);
     }
     setTimeout(() => {
         for (let i = 0; i < divSave.length; i++)
@@ -240,8 +258,30 @@ const previousDayButtonFunction = ({target}) => {
             prevDays.append(divSave[i]);
             setTimeout(() => divSave[i].style.opacity = 1, 50);
         }
-            
     }, 510);
+}
+
+const expandSetInfos = ({target}) => {
+    target = (target.className == "DIV") ? target : target.parentElement;
+    let clickedExerciseId = parseInt(target.id.match(/\d+/)[0]);
+    const parent = document.querySelector("#dayContainer" + clickedExerciseId);
+    let setsToToggle = parent.querySelectorAll(".set-container");
+
+    if (window.getComputedStyle(setsToToggle[0]).display == "flex")
+    {
+        setsToToggle.forEach(setInfo => setInfo.style.display = "none");
+        let setCounter = document.createElement("DIV");
+        setCounter.classList.add("set-counter");
+        setCounter.innerHTML = setsToToggle.length + " SET";
+        if (setsToToggle.length > 1)
+            setCounter.innerHTML += "S";
+        parent.append(setCounter);
+    }
+    else
+    {
+        parent.querySelector(".set-counter").remove();
+        setsToToggle.forEach(setInfo => setInfo.style.display = "flex");
+    }
 }
 
 const setEditWeightFunction = ({target}) => {
@@ -326,6 +366,7 @@ const createPreviousDays = (slideTimeout) => {
         prevDaysDiv.append(button);
 
         setTimeout(() => {
+            document.body.style.removeProperty("overflow-y");
             const prevDaysButton = document.querySelectorAll(".previous-days-div button");
             let cnt = 0;
             const slideInterval = setInterval(() => {
@@ -334,28 +375,6 @@ const createPreviousDays = (slideTimeout) => {
                 clearInterval(slideInterval);
             }, 50);
         }, slideTimeout);
-    }
-}
-
-const expandSetInfos = ({target}) => {
-    let clickedExerciseId = parseInt(target.id.match(/\d+/)[0]);
-    const parent = document.querySelector("#dayContainer" + clickedExerciseId);
-    let setsToToggle = parent.querySelectorAll(".set-container");
-
-    if (window.getComputedStyle(setsToToggle[0]).display == "flex")
-    {
-        setsToToggle.forEach(setInfo => setInfo.style.display = "none");
-        let setCounter = document.createElement("DIV");
-        setCounter.classList.add("set-counter");
-        setCounter.innerHTML = setsToToggle.length + " SET";
-        if (setsToToggle.length > 1)
-            setCounter.innerHTML += "S";
-        parent.append(setCounter);
-    }
-    else
-    {
-        parent.querySelector(".set-counter").remove();
-        setsToToggle.forEach(setInfo => setInfo.style.display = "flex");
     }
 }
 

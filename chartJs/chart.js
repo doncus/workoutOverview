@@ -248,7 +248,7 @@ const createProgressChart = () => {
         yUnit = " reps";
     }
 
-    console.log(chartArray);
+    // console.log(chartArray);
 
     let chart = new Chart(chartCanvas, {
         type: 'bar',
@@ -268,7 +268,7 @@ const createProgressChart = () => {
                         display: true,
                         color: "rgb(182, 248, 0)",
                         font: {
-                            size: 12,
+                            size: 14,
                             family: "Verdana, Geneva, Tahoma, sans-serif",
                             padding: 0,
                         },

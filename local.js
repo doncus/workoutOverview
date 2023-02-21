@@ -21,7 +21,7 @@ const deleteData = ({target}) => {
     if (!workoutData.length)
         previousSessions.style.display = "none";
 
-    localStorage.setItem('workoutData', JSON.stringify(workoutData));
+    saveDataToStorage('workoutData', workoutData);
 }
 
 // check how many entries differ in month and/or date
@@ -77,16 +77,11 @@ const generatePrevSessionData = (delay = 100) => {
             }
         }
         if (newEntry)
-        curData.push(workoutData[i]);
+            curData.push(workoutData[i]);
     }
 
-    // sort previous sessions by currency
-    curData.sort((session1, session2) => {
-        if (session1.date.ms > session2.date.ms)
-            return -1;
-        if (session1.date.ms < session2.date.ms)
-            return 1;
-    })
+    // sort previous sessions by date
+    sortByDateDesc(curData);
 
     showPrevSessionButtons(delay);
 };
@@ -94,17 +89,16 @@ const generatePrevSessionData = (delay = 100) => {
 // create relevant buttons on the front page
 const showPrevSessionButtons = (delay) => {
     const prevSessionDiv = document.querySelector(".selected-menu-div");
-    let year;
     for (let i = 0; i < curData.length; i++)
     {
-        year = curData[i].date.year;
+        let year = curData[i].date.year;
 
         let button = document.createElement("button");
         button.classList.add("previous-session-button");
         button.setAttribute("id", "prevButton" + i);
         button.addEventListener('click', previousMonthButtonFunction);
         let span = document.createElement("span");
-        span.innerHTML = curData[i].date.monthName.toUpperCase();
+        span.innerHTML = curData[i].date.monthName;
         button.append(span);
         span = document.createElement("span");
         span.innerHTML = year;
@@ -112,7 +106,7 @@ const showPrevSessionButtons = (delay) => {
         prevSessionDiv.append(button);
     }
 
-    const prevSessionButtons = prevSessionDiv.querySelectorAll(" button");
+    const prevSessionButtons = prevSessionDiv.querySelectorAll("button");
     if (document.querySelector(".selected-menu-div button"))
     {
         setTimeout(() => {
@@ -158,5 +152,5 @@ const showEachDay = (index) => {
     curDaysData = [...tempDataSpliced];
 
     createFilterButtons();
-    createPreviousDays(1500);
+    createPreviousDays(1000);
 }

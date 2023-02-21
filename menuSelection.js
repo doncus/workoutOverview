@@ -16,6 +16,7 @@ const menuButtonAction = ({target}) => {
 
     switch (clickedButton.className) {
         case "progress-chart active":
+            selectedDate = new Date();
             showDropDownInput(true);
             createSelector();
             createChartNav();
@@ -89,7 +90,9 @@ const getDataOfExercise = (inputValue) => {
     let sumReps = 0;
     exerciseCounter = 0;
     maxWeight = 0;
+    minWeight = workoutData[0].sets[0].weight;
     maxReps = 0;
+    minReps = workoutData[0].sets[0].reps;
     averageReps = 0;
     lastExercise = undefined;
     exerciseBeforeYear = undefined;
@@ -108,6 +111,11 @@ const getDataOfExercise = (inputValue) => {
             if (workoutData[i].sets[0].reps > maxReps)
                 maxReps = workoutData[i].sets[0].reps;
             
+            if (workoutData[i].sets[0].reps < minReps)
+                minReps = workoutData[i].sets[0].reps;
+            if (workoutData[i].sets[0].weight < minWeight)
+                minWeight = workoutData[i].sets[0].weight;
+            
             if (workoutData[i].date.year < latestDate)
                 latestDate = workoutData[i].date.year;
 
@@ -124,7 +132,7 @@ const getDataOfExercise = (inputValue) => {
     if (!allOfExercise.length) return;
 
     sortByDateAsc(allOfExercise);
-    
+
     lastExercise = allOfExercise[allOfExercise.length-1];
     exerciseCounter = allOfExercise.length;
     getDataOfYear();

@@ -15,7 +15,6 @@
     
     color: var(--gray);
     font-size: 20px;
-    font-weight: bold;
 
     transform: translateX(120%);
     transition: 800ms, opacity 400ms;
@@ -26,8 +25,10 @@
 
 .day-filter-button {
     height: 60px;
+    font-weight: bold;
     background-color: var(--btn-bg);
     border: 5px solid var(--base-border);
+    transform: translateX(-120%);
 }
 .day-filter-button:active {
     background-color: var(--btn-bg);
@@ -56,19 +57,38 @@
     font-size: 20px;
 
     opacity: 0;
-    transition: opacity 300ms;
+    transition: all 500ms;
 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-.day-container p {
-    width: 100%;
+.time-of-exercise-div {
+    margin-left: -22px;
     background-color: var(--base-bg);
+    border: 5px solid var(--base-border);
+    width: 100%;
     border-radius: 10px;
-    padding: 10px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
 
+.time-of-exercise-div span {
+    z-index: 2;
+    border-right: 5px solid var(--base-border);
+    height: 100%;
+    margin-left: -10px;
+    font-size: 16px;
+    color: var(--gray);
+    padding: 8px;
+    background-color: black;
+    user-select: none;
+}
+.time-of-exercise-div p {
     color: var(--gray);
     text-align: center;
 }
@@ -91,7 +111,8 @@
     justify-content: center;
     align-items: center;
     font-style: italic;
-    padding: 10px 0;
+    padding: 6px 0;
+    user-select: none;
 }
 
 .set-container .set-weight,
@@ -109,7 +130,7 @@
 
 .set-container input {
     width: 70px;
-    background-color: var(--base-bg);
+    background-color: black;
     border: 5px solid var(--btn-border);
     border-radius: 10px;
     outline: none;
