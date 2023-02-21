@@ -64,7 +64,7 @@ const createProgressChart = () => {
     let minReps = 9999;
     let maxReps = 0;
 
-    let bgColor = ['rgb(230, 230, 230)'];
+    let bgColor = [];
     let formatX, formatY;
     let xUnit, yUnit;
     let timeUnit;
@@ -109,6 +109,15 @@ const createProgressChart = () => {
         maxY = Math.trunc(maxWeight + 6);
 
         // set highlight color on weight or reps raises
+        if (!exerciseBeforeMonth)
+            bgColor.push('rgb(230, 230, 230)');
+        else
+        {
+            if (exerciseBeforeMonth.sets[0].weight < chartArray[0].sets[0].weight)
+                bgColor.push('rgb(182, 248, 0)');
+            else
+                bgColor.push('rgb(230, 230, 230)');
+        }
         for (let i = 1; i < chartArray.length; i++)
         {
             if (chartArray[i].sets[0].weight > chartArray[i-1].sets[0].weight)
@@ -118,7 +127,7 @@ const createProgressChart = () => {
         }
 
         // calculate offset if possible
-        getLimitsForMonth();
+        getMonthSettings();
 
         // label y axis
         yUnit = " kg";
@@ -134,6 +143,15 @@ const createProgressChart = () => {
         maxY = Math.trunc(maxReps + 6);
 
         // set highlight color on weight or reps raises
+        if (!exerciseBeforeMonth)
+            bgColor.push('rgb(230, 230, 230)');
+        else
+        {
+            if (exerciseBeforeMonth.sets[0].reps < chartArray[0].sets[0].reps)
+                bgColor.push('rgb(182, 248, 0)');
+            else
+                bgColor.push('rgb(230, 230, 230)');
+        }
         for (let i = 1; i < chartArray.length; i++)
         {
             if (chartArray[i].sets[0].reps > chartArray[i-1].sets[0].reps)
@@ -143,7 +161,7 @@ const createProgressChart = () => {
         }
 
         // calculate offset if possible
-        getLimitsForMonth();
+        getMonthSettings();
 
         // label y axis
         yUnit = " reps";
@@ -169,6 +187,15 @@ const createProgressChart = () => {
         maxY = Math.trunc(maxWeight + 6);
 
         // set highlight color on weight or reps raises
+        if (!exerciseBeforeYear)
+            bgColor.push('rgb(230, 230, 230)');
+        else
+        {
+            if (exerciseBeforeYear.sets[0].weight < chartArray[0].sets[0].weight)
+                bgColor.push('rgb(182, 248, 0)');
+            else
+                bgColor.push('rgb(230, 230, 230)');
+        }
         for (let i = 1; i < chartArray.length; i++)
         {
             if (chartArray[i].sets[0].weight > chartArray[i-1].sets[0].weight)
@@ -178,7 +205,7 @@ const createProgressChart = () => {
         }
 
         // calculate offset if possible
-        getLimitsForYear();
+        getYearSettings();
 
         // label y axis
         yUnit = " kg";
@@ -197,6 +224,15 @@ const createProgressChart = () => {
         maxY = Math.trunc(maxReps + 6);
 
         // set highlight color on weight or reps raises
+        if (!exerciseBeforeYear)
+            bgColor.push('rgb(230, 230, 230)');
+        else
+        {
+            if (exerciseBeforeYear.sets[0].reps < chartArray[0].sets[0].reps)
+                bgColor.push('rgb(182, 248, 0)');
+            else
+                bgColor.push('rgb(230, 230, 230)');
+        }
         for (let i = 1; i < chartArray.length; i++)
         {
             if (chartArray[i].sets[0].reps > chartArray[i-1].sets[0].reps)
@@ -206,7 +242,7 @@ const createProgressChart = () => {
         }
 
         // calculate offset if possible
-        getLimitsForYear();
+        getYearSettings();
 
         // label y axis
         yUnit = " reps";
@@ -227,7 +263,6 @@ const createProgressChart = () => {
         options: {
             scales: {
                 y: {
-                    beginAtZero: true,
                     title: {
                         text: yUnit,
                         display: true,
@@ -330,7 +365,7 @@ const createProgressChart = () => {
     }
 
     
-    function getLimitsForMonth() {
+    function getMonthSettings() {
         // determine first and last day of selected month
         let lastDay = new Date(chartArray[0].date.year, chartArray[0].date.month, 0).getDate();
         lastDay = (lastDay < 10) ? "0" + lastDay : lastDay;
@@ -342,7 +377,7 @@ const createProgressChart = () => {
         formatX = {"day": 'dd.MM.'};
         timeUnit = "day";
     }
-    function getLimitsForYear() {
+    function getYearSettings() {
         // determine first and last month of selected year
         minX = chartArray[0].date.year + '-01-01';
         maxX = chartArray[0].date.year + '-12-31';

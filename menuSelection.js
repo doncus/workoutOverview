@@ -137,15 +137,16 @@ const getDataOfExercise = (inputValue) => {
     let isFound = false;
     for (let i = 0; i < allOfExercise.length; i++)
     {
-        if (allOfExercise[i] == monthOfExercise[monthOfExercise.length-1])
+        if (allOfExercise[i] == monthOfExercise[0])
             exerciseBeforeMonth = (i > 0) ? allOfExercise[i-1] : undefined;
         
-        if (!isFound && allOfExercise[i].date.month === yearOfExercise[yearOfExercise.length-1].date.month)
+        if (!isFound && allOfExercise[i].date.month === yearOfExercise[0].date.month)
         {
             exerciseBeforeYear = (i > 0) ? allOfExercise[i-1] : undefined;
             isFound = true;
         }
     }
+    console.log(yearOfExercise)
 }
 
 const getDataOfYear = () => {
