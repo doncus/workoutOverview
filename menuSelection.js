@@ -182,10 +182,11 @@ const noDataFound = () => {
     
     let text = document.createElement("span");
     text.classList.add("no-data-span");
-    text.style.marginTop = "70px";
+    text.style.marginTop = "100px";
     text.innerHTML = "No data found.";
     noDataDiv.append(text);
-    selectedMenuDiv.append(noDataDiv);
+
+    selectedMenuDiv.insertBefore(noDataDiv, selectedMenuDiv.querySelector(".calendar-month"));
     setTimeout(() => noDataDiv.style.opacity = 1, 20);
     setTimeout(() => text.style.opacity = 1, 20);
 }
@@ -260,11 +261,10 @@ const selectorPrevYear = () => {
 }
 
 const handleChart = (inputValue) => {
-    if (document.querySelector(".chart-top-navbar-div"))
-    {
-        while (document.querySelector(".chart-top-navbar-div").nextElementSibling)
-            document.querySelector(".chart-top-navbar-div").nextElementSibling.remove();
-    }
+    if (document.querySelector("#progressChart"))
+        document.querySelector("#progressChart").remove();
+    if (document.querySelector(".no-data-div"))
+        document.querySelector(".no-data-div").remove();
     
     getDataOfExercise(inputValue);
     if (exerciseCounter > 0)
@@ -273,15 +273,24 @@ const handleChart = (inputValue) => {
         noDataFound();
     // scroll to requested position
     const selMenu = document.querySelector(".selected-menu-div");
-    selMenu.style.height = "600px";
+    selMenu.style.height = "580px";
     selMenu.scrollIntoView({ behavior: 'smooth', block: 'end'});
+    const calDiv = selMenu.querySelector(".calendar-month");
+    const filterDiv = selMenu.querySelector(".chart-navbar");
+    filterDiv.style.position = "absolute";
+    filterDiv.style.width = "90%";
+    filterDiv.style.bottom = "0";
+    filterDiv.style.marginBottom = "20px";
+    calDiv.style.position = "absolute";
+    calDiv.style.width = "90%";
+    calDiv.style.bottom = filterDiv.offsetHeight + 20 + "px";
 }
 
 const createChartNav = () => {
     const selectedMenuDiv = document.querySelector(".selected-menu-div");
     
     let navbarDiv = document.createElement("div");
-    navbarDiv.classList.add("chart-top-navbar-div");
+    navbarDiv.classList.add("chart-navbar");
 
     let timefilterDiv = document.createElement("div");
     timefilterDiv.classList.add("time-filter-div");

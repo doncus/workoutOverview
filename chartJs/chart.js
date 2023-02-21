@@ -7,10 +7,14 @@ const createProgressChart = () => {
     chartCanvas.style.width = "100px";
     chartCanvas.style.marginTop = "20px";
     chartCanvas.style.backgroundColor = "black";
-    selectedMenuDiv.append(chartCanvas);
+    chartCanvas.style.opacity = 0;
+    chartCanvas.style.transition = "opacity 500ms";
+    setTimeout(() => chartCanvas.style.opacity = 1, 10);
+ 
+    selectedMenuDiv.insertBefore(chartCanvas, selectedMenuDiv.querySelector(".calendar-month"));
 
     let xType, yType;
-    let chartFilterBtns = document.querySelectorAll(".chart-top-navbar-div button");
+    let chartFilterBtns = document.querySelectorAll(".chart-navbar button");
     chartFilterBtns.forEach(filter => {
         if (filter.classList.contains("active"))
         {
@@ -88,7 +92,7 @@ const createProgressChart = () => {
     }
 
     // label x axis
-    xUnit = selectedDate.getFullYear();
+    // xUnit = selectedDate.getFullYear();
 
     // ---------------------------------------------------- SPECIFIC DATA
     if (xType === "month" && yType === "weight")
@@ -330,7 +334,7 @@ const createProgressChart = () => {
             },
             layout: {
                 padding: {
-                    right: 40
+                    right: 10
                 }
             },
             plugins: {
@@ -383,7 +387,7 @@ const createProgressChart = () => {
         maxX = chartArray[0].date.year + '-12-31';
         
         // format selection
-        formatX = {'month': 'MMMM'};
+        formatX = {'month': 'MMM'};
         timeUnit = "month";
     }
 }

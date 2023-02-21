@@ -140,7 +140,6 @@
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     padding: 2px 6px;
-    margin-bottom: 14px;
     outline: none;
 
     font-size: 20px;
@@ -160,6 +159,7 @@
     width: 100%;
     background-color: var(--base-bg);
     border: 5px solid var(--base-border);
+    padding: 6px 0;
 
     display: flex;
     justify-content: center;
@@ -168,7 +168,6 @@
 }
 
 .drop-down-div p {
-    margin-top: 14px;
     width: 80%;
     background-color: var(--base-border);
     color: var(--btn-active);
@@ -216,21 +215,21 @@
     opacity: 0;
 }
 
-.chart-top-navbar-div {
+.chart-navbar {
     width: 100%;
     align-self: flex-start;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.chart-top-navbar-div .time-filter-div,
-.chart-top-navbar-div .value-filter-div {
+.chart-navbar .time-filter-div,
+.chart-navbar .value-filter-div {
     width: 100%;
     display: flex;
     align-items: center;
 }
 
-.chart-top-navbar-div button {
+.chart-navbar button {
     padding: 6px 10px;
     width: 100%;
     display: flex;
@@ -244,13 +243,19 @@
     transition: transform 500ms;
     transform: translateY(0);
 }
-.chart-top-navbar-div button.active {
+.chart-navbar button.active {
     background-color: var(--btn-active);
     color: black;
 }
-.chart-top-navbar-div button:active {
+.chart-navbar button:active {
     background-color: var(--btn-active);
     color: black;
+}
+.chart-navbar.float, .calendar-month.float {
+    position: absolute;
+    width: 90%;
+    opacity: 0;
+    margin-bottom: 20px;
 }
 
 .selected-menu-div .calendar-month {
@@ -259,6 +264,11 @@
     border: solid 2px var(--btn-border);
     border-left: none;
     border-right: none;
+}
+.selected-menu-div .calendar-month.float {
+    position: absolute;
+    width: 90%;
+    margin-bottom: 20px;
 }
 .selected-menu-div .calendar-month button {
     background-color: black;
