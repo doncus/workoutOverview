@@ -1,5 +1,6 @@
 window.onload = () => {
     document.addEventListener("click", closeAllLists);
+    document.body.addEventListener("scroll", closeAllLists);
     document.addEventListener("click", closeCalendar);
     
     const setsInput = document.querySelector(".select-sets input");
@@ -43,8 +44,8 @@ const showUserContainer = () => {
     setTimeout(() => {
         loginMain.style.opacity = 1;
         loginMain.style.height = "300px";
-        loginMain.style.backgroundColor = "hsl(60, 25%, 21%)";
-        loginMain.style.border= "20px solid hsl(60, 17%, 46%)";
+        loginMain.style.backgroundColor = "hsl(60, 25%, 20%)";
+        loginMain.style.border= "20px solid hsl(60, 25%, 37%)";
         setTimeout(() => {
             loginMain.querySelector(".login-content").style.opacity = 1;
             setTimeout(() => loginButton.addEventListener(

@@ -45,6 +45,8 @@ const createCalendar = () => {
         input.classList.add("time-value");
         input.setAttribute("type", "tel");
         input.setAttribute("maxlength", "2");
+        input.setAttribute("onfocus", "setLastValue(this), resetInputValue(this)");
+        input.setAttribute("onfocusout", "getLastValue(this)");
         input.addEventListener("input", checkIfTime);
         input.addEventListener("change", setTime);
         timeDiv.append(input);

@@ -198,8 +198,9 @@ const previousDayButtonFunction = ({target}) => {
             let input = document.createElement("input");
             input.classList.add("reps-value");
             input.setAttribute("type", "tel");
-            input.addEventListener("focus", setInputValue);
+            input.setAttribute("onfocus", "setLastValue(this)");
             input.addEventListener("input", checkIfInteger);
+            input.setAttribute("oninput", "checkIfSmallerThan(this, 999)");
             input.addEventListener("change", setEditRepsFunction);
             input.value = curDay[i].sets[j].reps;
             setChildDiv.append(input);
@@ -218,8 +219,9 @@ const previousDayButtonFunction = ({target}) => {
             input = document.createElement("input");
             input.classList.add("weight-value");
             input.setAttribute("type", "tel");
-            input.addEventListener("focus", setInputValue);
+            input.setAttribute("onfocus", "setLastValue(this)");
             input.addEventListener("input", checkIfNumber);
+            input.setAttribute("oninput", "checkIfSmallerThan(this, 999)");
             input.addEventListener("change", setEditWeightFunction);
             if (!curDay[i].sets[j].weight)
                 input.value = 0;
@@ -242,11 +244,10 @@ const previousDayButtonFunction = ({target}) => {
     }, 510);
 }
 
-
 const setEditWeightFunction = ({target}) => {
-    if (target.value == "" || target.value > 200)
+    if (target.value == "")
     {
-        target.value = inputValue;
+        target.value = lastValue;
         return;
     }
     if (target.value.endsWith('.'))
@@ -264,9 +265,9 @@ const setEditWeightFunction = ({target}) => {
     saveDataToStorage("workoutData", workoutData);
 }
 const setEditRepsFunction = ({target}) => {
-    if (target.value == "" || target.value > 200)
+    if (target.value == "")
     {
-        target.value = inputValue;
+        target.value = lastValue;
         return;
     }
 
@@ -370,6 +371,7 @@ const createFilterButtons = () => {
             case 0:
                 span.id = "date";
                 span.innerHTML = "Date";
+                span.classList.add("active");
                 span.addEventListener('click', filterDateFunction);
                 break;
             default:
@@ -384,24 +386,22 @@ const createFilterButtons = () => {
 };
 
 const filterDateFunction = ({target}) => {
-    if (window.getComputedStyle(target).backgroundColor == "rgb(96, 96, 57)")
-        return;
+    if (target.classList.contains("active")) return;
     
     document.querySelectorAll(".previous-days-div button:not(.day-filter-button)").forEach(
         button => button.disabled = true
     );
     const dayFilterButtons = document.querySelectorAll(".day-filter-button span");
     dayFilterButtons.forEach(filter => {
-        filter.style.backgroundColor = "hsl(60, 25%, 40%)"
+        filter.classList.remove("active");
     });
-    target.style.backgroundColor = "hsl(60, 25%, 30%)";
+    target.classList.add("active");
 
     let tempData = JSON.parse(JSON.stringify(curDaysData));
     let sortedArray = [];
     let sortedIndex;
     let minDay;
     
-
     while (sortedArray.length < curDaysData.length)
     {
         minDay = 31;
@@ -422,17 +422,16 @@ const filterDateFunction = ({target}) => {
 }
 
 const filterWeekdayFunction = ({target}) => {
-    if (window.getComputedStyle(target).backgroundColor == "rgb(96, 96, 57)")
-        return;
+    if (target.classList.contains("active")) return;
     
     document.querySelectorAll(".previous-days-div button:not(.day-filter-button)").forEach(
         button => button.disabled = true
     );
     const dayFilterButtons = document.querySelectorAll(".day-filter-button span");
     dayFilterButtons.forEach(filter => {
-        filter.style.backgroundColor = "hsl(60, 25%, 40%)"
+        filter.classList.remove("active");
     });
-    target.style.backgroundColor = "hsl(60, 25%, 30%)";
+    target.classList.add("active");
 
     let tempData = JSON.parse(JSON.stringify(curDaysData));
     let sortedArray = [];
@@ -455,17 +454,16 @@ const filterWeekdayFunction = ({target}) => {
 }
 
 const filterTimeFunction = ({target}) => {
-    if (window.getComputedStyle(target).backgroundColor == "rgb(96, 96, 57)")
-        return;
-
+    if (target.classList.contains("active")) return;
+    
     document.querySelectorAll(".previous-days-div button:not(.day-filter-button)").forEach(
         button => button.disabled = true
     );
     const dayFilterButtons = document.querySelectorAll(".day-filter-button span");
     dayFilterButtons.forEach(filter => {
-        filter.style.backgroundColor = "hsl(60, 25%, 40%)"
+        filter.classList.remove("active");
     });
-    target.style.backgroundColor = "hsl(60, 25%, 30%)";
+    target.classList.add("active");
 
     let tempData = JSON.parse(JSON.stringify(curDaysData));
     let sortedArray = [];

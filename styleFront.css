@@ -14,8 +14,8 @@
     height: 60px;
     width: 100%;
     max-width: 100%;
-    background-color: hsl(var(--olive), 21%);
-    border: 5px solid hsl(var(--olive), 10%);
+    background-color: var(--base-bg);
+    border: 5px solid var(--base-border);
     padding: 10px;
 
     color: var(--gray);
@@ -34,8 +34,8 @@
 .content-front-top .user-button {
     height: 60px;
     min-width: 60px;
-    background-color: hsl(var(--olive), 21%);
-    border: 5px solid hsl(var(--olive), 10%);
+    background-color: var(--base-bg);
+    border: 5px solid var(--base-border);
     
     align-self: flex-start;
     transition: all 150ms;
@@ -46,7 +46,7 @@
 }
 .content-front-top .user-button i {
     padding: 10px;
-    color: hsl(var(--olive), 42%);
+    color: var(--btn-border);
     font-size: 34px;
 }
 
@@ -66,7 +66,7 @@
     width: 100%;
 
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex-direction: column;
 }
@@ -93,15 +93,15 @@
 }
 .menu-select button {
     aspect-ratio: 1;
-    background-color: hsl(var(--olive), 18%);
-    border: 5px solid hsl(var(--olive), 37%);
+    background-color: var(--btn-bg);
+    border: 5px solid var(--btn-border);
     border-radius: 14px;
     margin-bottom: 10px;
     transition: all 150ms;
     color: var(--gray);
 }
 .menu-select button.active {
-    background-color: hsl(60, 25%, 60%);
+    background-color: var(--btn-active);
     color: black;
 }
 .menu-select i {
@@ -110,11 +110,10 @@
 }
 
 .previous-session-button {
-    background-color: hsl(var(--olive), 18%);
-    border: 5px solid hsl(var(--olive), 37%);
+    background-color: var(--btn-bg);
+    border: 5px solid var(--btn-border);
     width: 100%;
     height: 50px;
-    border-radius: 0px;
     margin-bottom: 10px;
     color: var(--gray);
     padding: 0 18%;
@@ -129,10 +128,14 @@
     justify-content: space-between;
     align-items: center;
 }
+.previous-session-button.active {
+    color: black;
+    background-color: var(--btn-active);
+}
 
 .content-front input:not([type=checkbox]) {
     height: 40px;
-    border: 5px solid hsl(var(--olive), 14%);
+    border: 5px solid var(--base-border);
     
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -144,22 +147,19 @@
     text-align: center;
 }
 .content-front input:focus {
-    border: 5px solid hsl(var(--olive), 50%);
+    border: 5px solid var(--btn-active);
 }
 .content-front input.drop-down-input {
-    border: 5px solid hsl(var(--olive), 50%);
+    border: 5px solid var(--btn-active);
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-}
-.autocomplete-list div {
-    font-size: 20;
 }
 
 .drop-down-div {
     z-index: 3;
     width: 100%;
-    background-color: hsl(var(--olive), 21%);
-    border: 5px solid hsl(var(--olive), 10%);
+    background-color: var(--base-bg);
+    border: 5px solid var(--base-border);
 
     display: flex;
     justify-content: center;
@@ -170,13 +170,13 @@
 .drop-down-div p {
     margin-top: 14px;
     width: 80%;
-    background-color: hsl(var(--olive), 14%);
-    color: hsl(var(--olive), 60%);
+    background-color: var(--base-border);
+    color: var(--btn-active);
     font-style: italic;
     font-size: 16px;
     font-weight: bold;
     user-select: none;
-    padding: 2px 8px;
+    padding: 2px 6px;
     border-top-right-radius: 8px;
     border-top-left-radius: 8px;
 }
@@ -205,7 +205,7 @@
 
 .no-data-span {
     text-align: center;
-    border: solid 2px hsl(var(--olive), 30%);
+    border: solid 2px var(--btn-border);
     border-left: none;
     border-right: none;
     padding: 20px 10px;
@@ -225,33 +225,51 @@
 }
 .chart-top-navbar-div .time-filter-div,
 .chart-top-navbar-div .value-filter-div {
-    align-self: flex-start;
+    width: 100%;
     display: flex;
     align-items: center;
 }
 
 .chart-top-navbar-div button {
     padding: 6px 10px;
-    width: 64px;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: hsl(var(--olive), 18%);
-    border: 5px solid hsl(var(--olive), 10%);
-    border-bottom: 2px;
-    border-top: none;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    background-color: var(--btn-bg);
+    border: 5px solid var(--base-border);
+    border-top: 10px solid var(--base-border);
     color: var(--gray);
-    font-size: 12px;
+    font-size: 14px;
     transition: transform 500ms;
     transform: translateY(0);
 }
 .chart-top-navbar-div button.active {
-    background-color: hsl(60, 25%, 60%);
+    background-color: var(--btn-active);
     color: black;
-  }
+}
 .chart-top-navbar-div button:active {
-    background-color: hsl(60, 25%, 60%);
+    background-color: var(--btn-active);
     color: black;
-  }
+}
+
+.selected-menu-div .calendar-month {
+    height: 44px;
+    background-color: black;
+    border: solid 2px var(--btn-border);
+    border-left: none;
+    border-right: none;
+}
+.selected-menu-div .calendar-month button {
+    background-color: black;
+    border: none;
+    color: var(--gray);
+}
+.selected-menu-div .calendar-month #prevButton:active {
+    background: linear-gradient(90deg, var(--btn-active), black);
+    color: black;
+}
+.selected-menu-div .calendar-month #nextButton:active {
+    background: linear-gradient(90deg, black, var(--btn-active));
+    color: black;
+}

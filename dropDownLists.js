@@ -1,10 +1,11 @@
-const showExercises = (input, fnc) => {
+const showExercises = (input, name) => {
     closeAllLists();
 
     const autocompleteList = document.createElement("div");
     autocompleteList.classList.add("autocomplete-list");
     autocompleteList.style.width = input.getBoundingClientRect().width + "px";
     autocompleteList.style.top = input.getBoundingClientRect().top + input.offsetHeight + "px";
+    autocompleteList.style.position = "absolute";
 
     input.parentElement.appendChild(autocompleteList);
     input.classList.add("drop-down-input");
@@ -29,7 +30,20 @@ const showExercises = (input, fnc) => {
                 input.value = suggestion.innerText;
                 closeAllLists();
             });
-            suggestion.addEventListener("click", fnc);
+            switch (name) {
+                case "session":
+                    suggestion.setAttribute("onclick", "getLastSessionData(this.innerText)");
+                    break;
+                case "chart":
+                    suggestion.setAttribute("onclick", "createChartNav()");
+                    suggestion.setAttribute("onclick", "handleChart(this.innerText)");
+                    break;
+                case "overview":
+                    suggestion.setAttribute("onclick", "getLastSessionData(this.innerText)");
+                    suggestion.setAttribute("onclick", "handleOverviewRows(this.innerText)");
+                    break;
+            }
+                
             autocompleteList.appendChild(suggestion);
             dropDownArray.splice(i, 1);
         }
@@ -63,6 +77,7 @@ const closeAllLists = (e) => {
     {
         document.querySelector('.autocomplete-list').remove();
         const dropDownInput = document.querySelector(".drop-down-input");
+        dropDownInput.blur();
         dropDownInput.classList.remove("drop-down-input");
     }
 }

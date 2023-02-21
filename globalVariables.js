@@ -2,9 +2,13 @@ const contentFront = document.querySelector(".content-front");
 const contentBack = document.querySelector(".content-back");
 const addSessionButton = contentFront.querySelector(".add-session-button");
 
-let weightOfLastSession = 0;
+let weightOfLastSession = "";
+let repsOfLastSession = 0;
 let nrSetsOfLastSession = 0;
 let lastExercise = undefined;
+let exerciseBeforeYear = undefined;
+let exerciseBeforeMonth = undefined;
+let latestDate = new Date().getFullYear();
 let averageReps = 0;
 let maxReps = 0;
 let maxWeight = 0;

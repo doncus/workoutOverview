@@ -13,8 +13,8 @@
 }
 .current-date {
     width: 100%;
-    background-color: hsl(var(--olive), 21%);
-    border: 5px solid hsl(var(--olive), 10%);
+    background-color: var(--base-bg);
+    border: 5px solid var(--base-border);
     padding: 10px;
 
     font-size: 20px;
@@ -28,8 +28,9 @@
     gap: 10px;
 }
 .back-button {
-    background-color: hsl(var(--olive), 18%);
-    border: 5px solid hsl(var(--olive), 37%);
+    background-color: var(--btn-bg);
+    border: 5px solid var(--btn-border);
+    border-radius: 10px;
     padding: 10px 20px;
 
     font-size: 22px;
@@ -44,7 +45,7 @@
 
 .select-exercise, .select-sets {
     width: 100%;
-    background-color: hsl(var(--olive), 21%);
+    background-color: var(--base-bg);
 
     color: var(--gray);
     font-size: 18px;
@@ -54,15 +55,13 @@
     align-items: center;
 }
 .select-exercise {
-    border-top: 6px solid hsl(var(--olive), 10%);
-    border-left: 6px solid hsl(var(--olive), 10%);
-    border-right: 6px solid hsl(var(--olive), 10%);
+    border: 6px solid var(--base-border);
+    border-bottom: none;
     padding: 20px 20px 0 20px;
 }
 .select-sets {
-    border-bottom: 6px solid hsl(var(--olive), 10%);
-    border-left: 6px solid hsl(var(--olive), 10%);
-    border-right: 6px solid hsl(var(--olive), 10%);
+    border: 6px solid var(--base-border);
+    border-top: none;
     padding: 20px;
     margin-bottom: 10px;
 }
@@ -73,8 +72,8 @@
 .select-sets p {
     width: 86%;
     text-align: center;
-    color: hsl(var(--olive), 60%);
-    background-color: hsl(var(--olive), 14%);
+    color: var(--btn-active);
+    background-color: var(--base-border);
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     padding: 4px 8px 2px 8px;
@@ -83,7 +82,7 @@
 .body-weight {
     margin-top: 20px;
     width: 86%;
-    background-color: hsl(var(--olive), 14%);
+    background-color: var(--base-border);
     border-radius: 10px;
     user-select: none;
     display: flex;
@@ -95,7 +94,7 @@
 }
 .body-weight label {
     height: 50px;
-    color: hsl(var(--olive), 60%);
+    color: var(--btn-active);
 
     display: flex;
     justify-content: center;
@@ -111,8 +110,8 @@
     z-index: 99;
     position: absolute;
 
-    background-color: hsl(var(--olive), 30%);
-    border: 3px solid hsl(var(--olive), 50%);
+    background-color: var(--base-bg);
+    border: 3px solid var(--btn-active);
     
     display: flex;
     flex-direction: column;
@@ -121,7 +120,7 @@
 }
 .autocomplete-list div {
     width: 100%;
-    border: 2px solid hsl(var(--olive), 40%);
+    border: 1px solid var(--btn-border);
     padding: 8px;
     font-size: 18px;
 
@@ -133,13 +132,13 @@
     justify-content: center;
 }
 .autocomplete-list div:hover {
-    background-color: hsl(var(--olive), 70%);
+    background-color: var(--btn-active);
 
     color: black;
 }
 .select-exercise input:not([type=checkbox]),
 .select-sets input, .set-parent input {
-    border: 5px solid hsl(var(--olive), 14%);
+    border: 5px solid var(--base-border);
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
     padding: 2px 6px;
@@ -159,10 +158,10 @@
 
 .select-exercise input:not([type=checkbox]):focus,
 .select-sets input:focus, .set-parent input:focus {
-    border: 5px solid hsl(var(--olive), 50%);
+    border: 5px solid var(--btn-active);
 }
 .select-exercise input.drop-down-input {
-    border: 5px solid hsl(var(--olive), 50%);
+    border: 5px solid var(--btn-active);
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 }
@@ -189,8 +188,8 @@
 }
 .select-weight, .select-reps {
     width: 100%;
-    background-color: hsl(var(--olive), 21%);
-    border: 5px solid hsl(var(--olive), 10%);
+    background-color: var(--base-bg);
+    border: 5px solid var(--base-border);
     padding: 2px;
 
     color: var(--gray);
@@ -206,8 +205,8 @@
 .save-button {
     height: 60px;
     width: 80%;
-    background-color: hsl(var(--olive), 14%);
-    border: 5px solid hsl(var(--olive), 37%);
+    background-color: var(--btn-bg);
+    border: 5px solid var(--btn-border);
     border-radius: 24px;
     margin: 20px 0;
 

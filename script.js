@@ -66,47 +66,55 @@ const inputLeft = (input) => {
     inputLabel.style.fontWeight = "normal";
     inputLabel.style.removeProperty("color");
 }
-const getLastSessionData = (input) => {
-    setTimeout(() => {
-        lastExercise = undefined;
-        weightOfLastSession = "";
-        nrSetsOfLastSession = "";
+const getLastSessionData = (inputValue) => {
+    lastExercise = undefined;
+    weightOfLastSession = "";
+    repsOfLastSession = "";
+    nrSetsOfLastSession = "";
 
-        for (let i = 0; i < workoutData.length; i++)
+    for (let i = 0; i < workoutData.length; i++)
+    {
+        if (workoutData[i].exercise == inputValue)
         {
-            if (workoutData[i].exercise == input.value)
-            {
-                if (!lastExercise)
-                    lastExercise = workoutData[i];
-                if (lastExercise.date.ms < workoutData[i].date.ms)
-                    lastExercise = workoutData[i];
-            }
+            if (!lastExercise)
+                lastExercise = workoutData[i];
+            if (lastExercise.date.ms < workoutData[i].date.ms)
+                lastExercise = workoutData[i];
         }
-        if (lastExercise)
+    }
+    if (lastExercise)
+    {
+        let checkbox = document.querySelector(".body-weight input[type=checkbox]");
+        if (lastExercise.weightAdded)
         {
-            let checkbox = document.querySelector(".body-weight input[type=checkbox]");
-            if (lastExercise.weightAdded && checkbox.checked)
+            weightOfLastSession = lastExercise.sets[0].weight;
+            if (checkbox.checked)
             {
-                weightOfLastSession = lastExercise.sets[0].weight;
                 checkbox.checked = false;
                 markChecked(checkbox);
             }
-            else if (!lastExercise.weightAdded && !checkbox.checked)
+        }
+        else
+        {
+            repsOfLastSession = lastExercise.sets[0].reps;
+            if (!checkbox.checked)
             {
                 checkbox.checked = true;
                 markChecked(checkbox);
             }
-            nrSetsOfLastSession = lastExercise.sets.length;
         }
-        
-        let weightInputs = document.querySelectorAll(".select-weight input");
-        if (weightInputs)
-            weightInputs.forEach(input => input.value = weightOfLastSession);
+        nrSetsOfLastSession = lastExercise.sets.length;
+    }
 
-        let setInput = document.querySelector(".select-sets input");
-        setInput.value = nrSetsOfLastSession;
-        initSets();
-    }, 200);
+    let setInput = document.querySelector(".select-sets input");
+    setInput.value = nrSetsOfLastSession;
+    initSets();
+    
+    let weightInputs = document.querySelectorAll(".select-weight input");
+    if (weightInputs.length)
+        weightInputs.forEach(inp => inp.value = weightOfLastSession);
+    else
+        document.querySelectorAll(".select-reps input").forEach(inp => inp.value = repsOfLastSession);
 }
 
 const getDateAsObject = () => {
@@ -222,13 +230,22 @@ const initSets = () => {
             p.innerHTML = "WEIGHT";
             div.append(p);
 
-            input = document.createElement("input");
+            let input = document.createElement("input");
             input.setAttribute("type", "text");
-            input.setAttribute("onfocus", "inputClicked(this), resetInputValue(this)");
-            input.setAttribute("onfocusout", "inputLeft(this)");
+            input.setAttribute("onfocus", "setLastValue(this), inputClicked(this), resetInputValue(this)");
+            input.setAttribute("onfocusout", "inputLeft(this), getLastValue(this)");
+            input.setAttribute("oninput", "checkIfSmallerThan(this, 999)");
             input.addEventListener("input", checkIfNumber);
             input.value = weightOfLastSession;
             div.append(input);
+
+            p = document.createElement("p");
+            p.innerHTML = "kg";
+            p.style.color = "black";
+            p.style.width = "49.5px";
+            p.style.margin = 0;
+            p.style.marginLeft = -30 + "px";
+            div.append(p);
         }
 
         let div = document.createElement("div");
@@ -239,10 +256,11 @@ const initSets = () => {
         p.innerHTML = "REPS";
         div.append(p);
 
-        input = document.createElement("input");
+        let input = document.createElement("input");
         input.setAttribute("type", "text");
-        input.setAttribute("onfocus", "inputClicked(this)");
-        input.setAttribute("onfocusout", "inputLeft(this)");
+        input.setAttribute("onfocus", "setLastValue(this), inputClicked(this), resetInputValue(this)");
+        input.setAttribute("onfocusout", "inputLeft(this), getLastValue(this)");
+        input.setAttribute("oninput", "checkIfSmallerThan(this, 999)");
         input.addEventListener("input", checkIfInteger);
         div.append(input);
     }

@@ -1,7 +1,12 @@
 :root {
-    --olive: 60, 25%; /* 21% */
+    --olive: 60, 25%;
     --gray: rgb(230, 230, 230);
     --highlight: rgb(182, 248, 0);
+    --base-bg: hsl(var(--olive), 20%);
+    --base-border: hsl(var(--olive), 10%);
+    --btn-bg: hsl(var(--olive), 10%);
+    --btn-border: hsl(var(--olive), 37%);
+    --btn-active: hsl(var(--olive), 60%);
 }
 * {
     margin: 0;
@@ -14,7 +19,7 @@ html {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: hsl(var(--olive), 10%);
+    background-color: var(--base-bg);
     overflow-x: hidden;
 }
 body {
@@ -22,7 +27,7 @@ body {
     width: 100vw;
     max-width: 500px;
     background-color: black;
-    outline: 4px hsl(var(--olive), 37%) solid;
+    outline: 4px var(--btn-border) solid;
 
     display: flex;
     flex-direction: column;
@@ -61,6 +66,6 @@ input {
 }
 
 button:active {
-    background-color: hsl(60, 25%, 60%);
+    background-color: var(--btn-active);
     color: black;
 }

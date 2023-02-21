@@ -1,8 +1,16 @@
-const setInputValue = ({target}) => {
-    inputValue = target.value;
+const setLastValue = (input) => {
+    lastValue = input.value;
+}
+const getLastValue = (input) => {
+    if (input.value == "")
+        input.value = lastValue;
 }
 const resetInputValue = (input) => {
     input.value = "";
+}
+const checkIfSmallerThan = (input, number) => {
+    if (input.value > 999)
+        input.value = number;
 }
 
 const checkIfNumber = ({target}) => {

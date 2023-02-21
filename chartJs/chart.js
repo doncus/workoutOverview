@@ -24,6 +24,7 @@ const createProgressChart = () => {
     let chartArray;
     let firstTime;
     let lastTime;
+    let hasWeight = false;
 
     if (xType === "month")
     {
@@ -36,6 +37,13 @@ const createProgressChart = () => {
         chartArray = JSON.parse(JSON.stringify(monthOfExercise));
         firstTime = chartArray[0].date.day;
         lastTime = chartArray[chartArray.length-1].date.day;
+
+        for (let i = 0; i < chartArray.length; i++)
+        {
+            let dateToTime = new Date(chartArray[i].date.ms);
+            dateToTime.setHours(0);
+            chartArray[i].date.ms = dateToTime.getTime();
+        }
     }
     else if (xType === "year")
     {
@@ -56,9 +64,9 @@ const createProgressChart = () => {
     let minReps = 9999;
     let maxReps = 0;
 
-    let bgColor = ['rgb(0, 0, 0)'];
+    let bgColor = ['rgb(230, 230, 230)'];
     let formatX, formatY;
-    let yUnit;
+    let xUnit, yUnit;
     let timeUnit;
     let minY, maxY;
     let minX, maxX;
@@ -67,6 +75,8 @@ const createProgressChart = () => {
     // calculate min/max weight and reps
     for (let i = 0; i < chartArray.length; i++)
     {
+        if (chartArray[i].weightAdded)
+            hasWeight = true;
         if (chartArray[i].sets[0].weight < minWeight)
             minWeight = chartArray[i].sets[0].weight;
         if (chartArray[i].sets[0].weight > maxWeight)
@@ -77,16 +87,26 @@ const createProgressChart = () => {
             maxReps = chartArray[i].sets[0].reps;
     }
 
+    // label x axis
+    xUnit = selectedDate.getFullYear();
+
     // ---------------------------------------------------- SPECIFIC DATA
     if (xType === "month" && yType === "weight")
     {
+        if (!hasWeight) 
+        {
+            chartCanvas.remove();
+            noDataFound();
+            return;
+        }
+        
         // determine axis data (month/weight)
         for (let i = 0; i < chartArray.length; i++)
             axisData.push({"x": chartArray[i].date.ms, "y": chartArray[i].sets[0].weight});
 
         // set minY and maxY
-        minY = minWeight - 6;
-        maxY = maxWeight + 6;
+        minY = Math.trunc(minWeight - 6);
+        maxY = Math.trunc(maxWeight + 6);
 
         // set highlight color on weight or reps raises
         for (let i = 1; i < chartArray.length; i++)
@@ -94,12 +114,13 @@ const createProgressChart = () => {
             if (chartArray[i].sets[0].weight > chartArray[i-1].sets[0].weight)
                 bgColor.push('rgb(182, 248, 0)');
             else
-                bgColor.push('rgb(0, 0, 0)');
+                bgColor.push('rgb(230, 230, 230)');
         }
 
         // calculate offset if possible
         getLimitsForMonth();
 
+        // label y axis
         yUnit = " kg";
     }
     else if (xType === "month" && yType === "reps")
@@ -109,8 +130,8 @@ const createProgressChart = () => {
             axisData.push({"x": chartArray[i].date.ms, "y": chartArray[i].sets[0].reps});
 
         // set minY and maxY
-        minY = minReps - 6;
-        maxY = maxReps + 6;
+        minY = Math.trunc(minReps - 6);
+        maxY = Math.trunc(maxReps + 6);
 
         // set highlight color on weight or reps raises
         for (let i = 1; i < chartArray.length; i++)
@@ -118,23 +139,31 @@ const createProgressChart = () => {
             if (chartArray[i].sets[0].reps > chartArray[i-1].sets[0].reps)
                 bgColor.push('rgb(182, 248, 0)');
             else
-                bgColor.push('rgb(0, 0, 0)');
+                bgColor.push('rgb(230, 230, 230)');
         }
 
         // calculate offset if possible
         getLimitsForMonth();
 
+        // label y axis
         yUnit = " reps";
     }
     else if (xType === "year" && yType === "weight")
     {
+        if (!hasWeight) 
+        {
+            chartCanvas.remove();
+            noDataFound();
+            return;
+        }
+        
         // determine axis data (month/weight)
         for (let i = 0; i < chartArray.length; i++)
             axisData.push({"x": chartArray[i].date.ms, "y": chartArray[i].sets[0].weight});
 
         // set minY and maxY
-        minY = minWeight - 6;
-        maxY = maxWeight + 6;
+        minY = Math.trunc(minWeight - 6);
+        maxY = Math.trunc(maxWeight + 6);
 
         // set highlight color on weight or reps raises
         for (let i = 1; i < chartArray.length; i++)
@@ -142,12 +171,13 @@ const createProgressChart = () => {
             if (chartArray[i].sets[0].weight > chartArray[i-1].sets[0].weight)
                 bgColor.push('rgb(182, 248, 0)');
             else
-                bgColor.push('rgb(0, 0, 0)');
+                bgColor.push('rgb(230, 230, 230)');
         }
 
         // calculate offset if possible
         getLimitsForYear();
 
+        // label y axis
         yUnit = " kg";
     }
     else if (xType === "year" && yType === "reps")
@@ -157,8 +187,8 @@ const createProgressChart = () => {
             axisData.push({"x": chartArray[i].date.ms, "y": chartArray[i].sets[0].reps});
         
         // set minY and maxY
-        minY = minReps - 6;
-        maxY = maxReps + 6;
+        minY = Math.trunc(minReps - 6);
+        maxY = Math.trunc(maxReps + 6);
 
         // set highlight color on weight or reps raises
         for (let i = 1; i < chartArray.length; i++)
@@ -166,17 +196,20 @@ const createProgressChart = () => {
             if (chartArray[i].sets[0].reps > chartArray[i-1].sets[0].reps)
                 bgColor.push('rgb(182, 248, 0)');
             else
-                bgColor.push('rgb(0, 0, 0)');
+                bgColor.push('rgb(230, 230, 230)');
         }
 
         // calculate offset if possible
         getLimitsForYear();
 
+        // label y axis
         yUnit = " reps";
     }
 
+    console.log(chartArray);
+
     new Chart(chartCanvas, {
-        type: 'line',
+        type: 'bar',
         data: {
             datasets: [{
                 data: axisData,
@@ -210,6 +243,16 @@ const createProgressChart = () => {
                     },
                 },
                 x: {
+                    title: {
+                        text: xUnit,
+                        display: true,
+                        color: "rgb(182, 248, 0)",
+                        font: {
+                            size: 12,
+                            family: "Verdana, Geneva, Tahoma, sans-serif",
+                            padding: 0,
+                        },
+                    },
                     grid: {
                         color: 'rgb(60, 60, 60)',
                     },
@@ -219,6 +262,8 @@ const createProgressChart = () => {
                         tooltipFormat: 'dd.MM.yyyy',
                         unit: timeUnit,
                     },
+                    // min: '2023-01-01',
+                    // max: '2023-01-28',
                     min: minX,
                     max: maxX,
                     color: "white",
@@ -239,6 +284,11 @@ const createProgressChart = () => {
                     // })
                 },
             },
+            layout: {
+                padding: {
+                    right: 40
+                }
+            },
             plugins: {
                 tooltip: {
                     titleFont: {
@@ -249,8 +299,10 @@ const createProgressChart = () => {
                     },
                     callbacks: {
                         label: ((tooltipItem) => {
-                            // console.log(tooltipItem.chart.data.datasets[0].data);
-                            return " " + tooltipItem.chart.data.datasets[0].data[tooltipItem.dataIndex].y + yUnit;
+                            if (bgColor[tooltipItem.dataIndex] == "rgb(182, 248, 0)")
+                                return " PR:  " + tooltipItem.chart.data.datasets[0].data[tooltipItem.dataIndex].y + yUnit;
+                            else
+                                return "    " + tooltipItem.chart.data.datasets[0].data[tooltipItem.dataIndex].y + yUnit;
                         })
                     },
                 },
@@ -262,48 +314,21 @@ const createProgressChart = () => {
     });
 
     function getLimitsForMonth() {
-        let stringMonth = (selectedDate.getMonth()+1 < 10) ? "0" + (selectedDate.getMonth()+1) : selectedDate.getMonth()+1;
-        
-        minX = selectedDate.getFullYear() + '-' + stringMonth + '-' + firstTime + ' 00:00:00';
-        if (firstTime-2 > 0 && firstTime-2 >= 10)
-            minX = selectedDate.getFullYear() + '-' + stringMonth + '-' + (firstTime-2) + ' 23:59:59';
-        else if (firstTime-2 > 0 && firstTime-2 < 10) 
-            minX = selectedDate.getFullYear() + '-' + stringMonth + '-0' + (firstTime-2) + ' 23:59:59';
-        else if (firstTime-1 > 0 && firstTime-1 >= 10)
-            minX = selectedDate.getFullYear() + '-' + stringMonth + '-' + (firstTime-1) + ' 23:59:59';
-        else if (firstTime-1 > 0 && firstTime-1 < 10) 
-            minX = selectedDate.getFullYear() + '-' + stringMonth + '-0' + (firstTime-1) + ' 23:59:59';
+        // determine first and last day of selected month
+        let lastDay = new Date(chartArray[0].date.year, chartArray[0].date.month, 0).getDate();
+        lastDay = (lastDay < 10) ? "0" + lastDay : lastDay;
 
-        maxX = selectedDate.getFullYear() + '-' + stringMonth + '-' + lastTime + ' 23:59:59';
-        if (lastTime+1 < 29 && lastTime+1 >= 10)
-            maxX = selectedDate.getFullYear() + '-' + stringMonth + '-' + (lastTime+1) + ' 00:00:00';
-        else if (lastTime+1 < 29 && lastTime+1 < 10) 
-            maxX = selectedDate.getFullYear() + '-' + stringMonth + '-0' + (lastTime+1) + ' 00:00:00';
-        
+        minX = chartArray[0].date.year + '-' + chartArray[0].date.month + '-01';
+        maxX = chartArray[0].date.year + '-' + chartArray[0].date.month + '-' + lastDay;
+
         // format selection
-        formatX = formatX = {"day": 'dd.MM.yy'};
+        formatX = {"day": 'dd.MM.'};
         timeUnit = "day";
     }
     function getLimitsForYear() {
-        minX = selectedDate.getFullYear() + '-01-01 00:00:00';
-        if (firstTime-2 > 0 && firstTime-2 >= 10) 
-            minX = selectedDate.getFullYear() + '-' + (firstTime-2) + '-28 23:59:59';
-        else if (firstTime-2 > 0 && firstTime-2 < 10) 
-            minX = selectedDate.getFullYear() + '-0' + (firstTime-2) + '-28 23:59:59';
-        else if (firstTime-1 > 0 && firstTime-1 >= 10)
-            minX = selectedDate.getFullYear() + '-' + (firstTime-1) + '-28 23:59:59';
-        else if (firstTime-1 > 0 && firstTime-1 < 10) 
-            minX = selectedDate.getFullYear() + '-0' + (firstTime-1) + '28 23:59:59';
-
-        maxX = selectedDate.getFullYear() + '-12-31 23:59:59';
-        if (lastTime+2 <= 12 && lastTime+2 >= 10) 
-            maxX = selectedDate.getFullYear() + '-' + (lastTime+2) + '-31 23:59:59';
-        else if (lastTime+2 <= 12 && lastTime+2 < 10) 
-            maxX = selectedDate.getFullYear() + '-0' + (lastTime+2) + '-31 23:59:59';
-        else if (lastTime+1 <= 12 && lastTime+1 >= 10)
-            maxX = selectedDate.getFullYear() + '-' + (lastTime+1) + '-31 23:59:59';
-        else if (lastTime+1 <= 12 && lastTime+1 < 10) 
-            maxX = selectedDate.getFullYear() + '-0' + (lastTime+1) + '31 23:59:59';
+        // determine first and last month of selected year
+        minX = chartArray[0].date.year + '-01-01';
+        maxX = chartArray[0].date.year + '-12-31';
         
         // format selection
         formatX = {'month': 'MMMM'};

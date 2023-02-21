@@ -6,6 +6,8 @@ const menuButtonAction = ({target}) => {
     let allButtons = contentFront.querySelectorAll(".menu-select button");
     allButtons.forEach(curBtn => curBtn.classList.remove("active"));
     clickedButton.classList.add("active");
+    // remove fixed height if exists
+    document.querySelector(".selected-menu-div").style.removeProperty("height");
     // shortly disable all buttons
     allButtons.forEach(btn => btn.disabled = true);
     setTimeout(() => allButtons.forEach(btn => btn.disabled = false), 200);
@@ -62,9 +64,8 @@ const showDropDownInput = (isChartMenu) => {
     dropDownInput.style.width = 80 + "%";
     dropDownInput.id = "chartInput";
     dropDownInput.setAttribute("type", "text");
-    dropDownInput.setAttribute("onfocus", "resetInputValue(this), showExercises(this)");
-    dropDownInput.setAttribute("oninput", "showExercises(this)");
     dropDownInput.setAttribute("autocomplete", "off");
+    dropDownInput.setAttribute("onfocusout", "getLastValue(this)");
 
     backgroundDiv.append(dropDownInput);
     selectedMenuDiv.append(backgroundDiv);
@@ -72,16 +73,18 @@ const showDropDownInput = (isChartMenu) => {
     if (isChartMenu)
     {
         title.innerHTML = "Chart Of Progress";
-        dropDownInput.setAttribute("onfocusout", "createChartNav(), handleChart()");
+        dropDownInput.setAttribute("onfocus", "setLastValue(this), resetInputValue(this), showExercises(this, 'chart')");
+        dropDownInput.setAttribute("oninput", "showExercises(this, 'chart')");
     }
     else
     {
         title.innerHTML = "Overview";
-        dropDownInput.setAttribute("onfocusout", "handleOverviewRows(this)");
+        dropDownInput.setAttribute("onfocus", "resetInputValue(this), showExercises(this, 'overview')");
+        dropDownInput.setAttribute("oninput", "showExercises(this, 'overview')");
     }
 }
 
-const getDataOfExercise = (input) => {
+const getDataOfExercise = (inputValue) => {
     let sumSets = 0;
     let sumReps = 0;
     exerciseCounter = 0;
@@ -89,17 +92,24 @@ const getDataOfExercise = (input) => {
     maxReps = 0;
     averageReps = 0;
     lastExercise = undefined;
+    exerciseBeforeYear = undefined;
+    exerciseBeforeMonth = undefined;
+    latestDate = new Date().getFullYear();
     monthOfExercise = [];
     yearOfExercise = [];
     allOfExercise = [];
+    lastValue = inputValue;
 
     for (let i = 0; i < workoutData.length; i++)
     {
-        if (workoutData[i].exercise == input.value)
+        if (workoutData[i].exercise == inputValue)
         {
             allOfExercise.push(workoutData[i]);
             if (workoutData[i].sets[0].reps > maxReps)
                 maxReps = workoutData[i].sets[0].reps;
+            
+            if (workoutData[i].date.year < latestDate)
+                latestDate = workoutData[i].date.year;
 
             for (let j = 0; j < workoutData[i].sets.length; j++)
             {
@@ -123,6 +133,19 @@ const getDataOfExercise = (input) => {
     exerciseCounter = allOfExercise.length;
     getDataOfYear();
     getDataOfMonth();
+
+    let isFound = false;
+    for (let i = 0; i < allOfExercise.length; i++)
+    {
+        if (allOfExercise[i] == monthOfExercise[monthOfExercise.length-1])
+            exerciseBeforeMonth = (i > 0) ? allOfExercise[i-1] : undefined;
+        
+        if (!isFound && allOfExercise[i].date.month === yearOfExercise[yearOfExercise.length-1].date.month)
+        {
+            exerciseBeforeYear = (i > 0) ? allOfExercise[i-1] : undefined;
+            isFound = true;
+        }
+    }
 }
 
 const getDataOfYear = () => {
@@ -169,9 +192,6 @@ const createSelector = () => {
     // create month-selector
     const calendarMonthDiv = document.createElement("DIV");
     calendarMonthDiv.classList.add("calendar-month");
-    calendarMonthDiv.style.height = 46 + "px";
-    calendarMonthDiv.style.border = "5px solid hsl(60, 25%, 10%)";
-    calendarMonthDiv.style.borderTop = "none";
     calendarMonthDiv.innerHTML = "";
 
     // create buttons to switch the month within the month selector div
@@ -213,42 +233,44 @@ const selectorNextMonth = () => {
         selectedDate.setFullYear(selectedDate.getFullYear() - 1);
     selectedDate.setMonth(selectedDate.getMonth() + 1);
     document.querySelector(".calendar-month span").innerHTML = months[selectedDate.getMonth()];
-    handleChart();
+    handleChart(document.querySelector(".drop-down-div input").value);
 }
 const selectorPrevMonth = () => {
     if (selectedDate.getMonth() == 0)
         selectedDate.setFullYear(selectedDate.getFullYear() + 1);
     selectedDate.setMonth(selectedDate.getMonth() - 1);
     document.querySelector(".calendar-month span").innerHTML = months[selectedDate.getMonth()];
-    handleChart();
+    handleChart(document.querySelector(".drop-down-div input").value);
 }
 const selectorNextYear = () => {
     if (selectedDate.getFullYear() == new Date().getFullYear()) return;
     selectedDate.setFullYear(selectedDate.getFullYear() + 1);
     document.querySelector(".calendar-month span").innerHTML = selectedDate.getFullYear();
-    handleChart();
+    handleChart(document.querySelector(".drop-down-div input").value);
 }
 const selectorPrevYear = () => {
+    if (selectedDate.getFullYear() == latestDate) return;
     selectedDate.setFullYear(selectedDate.getFullYear() - 1);
     document.querySelector(".calendar-month span").innerHTML = selectedDate.getFullYear();
-    handleChart();
+    handleChart(document.querySelector(".drop-down-div input").value);
 }
 
-const handleChart = () => {
-    const input = document.querySelector("#chartInput");
-    while (document.querySelector(".chart-top-navbar-div").nextElementSibling)
-        document.querySelector(".chart-top-navbar-div").nextElementSibling.remove();
-
-    setTimeout(() => {
-        if (input.value != "")
-        {
-            getDataOfExercise(input);
-            if (exerciseCounter > 0)
-                createProgressChart();
-            else
-                noDataFound();
-        }
-    }, 200);
+const handleChart = (inputValue) => {
+    if (document.querySelector(".chart-top-navbar-div"))
+    {
+        while (document.querySelector(".chart-top-navbar-div").nextElementSibling)
+            document.querySelector(".chart-top-navbar-div").nextElementSibling.remove();
+    }
+    
+    getDataOfExercise(inputValue);
+    if (exerciseCounter > 0)
+        createProgressChart();
+    else
+        noDataFound();
+    
+    // scroll to requested position
+    document.querySelector(".selected-menu-div").style.height = "600px";
+    document.body.scrollTo(0, document.body.scrollHeight);
 }
 
 const createChartNav = () => {
@@ -269,7 +291,6 @@ const createChartNav = () => {
         button.classList.add("chart-filter-button");
         button.id = "chartFilterButton" + i;
         button.style.transform = "translateY(-100%)";
-        button.addEventListener("click", handleChart);
 
         switch (i) {
             case 0:
@@ -338,6 +359,8 @@ const chartFilterMonth = ({target}) => {
     let nextButton = document.querySelector(".calendar-month #nextButton");
     nextButton.removeEventListener("click", selectorNextYear);
     nextButton.addEventListener("click", selectorNextMonth);
+
+    handleChart(document.querySelector('.drop-down-div input').value);
 }
 const chartFilterYear = ({target}) => {
     if (target.classList.contains("active")) return;
@@ -361,6 +384,8 @@ const chartFilterYear = ({target}) => {
     let nextButton = document.querySelector(".calendar-month #nextButton");
     nextButton.removeEventListener("click", selectorNextMonth);
     nextButton.addEventListener("click", selectorNextYear);
+
+    handleChart(document.querySelector('.drop-down-div input').value);
 }
 const chartFilterY = ({target}) => {
     if (target.classList.contains("active")) return;
@@ -368,22 +393,22 @@ const chartFilterY = ({target}) => {
     let allButtons = target.parentElement.querySelectorAll("button");
     allButtons.forEach(curBtn => curBtn.classList.remove("active"));
     target.classList.add("active");
+
+    handleChart(document.querySelector('.drop-down-div input').value);
 }
 
 // -------------------------------------------------------------- OVERVIEW
-const handleOverviewRows = (input) => {
-    while (input.parentElement.nextElementSibling)
-        input.parentElement.nextElementSibling.remove();
-    setTimeout(() => {
-        if (input.value != "")
-        {
-            getDataOfExercise(input);
-            if (exerciseCounter > 0)
-                showDataOfSelectedExercise();
-            else
-                noDataFound();
-        }
-    }, 200);
+const handleOverviewRows = (inputValue) => {
+    if (document.querySelector(".drop-down-div"))
+    {
+        while (document.querySelector(".drop-down-div").nextElementSibling)
+            document.querySelector(".drop-down-div").nextElementSibling.remove();
+    }
+    getDataOfExercise(inputValue);
+    if (exerciseCounter > 0)
+        showDataOfSelectedExercise();
+    else
+        noDataFound();
 }
 
 const showDataOfSelectedExercise = () => {
@@ -401,7 +426,7 @@ const showDataOfSelectedExercise = () => {
         rowDiv.classList.add("overview-row-div");
         rowDiv.id = "info" + i;
         if (i == 0)
-            rowDiv.style.marginTop = "40px";
+            rowDiv.style.marginTop = "30px";
         
         let text = document.createElement("span");
         let data = document.createElement("span");

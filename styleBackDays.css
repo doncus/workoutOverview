@@ -1,6 +1,5 @@
 .previous-days-div {
     width: 100%;
-    
     display: flex;
     justify-content: center;
     align-items: center;
@@ -11,8 +10,8 @@
 .previous-days-button, .day-filter-button {
     height: 50px;
     width: 100%;
-    background-color: hsl(var(--olive), 18%);
-    border: 5px solid hsl(var(--olive), 37%);
+    background-color: var(--btn-bg);
+    border: 5px solid var(--btn-border);
     
     color: var(--gray);
     font-size: 20px;
@@ -27,23 +26,30 @@
 
 .day-filter-button {
     height: 60px;
-    background-color: hsl(var(--olive), 40%);
-
-    color: black;
+    background-color: var(--btn-bg);
+    border: 5px solid var(--base-border);
+}
+.day-filter-button:active {
+    background-color: var(--btn-bg);
+    color: var(--gray);
 }
 .previous-days-button span {
     padding: 8px;
-    border: 1px solid hsl(var(--olive), 37%);
+    border: 1px solid var(--btn-border);
 }
 .day-filter-button span {
     padding: 12px;
-    border: 1px solid hsl(var(--olive), 34%);
+    border: 1px solid var(--btn-bg);
+}
+.day-filter-button span.active {
+    background-color: var(--btn-active);
+    color: black;
 }
 
 .day-container {
     width: 100%;
-    background-color: hsl(var(--olive), 37%);
-    border: 5px solid hsl(var(--olive), 10%);
+    background-color: var(--btn-border);
+    border: 5px solid var(--base-border);
     border-radius: 10px;
     padding: 10px 10px 0 10px;
     
@@ -59,7 +65,7 @@
 }
 .day-container p {
     width: 100%;
-    background-color: hsl(var(--olive), 24%);
+    background-color: var(--base-bg);
     border-radius: 10px;
     padding: 10px;
 
@@ -68,7 +74,7 @@
 }
 .day-container .set-container {
     width: 100%;
-    border-bottom: 2px solid hsl(var(--olive), 10%);
+    border-bottom: 2px solid var(--base-border);
     padding: 10px 0;
     user-select: none;
     
@@ -102,9 +108,9 @@
 }
 
 .set-container input {
-    width: 74px;
-    background-color: hsl(var(--olive), 37%);
-    border: 5px solid hsl(var(--olive), 37%);
+    width: 70px;
+    background-color: var(--base-bg);
+    border: 5px solid var(--btn-border);
     border-radius: 10px;
     outline: none;
 
@@ -112,5 +118,5 @@
     text-align: center;
 }
 .set-container input:focus {
-    border: 5px solid hsl(var(--olive), 50%);
+    border: 5px solid var(--btn-active);
 }

@@ -87,9 +87,9 @@
                     <p>EXERCISE</p>
                     <input 
                         type="text" 
-                        onfocus="inputClicked(this), resetInputValue(this), showExercises(this)" 
-                        onfocusout="inputLeft(this), getLastSessionData(this)" 
-                        oninput="showExercises(this)"
+                        onfocus="setLastValue(this), inputClicked(this), resetInputValue(this), showExercises(this, 'session')"
+                        onfocusout="inputLeft(this), getLastValue(this)" 
+                        oninput="showExercises(this, 'session')"
                         autocomplete="off"
                     >
                 </div>
@@ -97,8 +97,8 @@
                     <p>SETS</p>
                     <input 
                         type="text" 
-                        onfocus="inputClicked(this)" 
-                        onfocusout="inputLeft(this)" 
+                        onfocus="setLastValue(this), inputClicked(this), resetInputValue(this)" 
+                        onfocusout="inputLeft(this), getLastValue(this)" 
                         oninput="initSets()"
                         autocomplete="off"
                     >
