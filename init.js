@@ -14,10 +14,12 @@ window.onload = () => {
     {
         showUserContainer();
 
-        // remove here: testData
-        workoutData = [];
-        addTestData();
-        saveDataToStorage('workoutData', workoutData);
+        /**
+         * remove here: testData
+         */
+        // workoutData = [];
+        // addTestData();
+        // saveDataToStorage('workoutData', workoutData);
 
         return;
     }
