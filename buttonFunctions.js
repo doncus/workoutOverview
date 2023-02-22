@@ -129,7 +129,7 @@ const previousDayButtonFunction = ({target}) => {
     const prevButtons = contentBack.querySelectorAll(
         ".previous-days-div button:not(#" + button.id + ")");
     const filter = contentBack.querySelector(".day-filter-button");
-    button.style.transition = "all 500ms";
+    button.style.transition = "all 550ms";
     transY = button.getBoundingClientRect().top - filter.getBoundingClientRect().top;
     button.style.transform = "translateY(" + (-transY) + "px)";
     button.style.borderRadius = "10px";
@@ -144,9 +144,9 @@ const previousDayButtonFunction = ({target}) => {
     button.disabled = true;
     button.style.color = "black";
     button.style.backgroundColor = "hsl(60, 25%, 60%)";
+    setTimeout(() => button.remove(), 498);
     setTimeout(() => {
         const button2 = button;
-        button.remove();
         button2.style.transform = "translateY(" + 0 + "px)";
         document.querySelector(".previous-days-div").append(button2);
     }, 500);
@@ -264,7 +264,7 @@ const previousDayButtonFunction = ({target}) => {
             prevDays.append(divSave[i]);
             setTimeout(() => divSave[i].style.opacity = 1, 50);
         }
-    }, 510);
+    }, 500);
 }
 
 const expandSetInfos = ({target}) => {
