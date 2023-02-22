@@ -24,15 +24,21 @@ const createUserButtonFunction = () => {
     loginButton.style.color = "black";
     loginButton.style.width = 50 + "%";
     loginButton.style.opacity = 0;
+
+    // save user to storage
+    let dataToStore = {"username": loginInput.value, "exercises": exercises};
+    saveDataToStorage("userData", dataToStore);
+    userData = getData("userData");
+    if (!workoutData || !workoutData.length)
+    {
+        workoutData = [];
+        saveDataToStorage("workoutData", workoutData);
+    }
+
     setTimeout(() => {
         loginContainer.style.opacity = 0;
         setTimeout(() => {
             main.style.display = "flex";
-            let dataToStore = {"username": loginInput.value, "exercises": exercises};
-            saveDataToStorage("userData", dataToStore);
-            workoutData = [];
-            saveDataToStorage("workoutData", workoutData);
-            userData = getData("userData");
             setTimeout(() => initFrontContainer(), 500);
         }, 800);
     }, 400);

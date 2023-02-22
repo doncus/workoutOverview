@@ -13,24 +13,20 @@ window.onload = () => {
     if (getData("userData") === null)
     {
         showUserContainer();
+
+        // remove here: testData
         workoutData = [];
+        addTestData();
+        saveDataToStorage('workoutData', workoutData);
+
+        return;
     }
-    else
-    {
-        userData = getData('userData');
+    userData = getData('userData');
             
-        // check if a storage for workoutData exists otherwise create it
-        if (getData('workoutData') === null)
-        {
-            workoutData = [];
-            saveDataToStorage('workoutData', workoutData);
-        } 
-        else
-            workoutData = getData('workoutData');
-            
-        // addTestData();
-        initFrontContainer();
-    }
+    // check if a storage for workoutData exists otherwise create it
+    workoutData = getData('workoutData');
+        
+    initFrontContainer();
     // getExercises();
 };
 

@@ -137,7 +137,8 @@ const getDataOfExercise = (inputValue) => {
     exerciseCounter = allOfExercise.length;
     getDataOfYear();
     getDataOfMonth();
-
+    
+    if (!yearOfExercise.length || !monthOfExercise.length ) return;
     let isFound = false;
     for (let i = 0; i < allOfExercise.length; i++)
     {
@@ -150,6 +151,7 @@ const getDataOfExercise = (inputValue) => {
             isFound = true;
         }
     }
+    
 }
 
 const getDataOfYear = () => {
@@ -163,6 +165,7 @@ const getDataOfYear = () => {
         if (yearOfExercise[i].date.month === yearOfExercise[i+1].date.month)
             yearOfExercise.splice(i--, 1);
     }
+    
 }
 const getDataOfMonth = () => {
     for (let i = 0; i < allOfExercise.length; i++)
@@ -265,7 +268,7 @@ const handleChart = (inputValue) => {
         document.querySelector("#progressChart").remove();
     if (document.querySelector(".no-data-div"))
         document.querySelector(".no-data-div").remove();
-    
+
     getDataOfExercise(inputValue);
     if (exerciseCounter > 0)
         createProgressChart();

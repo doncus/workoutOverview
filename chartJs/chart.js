@@ -109,7 +109,7 @@ const createProgressChart = () => {
             axisData.push({"x": chartArray[i].date.ms, "y": chartArray[i].sets[0].weight});
 
         // set minY and maxY
-        minY = Math.trunc(minWeight - 6);
+        minY = (minWeight > 6)  ? Math.trunc(minWeight - 6) : 0;
         maxY = Math.trunc(maxWeight + 6);
 
         // set highlight color on weight or reps raises
@@ -143,7 +143,7 @@ const createProgressChart = () => {
             axisData.push({"x": chartArray[i].date.ms, "y": chartArray[i].sets[0].reps});
 
         // set minY and maxY
-        minY = Math.trunc(minReps - 6);
+        minY = (minReps > 6)  ? Math.trunc(minReps - 6) : 0;
         maxY = Math.trunc(maxReps + 6);
 
         // set highlight color on weight or reps raises
@@ -187,7 +187,7 @@ const createProgressChart = () => {
         }
 
         // set minY and maxY
-        minY = Math.trunc(minWeight - 6);
+        minY = (minWeight > 6)  ? Math.trunc(minWeight - 6) : 0;
         maxY = Math.trunc(maxWeight + 6);
 
         // set highlight color on weight or reps raises
@@ -224,7 +224,7 @@ const createProgressChart = () => {
         }
         
         // set minY and maxY
-        minY = Math.trunc(minReps - 6);
+        minY = (minReps > 6)  ? Math.trunc(minReps - 6) : 0;
         maxY = Math.trunc(maxReps + 6);
 
         // set highlight color on weight or reps raises

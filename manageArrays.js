@@ -1,4 +1,5 @@
 const sortByDateAsc = (array) => {
+    if (array.length < 2) return;
     array.sort((session1, session2) => {
         if (session1.date.ms > session2.date.ms)
             return 1;
@@ -7,6 +8,7 @@ const sortByDateAsc = (array) => {
     });
 }
 const sortByDateDesc = (array) => {
+    if (array.length < 2) return;
     array.sort((session1, session2) => {
         if (session1.date.ms > session2.date.ms)
             return -1;
