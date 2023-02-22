@@ -45,9 +45,6 @@ const createUserButtonFunction = () => {
 }
 
 const addSessionButtonFunction = () => {
-    let topNav = document.querySelector(".content-back-top");
-    setTimeout(() => topNav.classList.add("float"), 1200);
-
     calendarDate.addEventListener("click", createCalendar);
     setDate();
     setTimeout(() => hideFrontContainer(), 200);
@@ -56,7 +53,6 @@ const addSessionButtonFunction = () => {
 const backButtonFunction = ({target}) => {
     showFrontContainer();
     setTimeout(() => {
-        document.querySelector(".content-back-top").classList.remove("float");
         addSessionButton.disabled = false;
         const contentBackDivs = document.querySelectorAll(".content-back div");
         contentBackDivs.forEach(div => div.style.display = "flex");
@@ -68,11 +64,14 @@ const backButtonFunction = ({target}) => {
 const backButtonFunctionTwo = ({target}) => {
     let button = target.tagName.toLowerCase() === 'i' ? target.parentElement : target;
     button.removeEventListener("click", backButtonFunctionTwo);
-    button.addEventListener("click", backButtonFunction);
-    let navTop = document.querySelector(".content-back-top");
-    setTimeout(() => document.querySelector(".content-back-top").classList.remove("float"), 300);
-    setTimeout(() => navTop.style.removeProperty("transition"), 320);
-
+    
+    setTimeout(() => {
+        let navTop = document.querySelector(".content-back-top");
+        navTop.classList.remove("float");
+        button.addEventListener("click", backButtonFunction);
+        setTimeout(() => navTop.style.removeProperty("transition"), 10);
+    }, 300);
+    
     createFilterButtons();
     createPreviousDays(300);
 }

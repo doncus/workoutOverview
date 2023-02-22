@@ -68,7 +68,6 @@
     align-items: center;
 }
 .select-exercise {
-    margin-top: 64px;
     border: 6px solid var(--base-border);
     border-bottom: none;
     padding: 20px 20px 0 20px;
