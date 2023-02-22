@@ -277,7 +277,7 @@ const handleChart = (inputValue) => {
     // scroll to requested position
     const selMenu = document.querySelector(".selected-menu-div");
     selMenu.style.height = "620px";
-    setTimeout(() => selMenu.scrollIntoView({ behavior: 'smooth', block: 'end'}), 100);
+    setTimeout(() => selMenu.scrollIntoView({ behavior: 'smooth', block: 'center'}), 100);
     const calDiv = selMenu.querySelector(".calendar-month");
     const filterDiv = selMenu.querySelector(".chart-navbar");
     filterDiv.style.position = "absolute";

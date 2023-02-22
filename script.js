@@ -219,7 +219,7 @@ const initSets = () => {
             div.append(p);
 
             let input = document.createElement("input");
-            input.setAttribute("type", "text");
+            input.setAttribute("type", "tel");
             input.setAttribute("onfocus", "setLastValue(this), inputClicked(this), resetInputValue(this)");
             input.setAttribute("onfocusout", "inputLeft(this), getLastValue(this)");
             input.setAttribute("oninput", "checkIfSmallerThan(this, 999)");
@@ -245,7 +245,7 @@ const initSets = () => {
         div.append(p);
 
         let input = document.createElement("input");
-        input.setAttribute("type", "text");
+        input.setAttribute("type", "tel");
         input.setAttribute("onfocus", "setLastValue(this), inputClicked(this), resetInputValue(this)");
         input.setAttribute("onfocusout", "inputLeft(this), getLastValue(this)");
         input.setAttribute("oninput", "checkIfSmallerThan(this, 999)");
