@@ -17,7 +17,7 @@ const createCalendar = () => {
     const calendarDiv = document.createElement("DIV");
     calendarDiv.classList.add("calendar-div");
     calendarDiv.style.width = contentBack.offsetWidth + "px";
-    calendarDiv.style.top = contentBack.getBoundingClientRect().top + "px";
+    calendarDiv.style.top = 34 + "px";
     
     // create time-selector
     const timeDiv = document.createElement("DIV");

@@ -45,6 +45,9 @@ const createUserButtonFunction = () => {
 }
 
 const addSessionButtonFunction = () => {
+    let topNav = document.querySelector(".content-back-top");
+    setTimeout(() => topNav.classList.add("float"), 1200);
+
     calendarDate.addEventListener("click", createCalendar);
     setDate();
     setTimeout(() => hideFrontContainer(), 200);
@@ -53,6 +56,7 @@ const addSessionButtonFunction = () => {
 const backButtonFunction = ({target}) => {
     showFrontContainer();
     setTimeout(() => {
+        document.querySelector(".content-back-top").classList.remove("float");
         addSessionButton.disabled = false;
         const contentBackDivs = document.querySelectorAll(".content-back div");
         contentBackDivs.forEach(div => div.style.display = "flex");
@@ -65,6 +69,10 @@ const backButtonFunctionTwo = ({target}) => {
     let button = target.tagName.toLowerCase() === 'i' ? target.parentElement : target;
     button.removeEventListener("click", backButtonFunctionTwo);
     button.addEventListener("click", backButtonFunction);
+    let navTop = document.querySelector(".content-back-top");
+    setTimeout(() => document.querySelector(".content-back-top").classList.remove("float"), 300);
+    setTimeout(() => navTop.style.removeProperty("transition"), 320);
+
     createFilterButtons();
     createPreviousDays(300);
 }
@@ -129,8 +137,10 @@ const previousDayButtonFunction = ({target}) => {
     const prevButtons = contentBack.querySelectorAll(
         ".previous-days-div button:not(#" + button.id + ")");
     const filter = contentBack.querySelector(".day-filter-button");
+    let topOffset = filter.getBoundingClientRect().top - 30;
+    let transY = button.getBoundingClientRect().top - filter.getBoundingClientRect().top;
+
     button.style.transition = "all 550ms";
-    transY = button.getBoundingClientRect().top - filter.getBoundingClientRect().top;
     button.style.transform = "translateY(" + (-transY) + "px)";
     button.style.borderRadius = "10px";
     button.style.fontWeight = "bold";
@@ -140,13 +150,19 @@ const previousDayButtonFunction = ({target}) => {
         btn.style.opacity = 0;
         setTimeout(() => btn.remove(), 500);
     });
-    
+
     button.disabled = true;
     button.style.color = "black";
     button.style.backgroundColor = "hsl(60, 25%, 60%)";
     setTimeout(() => button.remove(), 498);
+
     setTimeout(() => {
+        let topNav = document.querySelector(".content-back-top");
+        topNav.style.transition = "all 0ms";
+        topNav.classList.add("float");
+
         const button2 = button;
+        button2.style.marginTop = topOffset + "px";
         button2.style.transform = "translateY(" + 0 + "px)";
         document.querySelector(".previous-days-div").append(button2);
     }, 500);

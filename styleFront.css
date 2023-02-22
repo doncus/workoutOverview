@@ -217,7 +217,7 @@
 
 .chart-navbar {
     width: 100%;
-    max-width: 450px;
+    max-width: var(--width-desktop);
     align-self: flex-start;
     display: flex;
     justify-content: space-between;
@@ -261,7 +261,7 @@
 
 .selected-menu-div .calendar-month {
     height: 44px;
-    max-width: 450px;
+    max-width: var(--width-desktop);
     background-color: black;
     border: solid 2px var(--btn-border);
     border-left: none;
