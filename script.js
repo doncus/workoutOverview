@@ -222,7 +222,10 @@ const initSets = () => {
             input.setAttribute("type", "tel");
             input.setAttribute("onfocus", "setLastValue(this), inputClicked(this), resetInputValue(this)");
             input.setAttribute("onfocusout", "inputLeft(this), getLastValue(this)");
-            input.setAttribute("oninput", "checkIfSmallerThan(this, 999)");
+            if (i == 1)
+                input.setAttribute("oninput", "copyPasteWeight(this), checkIfSmallerThan(this, 999)");
+            else
+                input.setAttribute("oninput", "checkIfSmallerThan(this, 999)");
             input.addEventListener("input", checkIfNumber);
             input.value = weightOfLastSession;
             div.append(input);
@@ -248,7 +251,10 @@ const initSets = () => {
         input.setAttribute("type", "tel");
         input.setAttribute("onfocus", "setLastValue(this), inputClicked(this), resetInputValue(this)");
         input.setAttribute("onfocusout", "inputLeft(this), getLastValue(this)");
-        input.setAttribute("oninput", "checkIfSmallerThan(this, 999)");
+        if (i == 1)
+                input.setAttribute("oninput", "copyPasteReps(this), checkIfSmallerThan(this, 999)");
+            else
+                input.setAttribute("oninput", "checkIfSmallerThan(this, 999)");
         input.addEventListener("input", checkIfInteger);
         input.value = repsOfLastSession;
         div.append(input);
@@ -327,4 +333,13 @@ const buttonAnimation = ({target}) => {
         clickedButton.style.removeProperty("color");
         clickedButton.style.removeProperty("background-color");
     }, 200);
+}
+
+const copyPasteWeight = (input) => {
+    let inputs = document.querySelectorAll(".select-weight input");
+    inputs.forEach((ele) => ele.value = input.value);
+}
+const copyPasteReps = (input) => {
+    let inputs = document.querySelectorAll(".select-reps input");
+    inputs.forEach((ele) => ele.value = input.value);
 }
