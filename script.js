@@ -332,7 +332,7 @@ const buttonAnimation = ({target}) => {
         clickedButton.style.transform = "scale(" + 1 + ")";
         clickedButton.style.removeProperty("color");
         clickedButton.style.removeProperty("background-color");
-    }, 200);
+    }, 150);
 }
 
 const copyPasteWeight = (input) => {
@@ -342,4 +342,14 @@ const copyPasteWeight = (input) => {
 const copyPasteReps = (input) => {
     let inputs = document.querySelectorAll(".select-reps input");
     inputs.forEach((ele) => ele.value = input.value);
+}
+
+const confirmEnter = (e) => {
+    if (e.key === "Enter")
+    {
+        if (e.target.nextElementSibling && e.target.value != "")
+            e.target.nextElementSibling.firstElementChild.click();
+        closeAllLists();
+        e.target.blur();
+    }
 }

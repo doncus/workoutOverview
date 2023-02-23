@@ -40,7 +40,7 @@ const menuButtonAction = ({target}) => {
             clickedButton.style.transform = "scale(" + 1 + ")";
             clickedButton.style.removeProperty("color");
             clickedButton.style.removeProperty("background-color");
-        }, 200);
+        }, 160);
     }
 }
 
@@ -64,6 +64,7 @@ const showDropDownInput = (isChartMenu) => {
     const dropDownInput = document.createElement("input");
     dropDownInput.style.width = 80 + "%";
     dropDownInput.id = "chartInput";
+    dropDownInput.addEventListener("keypress", confirmEnter);
     dropDownInput.setAttribute("type", "text");
     dropDownInput.setAttribute("autocomplete", "off");
     dropDownInput.setAttribute("onfocusout", "getLastValue(this)");

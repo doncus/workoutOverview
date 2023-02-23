@@ -12,12 +12,11 @@ const createCalendar = () => {
     contentBack.style.visibility = "hidden";
 
     calendarDate.classList.add("active");
-
     // create calendar parent div
     const calendarDiv = document.createElement("DIV");
     calendarDiv.classList.add("calendar-div");
     calendarDiv.style.width = contentBack.offsetWidth + "px";
-    calendarDiv.style.top = 34 + "px";
+    calendarDiv.style.top = calendarDate.getBoundingClientRect().height + 40 + "px";
     
     // create time-selector
     const timeDiv = document.createElement("DIV");

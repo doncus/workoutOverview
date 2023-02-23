@@ -5,6 +5,8 @@ window.onload = () => {
     
     const setsInput = document.querySelector(".select-sets input");
     setsInput.addEventListener("input", checkIfInteger);
+    const exerciseInput = document.querySelector(".select-exercise input");
+    exerciseInput.addEventListener("keypress", confirmEnter);
 
     const menuButtons = document.querySelectorAll(".menu-select button");
     menuButtons.forEach(btn => btn.addEventListener("click", menuButtonAction));
