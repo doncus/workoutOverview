@@ -97,6 +97,8 @@ const showPrevSessionButtons = (delay) => {
         button.classList.add("previous-session-button");
         button.setAttribute("id", "prevButton" + i);
         button.addEventListener('click', previousMonthButtonFunction);
+        button.addEventListener('touchstart', deleteElement);
+        button.addEventListener('touchend', deleteElement);
         let span = document.createElement("span");
         span.innerHTML = curData[i].date.monthName;
         button.append(span);

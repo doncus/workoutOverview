@@ -17,10 +17,29 @@
     font-size: 20px;
 
     transform: translateX(120%);
-    transition: 800ms, opacity 400ms;
+    transition: all 800ms, opacity 400ms;
     
     display: grid;
     grid-template-columns: 1fr 1fr;
+}
+.previous-days-button.active {
+    color: black;
+    background-color: var(--btn-active);
+}
+.previous-days-button.delete span {
+    transition: all 1000ms, opacity 3000ms;
+    border: 1px solid hsl(0, 63%, 47%);
+}
+.previous-days-button.delete {
+    transition: all 1000ms, opacity 3000ms;
+    background-color: hsl(0, 58%, 29%);
+    border: 5px solid hsl(0, 63%, 47%);
+    color: black;
+}
+.previous-days-button.delete:active {
+    background-color: hsl(0, 58%, 29%);
+    border: 5px solid hsl(0, 63%, 47%);
+    color: black;
 }
 
 .day-filter-button {
@@ -35,8 +54,10 @@
     color: var(--gray);
 }
 .previous-days-button span {
+    user-select: none;
     padding: 8px;
     border: 1px solid var(--btn-border);
+    transition: opacity 400ms;
 }
 .day-filter-button span {
     padding: 12px;

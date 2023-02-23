@@ -391,6 +391,72 @@ const messageUser = (message, duration = 1000) => {
     }, duration);
 }
 
-const deleteEntry = (element) => {
+let holdTimer;
+let warnTimer;
+const deleteElement = (e) => {
+    let element = (e.target.tagName === "BUTTON") ? e.target : e.target.closest("button");
+    element.classList.add("active");
 
+    if (e.type === "touchstart")
+    {
+        warnTimer = setTimeout(warnUser, 2000);
+        holdTimer = setTimeout(deleteEntry, 4000);
+    }
+    else
+    {
+        if (element.classList.contains("delete"))
+        {
+            element.classList.remove("delete");
+            element.style.opacity = 1;
+            if (element.classList.contains("previous-session-button"))
+                element.addEventListener('click', previousMonthButtonFunction);
+            else if (element.classList.contains("previous-day-button"))
+                element.addEventListener('click', previousDayButtonFunction);
+        }
+        element.classList.remove("active");
+
+        clearTimeout(warnTimer);
+        warnTimer = undefined;
+
+        clearTimeout(holdTimer);
+        holdTimer = undefined;
+    }
+    
+    function warnUser() {
+        element.classList.add("delete");
+        element.style.opacity = 0;
+
+        if (element.classList.contains("previous-session-button"))
+            element.removeEventListener('click', previousMonthButtonFunction);
+        else if (element.classList.contains("previous-day-button"))
+            element.removeEventListener('click', previousDayButtonFunction);
+        
+    }
+
+    function deleteEntry() {
+        let index = parseInt(element.id.match(/\d+/)[0]);
+
+        if (element.classList.contains("previous-session-button"))
+        {
+            for (let i = 0; i < workoutData.length; i++)
+            {
+                if (workoutData[i].date.month === curData[index].date.month &&
+                    workoutData[i].date.year === curData[index].date.year)
+                    workoutData.splice(i--, 1);
+            }
+        }
+        else
+        {
+            for (let i = 0; i < workoutData.length; i++)
+            {
+                if (workoutData[i].date.month === curData[index].date.month &&
+                    workoutData[i].date.year === curData[index].date.year &&
+                    workoutData[i].date.day === curData[index].date.day)
+                    workoutData.splice(i--, 1);
+            }
+        }
+        curData.splice(index, 1);
+        saveDataToStorage('workoutData', workoutData);
+        element.remove();
+    }
 }

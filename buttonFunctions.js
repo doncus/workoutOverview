@@ -144,7 +144,7 @@ const previousDayButtonFunction = ({target}) => {
     backButton.removeEventListener("click", backButtonFunction);
     backButton.addEventListener("click", backButtonFunctionTwo);
     backButton.disabled = true;
-    let button = target.tagName.toLowerCase() === 'span' ? target.parentElement : target;
+    let button = target.tagName === 'SPAN' ? target.parentElement : target;
     const prevButtons = contentBack.querySelectorAll(
         ".previous-days-div button:not(#" + button.id + ")");
     const filter = contentBack.querySelector(".day-filter-button");
@@ -416,6 +416,8 @@ const createPreviousDays = (slideTimeout) => {
             button.append(span);
         }
         button.addEventListener('click', previousDayButtonFunction);
+        button.addEventListener('touchstart', deleteElement);
+        button.addEventListener('touchend', deleteElement);
         prevDaysDiv.append(button);
 
         setTimeout(() => {

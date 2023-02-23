@@ -122,7 +122,7 @@
     font-weight: bold;
 
     transform: translateX(120%);
-    transition: 600ms;
+    transition: all 600ms;
 
     display: flex;
     justify-content: space-between;
@@ -131,6 +131,20 @@
 .previous-session-button.active {
     color: black;
     background-color: var(--btn-active);
+}
+.previous-session-button.delete {
+    transition: all 1000ms, opacity 3000ms;
+    background-color: hsl(0, 58%, 29%);
+    border: 5px solid hsl(0, 63%, 47%);
+    color: black;
+}
+.previous-session-button.delete:active {
+    background-color: hsl(0, 58%, 29%);
+    border: 5px solid hsl(0, 63%, 47%);
+    color: black;
+}
+.previous-session-button span {
+    user-select: none;
 }
 
 .content-front input:not([type=checkbox]) {
