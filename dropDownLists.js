@@ -9,10 +9,28 @@ const showExercises = (input, name) => {
 
     input.parentElement.appendChild(autocompleteList);
     input.classList.add("drop-down-input");
+
+    if (input.value == "")
+    {
+        for (let i = 0; i < userData.exercises.length; i++)
+        {
+            const suggestion = document.createElement("div");
+            suggestion.innerHTML = userData.exercises[i];
+            suggestion.addEventListener("click", () => {
+                input.value = suggestion.innerText;
+                closeAllLists();
+            });
+            addOnClick(name, suggestion);
+            
+            autocompleteList.appendChild(suggestion);
+        }
+        return;
+    }
     
+    let dropDownArray = [...userData.exercises];
     input.value = input.value.replace(/[^a-zA-Z -]/g, '');
     regExValue = input.value.replace(/[-\s]/g, '').toLowerCase();
-    let dropDownArray = [...userData.exercises];
+    
     // first: list all elements that starts with the users input
     for (let i = 0; i < dropDownArray.length; i++)
     {

@@ -1,7 +1,12 @@
 {
     "exercise": [
-        "Air-squats",
+        "Diamond-push-ups",
+        "Pull-ups",
+        "Face-pull",
+        "Rows",
+        "Dips",
         "Squats",
+        "Biceps-curls",
         "Hip-thrusts",
         "Bulgarian-split-squats",
         "Leg-curls",
@@ -9,26 +14,19 @@
         "Step-ups",
         "Calf-raises",
         "Lat-pulldown",
-        "Face-pull",
-        "Rows",
         "Cable-fly",
         "Triceps-cable",
         "Biceps-cable",
         "Shoulder-press",
         "Lateral-raises",
-        "Biceps-curls",
         "Concentration-curls",
         "Hammer-curls",
-        "Twisting-curls",
         "Push-ups",
-        "Diamond-push-ups",
         "Wide-push-ups",
         "Archer-push-ups",
-        "Pull-ups",
         "Wide-pull-ups",
         "Narrow-pull-ups",
         "Bench-press",
-        "Shoulder-press",
-        "Dips"
+        "Air-squats"
     ]
 }

@@ -1,4 +1,11 @@
 window.onload = () => {
+    let div = document.createElement("div");
+    div.classList.add("message-box");
+    let span = document.createElement("span");
+    span.classList.add("message-text");
+    document.body.append(span);
+    document.body.append(div);
+
     document.addEventListener("click", closeAllLists);
     document.body.addEventListener("scroll", closeAllLists);
     document.addEventListener("click", closeCalendar);
@@ -22,10 +29,10 @@ window.onload = () => {
         // workoutData = [];
         // addTestData();
         // saveDataToStorage('workoutData', workoutData);
-
         return;
     }
     userData = getData('userData');
+    sortDataAsc(userData.exercises);
             
     // check if a storage for workoutData exists otherwise create it
     workoutData = getData('workoutData');

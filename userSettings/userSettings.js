@@ -96,6 +96,7 @@ const manageExerciseArray = (clickedButton, addToList) => {
     if (!isInList && addToList)
     {
         userData.exercises.push(input.value);
+        sortDataAsc(userData.exercises);
         input.value = "";
         saveDataToStorage("userData", userData);
     }

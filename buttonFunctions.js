@@ -80,12 +80,24 @@ const saveButtonFunction = ({target}) => {
     const inputs = contentBack.querySelectorAll("input:not([type=checkbox])");
     for (let i = 0; i < inputs.length; i++)
     {
-        if (inputs[i].value == "") return;
-        if (inputs[i].parentElement.classList.contains("select-reps") && inputs[i].value == 0) return;
+        if (inputs[i].value == "") 
+        {
+            messageUser("Fill all inputs!");
+            return;
+        }
+        if (inputs[i].parentElement.classList.contains("select-reps") && inputs[i].value == 0)
+        {
+            messageUser("0 reps is not acceptable!");
+            return;
+        }
         if (inputs[i].value.startsWith('.'))
             inputs[i].value = '0' + inputs[i].value;
     }
-    if (selectedDate > new Date()) return; // ----------------------------------------------------------- TELL USER WHY SAVE BUTTON WONT WORK
+    if (selectedDate > new Date()) 
+    {
+        messageUser("You can't protocol for the future. Check your date!", 2000);
+        return;
+    }
 
     target.style.backgroundColor = "hsl(60, 25%, 60%)";
     target.style.color = "black";

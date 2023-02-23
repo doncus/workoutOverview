@@ -353,3 +353,44 @@ const confirmEnter = (e) => {
         e.target.blur();
     }
 }
+
+const messageUser = (message, duration = 1000) => {
+    if (messaging) return;
+    messaging = true;
+
+    let htmlMessage = "";
+    for (let i = 0; i < message.length; i++)
+    {
+        htmlMessage += message.charAt(i);
+        if (message.charAt(i) === ".")
+            htmlMessage += "</br>";
+    }
+    console.log(htmlMessage)
+
+    let messageBox = document.querySelector(".message-box");
+    messageBox.style.display = "block";
+    messageBox.style.top = (window.innerHeight / 2) - (messageBox.offsetHeight / 2) + "px";
+
+    let messageText = document.querySelector(".message-text");
+    messageText.innerHTML = htmlMessage;
+    messageText.style.display = "block";
+    messageText.style.top = (window.innerHeight / 2) - (messageText.offsetHeight / 2) + "px";
+    
+    setTimeout(() => {
+        messageBox.style.opacity = 1;
+        messageText.style.opacity = 1;
+    }, 10);
+    setTimeout(() => {
+        messageBox.style.opacity = 0;
+        messageText.style.opacity = 0;
+        setTimeout(() => {
+            messaging = false;
+            messageBox.style.display = "none";
+            messageText.style.display = "none";
+        }, 800);
+    }, duration);
+}
+
+const deleteEntry = (element) => {
+
+}
