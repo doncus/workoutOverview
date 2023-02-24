@@ -102,6 +102,7 @@ const initMessageBox = () => {
 
     let input = document.createElement("input");
     input.type = "text";
+    input.setAttribute("autocomplete", "off");
     subsubDiv.append(input);
 
     let buttonDiv = document.createElement("div");
