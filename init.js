@@ -23,7 +23,7 @@ window.onload = () => {
          * remove here: addtestData()
          */
         workoutData = [];
-        addTestData();
+        // addTestData();
         saveDataToStorage('workoutData', workoutData);
         return;
     }

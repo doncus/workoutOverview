@@ -455,11 +455,14 @@ const deleteElement = (e) => {
         {
             for (let i = 0; i < workoutData.length; i++)
             {
+                if (!curData.length) break;
                 if (workoutData[i].date.month === curData[index].date.month &&
                     workoutData[i].date.year === curData[index].date.year)
                     workoutData.splice(i--, 1);
             }
             curData.splice(index, 1);
+            if (!workoutData.length)
+                generatePrevSessionData();
         }
         else
         {
@@ -472,6 +475,8 @@ const deleteElement = (e) => {
             }
             curData.splice(index, 1);
             curDaysData.splice(index, 1);
+            if (!curDaysData.length)
+                document.querySelector(".back-button").click();
         }
         saveDataToStorage('workoutData', workoutData);
         element.remove();
