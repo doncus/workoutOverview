@@ -374,7 +374,7 @@ const messageUser = (title, message, toVerify, isTimed, duration = 2000) => {
     
     if (toVerify)
     {
-        messageContent.style.top = (window.innerHeight / 2) - 150 +  "px";
+        messageContent.style.top = (window.innerHeight / 2) - 160 +  "px";
         document.querySelector(".verify-div").style.display = "block";
     }
     else
