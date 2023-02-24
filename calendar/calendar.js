@@ -1,5 +1,5 @@
 const calendarDate = document.querySelector(".current-date");
-const months = ['Januray', 'February', 'March', 'April', 'May', 'June', 'July',
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
     'August', 'September', 'October', 'November', 'December'];
 let selectedDate = new Date();
 

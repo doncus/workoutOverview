@@ -4,7 +4,6 @@
 .user-settings {
     z-index: 20;
     margin-top: 10px;
-    padding-top: 30px;
     min-height: 280px;
     width: 100%;
     background-color: var(--base-bg);
@@ -15,7 +14,6 @@
     transform-origin: top right;
     display: flex;
     flex-direction: column;
-    gap: 40px;
 }
 
 .user-change-exercises {
@@ -26,8 +24,7 @@
     gap: 16px;
 }
 .user-change-name {
-    border-bottom: 2px solid var(--btn-border);
-    padding-bottom: 20px;
+    padding-top: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -40,8 +37,9 @@
     align-items: center;
     width: 100%;
 }
-.remove-exercise-div:last-of-type {
-    padding-bottom: 20px;
+.user-settings .add-exercise-div {
+    border-top: 2px solid var(--btn-border);
+    padding-top: 40px;
 }
 
 .user-change-name span,
@@ -117,4 +115,11 @@
 .user-settings button:active {
     background-color: var(--btn-active);
     color: black;
+}
+.user-settings .reset-button,
+.user-settings .empty-list-button {
+    margin-left: 26px;
+    align-self: flex-start;
+    margin-bottom: 30px;
+    width: 150px;
 }

@@ -82,12 +82,12 @@ const saveButtonFunction = ({target}) => {
     {
         if (inputs[i].value == "") 
         {
-            messageUser("Fill all inputs!");
+            messageUser("Error", "Fill all inputs!", false, true);
             return;
         }
         if (inputs[i].parentElement.classList.contains("select-reps") && inputs[i].value == 0)
         {
-            messageUser("0 reps is not acceptable!");
+            messageUser("Error", "0 reps is not acceptable!", false, true);
             return;
         }
         if (inputs[i].value.startsWith('.'))
@@ -95,7 +95,7 @@ const saveButtonFunction = ({target}) => {
     }
     if (selectedDate > new Date()) 
     {
-        messageUser("You can't protocol for the future. Check your date!", 2000);
+        messageUser("Error", "You can't protocol for the future. </br></br> Check your date!", false, true);
         return;
     }
 

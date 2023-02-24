@@ -269,8 +269,12 @@
 .chart-navbar.float, .calendar-month.float {
     position: absolute;
     width: 90%;
-    opacity: 0;
+    bottom: 0;
     margin-bottom: 20px;
+}
+.calendar-month.float {
+    bottom: 64px;
+    margin-bottom: 0;
 }
 
 .selected-menu-div .calendar-month {
@@ -280,11 +284,6 @@
     border: solid 2px var(--btn-border);
     border-left: none;
     border-right: none;
-}
-.selected-menu-div .calendar-month.float {
-    position: absolute;
-    width: 90%;
-    margin-bottom: 20px;
 }
 .selected-menu-div .calendar-month button {
     background-color: black;

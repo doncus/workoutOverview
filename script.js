@@ -284,6 +284,14 @@ const putDataToArray = () => {
 
     sessionData.date = getDateAsObject();
     sessionData.exercise = sessionInputs[0].value;
+    
+    // add exercise to list if it doesn't exist
+    if (!userData.exercises.includes(sessionInputs[0].value))
+    {
+        userData.exercises.push(sessionInputs[0].value);
+        sortDataAsc(userData.exercises);
+        saveDataToStorage("userData", userData);
+    }
 
     if (document.querySelector("#bw").checked)
     {
@@ -354,41 +362,48 @@ const confirmEnter = (e) => {
     }
 }
 
-const messageUser = (message, duration = 1000) => {
+const messageUser = (title, message, toVerify, isTimed, duration = 2000) => {
     if (messaging) return;
     messaging = true;
 
-    let htmlMessage = "";
-    for (let i = 0; i < message.length; i++)
-    {
-        htmlMessage += message.charAt(i);
-        if (message.charAt(i) === ".")
-            htmlMessage += "</br>";
-    }
-    console.log(htmlMessage)
-
     let messageBox = document.querySelector(".message-box");
     messageBox.style.display = "block";
-    messageBox.style.top = (window.innerHeight / 2) - (messageBox.offsetHeight / 2) + "px";
 
-    let messageText = document.querySelector(".message-text");
-    messageText.innerHTML = htmlMessage;
-    messageText.style.display = "block";
-    messageText.style.top = (window.innerHeight / 2) - (messageText.offsetHeight / 2) + "px";
+    let messageContent = document.querySelector(".message-content");
+    messageContent.style.display = "flex";
+    
+    if (toVerify)
+    {
+        messageContent.style.top = (window.innerHeight / 2) - 150 +  "px";
+        document.querySelector(".verify-div").style.display = "block";
+    }
+    else
+        messageContent.style.top = (window.innerHeight / 2) - (messageContent.offsetHeight / 2) +  "px";
+
+    messageContent.querySelector(".title").innerHTML = title;
+    messageContent.querySelector(".message-text").innerHTML = message;
     
     setTimeout(() => {
         messageBox.style.opacity = 1;
-        messageText.style.opacity = 1;
+        messageContent.style.opacity = 1;
     }, 10);
+
+    if (!isTimed) return;
+    setTimeout(() => closeMessageBox(), duration);
+}
+const closeMessageBox = () => {
+    if (!messaging) return;
+    messaging = false;
+    let messageBox = document.querySelector(".message-box");
+    let messageContent = document.querySelector(".message-content");
+
+    messageBox.style.opacity = 0;
+    messageContent.style.opacity = 0;
     setTimeout(() => {
-        messageBox.style.opacity = 0;
-        messageText.style.opacity = 0;
-        setTimeout(() => {
-            messaging = false;
-            messageBox.style.display = "none";
-            messageText.style.display = "none";
-        }, 800);
-    }, duration);
+        messageBox.style.display = "none";
+        messageContent.style.display = "none";
+        document.querySelector(".verify-div").style.display = "none";
+    }, 800);
 }
 
 let holdTimer;
@@ -399,8 +414,8 @@ const deleteElement = (e) => {
 
     if (e.type === "touchstart")
     {
-        warnTimer = setTimeout(warnUser, 2000);
-        holdTimer = setTimeout(deleteEntry, 4000);
+        warnTimer = setTimeout(warnUser, 500);
+        holdTimer = setTimeout(deleteEntry, 2500);
     }
     else
     {
@@ -444,6 +459,7 @@ const deleteElement = (e) => {
                     workoutData[i].date.year === curData[index].date.year)
                     workoutData.splice(i--, 1);
             }
+            curData.splice(index, 1);
         }
         else
         {
@@ -454,8 +470,9 @@ const deleteElement = (e) => {
                     workoutData[i].date.day === curData[index].date.day)
                     workoutData.splice(i--, 1);
             }
+            curData.splice(index, 1);
+            curDaysData.splice(index, 1);
         }
-        curData.splice(index, 1);
         saveDataToStorage('workoutData', workoutData);
         element.remove();
     }

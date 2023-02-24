@@ -1,10 +1,6 @@
 window.onload = () => {
-    let div = document.createElement("div");
-    div.classList.add("message-box");
-    let span = document.createElement("span");
-    span.classList.add("message-text");
-    document.body.append(span);
-    document.body.append(div);
+    // create messageBox
+    initMessageBox();
 
     document.addEventListener("click", closeAllLists);
     document.body.addEventListener("scroll", closeAllLists);
@@ -24,11 +20,11 @@ window.onload = () => {
         showUserContainer();
 
         /**
-         * remove here: testData
+         * remove here: addtestData()
          */
-        // workoutData = [];
-        // addTestData();
-        // saveDataToStorage('workoutData', workoutData);
+        workoutData = [];
+        addTestData();
+        saveDataToStorage('workoutData', workoutData);
         return;
     }
     userData = getData('userData');
@@ -79,6 +75,71 @@ const initFrontContainer = () => {
     }, 1000);
     
     showFrontContainer();
+}
+
+const initMessageBox = () => {
+    let div = document.createElement("div");
+    div.classList.add("message-box");
+    document.body.append(div);
+
+    let subDiv = document.createElement("div");
+    subDiv.classList.add("message-content");
+    document.body.append(subDiv);
+
+    let span = document.createElement("span");
+    span.classList.add("title");
+    subDiv.append(span);
+    span = document.createElement("span");
+    span.classList.add("message-text");
+    subDiv.append(span);
+
+    let subsubDiv = document.createElement("div");
+    subsubDiv.classList.add("verify-div");
+
+    span = document.createElement("span");
+    span.innerHTML = "Please enter your username."
+    subsubDiv.append(span);
+
+    let input = document.createElement("input");
+    input.type = "text";
+    subsubDiv.append(input);
+
+    let buttonDiv = document.createElement("div");
+    subsubDiv.append(buttonDiv);
+
+    let button = document.createElement("button");
+    button.classList.add("verify-button");
+    button.innerHTML = "verify";
+    button.onclick = buttonAnimation;
+    button.addEventListener("click", verifyDeletion);
+    buttonDiv.append(button);
+
+    button = document.createElement("button");
+    button.classList.add("cancel-button");
+    button.innerHTML = "cancel";
+    button.addEventListener("click", buttonAnimation);
+    button.setAttribute("onclick", "closeMessageBox()");
+    buttonDiv.append(button);
+
+    subDiv.append(subsubDiv);
+
+    function verifyDeletion(e) {
+        if (input.value !== userData.username) return;
+        
+        if (e.target.value === "verify")
+        {
+            workoutData = [];
+            saveDataToStorage('workoutData', workoutData);
+            window.location.reload();
+        }
+        else
+        {
+            userData.exercises = [];
+            saveDataToStorage('userData', userData);
+            closeMessageBox();
+            window.location.reload();
+        }
+    }
 }
 
 /**

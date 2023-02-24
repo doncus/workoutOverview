@@ -20,6 +20,8 @@ const menuButtonAction = ({target}) => {
             showDropDownInput(true);
             createSelector();
             createChartNav();
+            if (!userData.exercises.length)
+                noDataFound();
             break;
         case "monthly-sessions-button active":
             generatePrevSessionData();
@@ -29,6 +31,8 @@ const menuButtonAction = ({target}) => {
             break;
         default:
             showDropDownInput(false);
+            if (!userData.exercises.length)
+                noDataFound();
             break;
     }
 
@@ -74,7 +78,7 @@ const showDropDownInput = (isChartMenu) => {
 
     if (isChartMenu)
     {
-        title.innerHTML = "Chart Of Progress";
+        title.innerHTML = "Progress Chart";
         dropDownInput.setAttribute("onfocus", "setLastValue(this), resetInputValue(this), showExercises(this, 'chart')");
         dropDownInput.setAttribute("oninput", "showExercises(this, 'chart')");
     }
@@ -201,6 +205,7 @@ const createSelector = () => {
     // create month-selector
     const calendarMonthDiv = document.createElement("DIV");
     calendarMonthDiv.classList.add("calendar-month");
+    calendarMonthDiv.classList.add("float");
     calendarMonthDiv.innerHTML = "";
 
     // create buttons to switch the month within the month selector div
@@ -271,23 +276,16 @@ const handleChart = (inputValue) => {
         document.querySelector(".no-data-div").remove();
 
     getDataOfExercise(inputValue);
-    if (exerciseCounter > 0)
+    if (workoutData.length != 0 && userData.exercises.length != 0 && exerciseCounter > 0)
         createProgressChart();
     else
         noDataFound();
+
     // scroll to requested position
     const selMenu = document.querySelector(".selected-menu-div");
     selMenu.style.height = "620px";
     setTimeout(() => selMenu.scrollIntoView({ behavior: 'smooth', block: 'center'}), 100);
-    const calDiv = selMenu.querySelector(".calendar-month");
-    const filterDiv = selMenu.querySelector(".chart-navbar");
-    filterDiv.style.position = "absolute";
-    filterDiv.style.width = "90%";
-    filterDiv.style.bottom = "0";
-    filterDiv.style.marginBottom = "20px";
-    calDiv.style.position = "absolute";
-    calDiv.style.width = "90%";
-    calDiv.style.bottom = filterDiv.offsetHeight + 20 + "px";
+    
 }
 
 const createChartNav = () => {
@@ -295,6 +293,7 @@ const createChartNav = () => {
     
     let navbarDiv = document.createElement("div");
     navbarDiv.classList.add("chart-navbar");
+    navbarDiv.classList.add("float");
 
     let timefilterDiv = document.createElement("div");
     timefilterDiv.classList.add("time-filter-div");
@@ -422,7 +421,7 @@ const handleOverviewRows = (inputValue) => {
             document.querySelector(".drop-down-div").nextElementSibling.remove();
     }
     getDataOfExercise(inputValue);
-    if (exerciseCounter > 0)
+    if (workoutData.length != 0 && userData.exercises.length != 0 && exerciseCounter > 0)
         showDataOfSelectedExercise();
     else
         noDataFound();

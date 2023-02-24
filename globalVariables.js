@@ -51,5 +51,4 @@ let exercises = [
     "Wide-pull-ups",
     "Narrow-pull-ups",
     "Bench-press",
-    "Air-squats",
 ];

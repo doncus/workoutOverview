@@ -6,7 +6,15 @@ const createUserContent = () => {
         "SET", "set-username-button", "set");
     userSettings.append(div);
 
-    // (2) CHANGE EXERCISES
+    // (2) RESET USER
+    let button = document.createElement("button");
+    button.classList.add("reset-button");
+    button.innerHTML = "Reset data";
+    button.addEventListener("click", buttonAnimation);
+    button.addEventListener("click", resetData);
+    userSettings.append(button);
+    
+    // (3) CHANGE EXERCISES
     const userExercises = document.createElement("div");
     userExercises.classList.add("user-change-exercises");
     // add exercise
@@ -19,6 +27,13 @@ const createUserContent = () => {
     userExercises.append(div);
 
     userSettings.append(userExercises);
+
+    button = document.createElement("button");
+    button.classList.add("empty-list-button");
+    button.innerHTML = "Empty list";
+    button.addEventListener("click", buttonAnimation);
+    button.addEventListener("click", emptyList);
+    userSettings.append(button);
 
     // USER SETTINGS FUNCTION
     function buildOneUserInputField (divClass, inputListener, labelText,
@@ -68,6 +83,16 @@ const createUserContent = () => {
 
         return div;
     }
+    function resetData() {
+        let messageHTML = "Delete all saved workout data.";
+        messageUser("You are about to", messageHTML, true, false);
+        document.querySelector(".verify-button").value = "verify";
+    };
+    function emptyList() {
+        let messageHTML = "Delete all exercise suggestions </br>from your list.";
+        messageUser("You are about to", messageHTML, true, false);
+        document.querySelector(".verify-button").value = "reset";
+    };
 }
 
 const manageExerciseArray = (clickedButton, addToList) => {
