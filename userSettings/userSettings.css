@@ -92,7 +92,7 @@
     font-size: 18px;
 }
 .user-settings input.drop-down-input {
-    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 .user-settings button {

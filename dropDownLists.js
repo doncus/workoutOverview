@@ -108,10 +108,10 @@ const showExercisesForUserSettings = (input) => {
     const autocompleteList = document.createElement("div");
     autocompleteList.classList.add("autocomplete-list");
     autocompleteList.style.width = input.getBoundingClientRect().width + "px";
-    autocompleteList.style.alignSelf = "flex-end";
+    autocompleteList.style.alignSelf = "flex-start";
     autocompleteList.style.left = input.parentElement.querySelector("button").getBoundingClientRect().left 
         - 25 - input.getBoundingClientRect().width + "px";
-    autocompleteList.style.transform = "translateY(-40px)";
+    autocompleteList.style.transform = "translateY(40px)";
     autocompleteList.style.position = "absolute";
 
     input.parentElement.appendChild(autocompleteList);
