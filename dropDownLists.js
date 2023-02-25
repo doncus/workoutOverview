@@ -87,6 +87,8 @@ const addOnClick = (functionName, functionHolder) => {
             functionHolder.setAttribute("onclick", "getLastSessionData(this.innerText)");
             functionHolder.setAttribute("onclick", "handleOverviewRows(this.innerText)");
             break;
+        default:
+            break;
     }
 }
 
@@ -98,4 +100,81 @@ const closeAllLists = (e) => {
         const dropDownInput = document.querySelector(".drop-down-input");
         dropDownInput.classList.remove("drop-down-input");
     }
+}
+
+const showExercisesForUserSettings = (input) => {
+    closeAllLists();
+
+    const autocompleteList = document.createElement("div");
+    autocompleteList.classList.add("autocomplete-list");
+    autocompleteList.style.width = input.getBoundingClientRect().width + "px";
+    autocompleteList.style.alignSelf = "flex-end";
+    autocompleteList.style.left = input.parentElement.querySelector("button").getBoundingClientRect().left 
+        - 25 - input.getBoundingClientRect().width + "px";
+    autocompleteList.style.transform = "translateY(-40px)";
+    autocompleteList.style.position = "absolute";
+
+    input.parentElement.appendChild(autocompleteList);
+    input.classList.add("drop-down-input");
+
+    if (input.value == "")
+    {
+        for (let i = 0; i < userData.exercises.length; i++)
+        {
+            const suggestion = document.createElement("div");
+            suggestion.innerHTML = userData.exercises[i];
+            suggestion.addEventListener("click", () => {
+                input.value = suggestion.innerText;
+                closeAllLists();
+            });
+            
+            autocompleteList.appendChild(suggestion);
+        }
+        return;
+    }
+    
+    let dropDownArray = [...userData.exercises];
+    input.value = input.value.replace(/[^a-zA-Z -]/g, '');
+    regExValue = input.value.replace(/[-\s]/g, '').toLowerCase();
+    
+    // first: list all elements that starts with the users input
+    for (let i = 0; i < dropDownArray.length; i++)
+    {
+        regExExercise = dropDownArray[i].replace('-', '').toLowerCase();
+        
+        // if (autocompleteList.childElementCount > 5) break;
+        if (regExExercise.startsWith(regExValue))
+        {
+            const suggestion = document.createElement("div");
+            suggestion.innerHTML = dropDownArray[i];
+            suggestion.addEventListener("click", () => {
+                input.value = suggestion.innerText;
+                closeAllLists();
+            });
+            addOnClick(name, suggestion);
+            
+            autocompleteList.appendChild(suggestion);
+            dropDownArray.splice(i, 1);
+        }
+    }
+    // second: list all further elements that contain the users input
+    for (let i = 0; i < dropDownArray.length; i++)
+    {
+        regExExercise = dropDownArray[i].replace('-', '').toLowerCase();
+        
+        // if (autocompleteList.childElementCount > 5) break;
+        if (regExExercise.includes(regExValue))
+        {
+            const suggestion = document.createElement("div");
+            suggestion.innerHTML = dropDownArray[i];
+            suggestion.addEventListener("click", () => {
+                input.value = suggestion.innerText;
+                closeAllLists();
+            });
+
+            autocompleteList.appendChild(suggestion);
+        }
+    }
+    if (!autocompleteList.querySelector("div"))
+        closeAllLists();
 }

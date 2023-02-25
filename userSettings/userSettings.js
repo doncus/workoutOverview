@@ -24,6 +24,8 @@ const createUserContent = () => {
     // remove exercise
     div = buildOneUserInputField("remove-exercise-div", true, "REMOVE EXERCISE", true,
         "fa-minus", "remove-exercise-button", "del");
+    div.querySelector("input").setAttribute("oninput", "showExercisesForUserSettings(this)");
+    div.querySelector("input").setAttribute("onfocus", "showExercisesForUserSettings(this)");
     userExercises.append(div);
 
     userSettings.append(userExercises);
