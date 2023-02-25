@@ -416,7 +416,7 @@ const createPreviousDays = (slideTimeout) => {
             button.append(span);
         }
         button.addEventListener('click', previousDayButtonFunction);
-        button.addEventListener('touchstart', deleteElement);
+        button.addEventListener('touchstart', deleteElement, {passive: true});
         button.addEventListener('touchend', deleteElement);
         prevDaysDiv.append(button);
 
