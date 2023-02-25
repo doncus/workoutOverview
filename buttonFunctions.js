@@ -203,6 +203,8 @@ const previousDayButtonFunction = ({target}) => {
         let subDiv = document.createElement("div");
         subDiv.classList.add("time-of-exercise-div");
         subDiv.id = "exercise" + i;
+        subDiv.addEventListener('touchstart', deleteElement, {passive: true});
+        subDiv.addEventListener('touchend', deleteElement);
         subDiv.addEventListener("click", expandSetInfos);
 
         let span = document.createElement("span");
@@ -416,11 +418,11 @@ const createPreviousDays = (slideTimeout) => {
         let showWeekday = curDaysData[i].date.weekday;
         let wholeDay = [showDate, showWeekday];
 
-        for (let i = 0; i < wholeDay.length; i++)
+        for (let j = 0; j < wholeDay.length; j++)
         {
             let span = document.createElement("span");
-            span.innerHTML = wholeDay[i];
-            if (i == 0)
+            span.innerHTML = wholeDay[j];
+            if (j == 0)
                 span.id = "date"
             else
                 span.id = "weekday"

@@ -85,6 +85,12 @@
     justify-content: flex-start;
     align-items: center;
 }
+.day-container.delete {
+    transition: all 1000ms, opacity 3000ms;
+    background-color: hsl(0, 58%, 29%);
+    border: 5px solid hsl(0, 63%, 47%);
+    color: black;
+}
 .time-of-exercise-div {
     margin-left: -22px;
     background-color: var(--base-bg);
@@ -95,6 +101,18 @@
     border-top-left-radius: 0;
     display: flex;
     align-items: center;
+
+    transition: all 800ms, opacity 400ms;
+}
+.time-of-exercise-div.delete {
+    transition: all 1000ms, opacity 3000ms;
+    background-color: hsl(0, 58%, 29%);
+    border: 5px solid hsl(0, 63%, 47%);
+    color: black;
+}
+.time-of-exercise-div.delete p {
+    transition: all 500ms;
+    color: black;
 }
 
 .time-of-exercise-div span {

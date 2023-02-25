@@ -410,7 +410,10 @@ let holdTimer;
 let warnTimer;
 const deleteElement = (e) => {
     let element = (e.target.tagName === "BUTTON") ? e.target : e.target.closest("button");
-    element.classList.add("active");
+    if (element == null)
+        element = (e.target.tagName === "DIV") ? e.target : e.target.closest("div")
+    else
+        element.classList.add("active");
 
     if (e.type === "touchstart")
     {
@@ -423,7 +426,15 @@ const deleteElement = (e) => {
         {
             element.classList.remove("delete");
             element.style.opacity = 1;
-            if (element.classList.contains("previous-session-button"))
+            if (element.classList.contains("time-of-exercise-div"))
+            {
+                if (element.parentElement)
+                {
+                    element.parentElement.classList.remove("delete");
+                    element.parentElement.style.opacity = 1;
+                }
+            }
+            else if (element.classList.contains("previous-session-button"))
                 element.addEventListener('click', previousMonthButtonFunction);
             else if (element.classList.contains("previous-day-button"))
                 element.addEventListener('click', previousDayButtonFunction);
@@ -440,6 +451,11 @@ const deleteElement = (e) => {
     function warnUser() {
         element.classList.add("delete");
         element.style.opacity = 0;
+        if (element.classList.contains("time-of-exercise-div"))
+        {
+            element.parentElement.classList.add("delete");
+            element.parentElement.style.opacity = 0;
+        }
 
         if (element.classList.contains("previous-session-button"))
             element.removeEventListener('click', previousMonthButtonFunction);
@@ -451,7 +467,55 @@ const deleteElement = (e) => {
     function deleteEntry() {
         let index = parseInt(element.id.match(/\d+/)[0]);
 
-        if (element.classList.contains("previous-session-button"))
+        if (element.classList.contains("time-of-exercise-div"))
+        {
+            for (let i = 0; i < workoutData.length; i++)
+            {
+                if (workoutData[i].date.ms === curDay[index].date.ms)
+                    workoutData.splice(i, 1);
+            }
+            for (let i = 0; i < curData.length; i++)
+            {
+                if (curData[i].date.ms === curDay[index].date.ms)
+                    curData.splice(i, 1);
+            }
+            if (curDay.length == 1)
+            {
+                for (let i = 0; i < curDaysData.length; i++)
+                {
+                    if (curDaysData[i].date.ms === curDay[index].date.ms)
+                        curDaysData.splice(i, 1);
+                }
+            }
+            curDay.splice(index, 1);
+            
+            if (!curDay.length)
+            {
+                document.querySelector(".back-button").click();
+                if (!curData.length)
+                    setTimeout(() => document.querySelector(".back-button").click(), 500);
+            }
+
+            element.parentElement.remove();
+        }
+        else if (element.classList.contains("previous-days-button"))
+        {
+            for (let i = 0; i < workoutData.length; i++)
+            {
+                if (workoutData[i].date.month === curDaysData[index].date.month &&
+                    workoutData[i].date.year === curDaysData[index].date.year &&
+                    workoutData[i].date.day === curDaysData[index].date.day)
+                {
+                    workoutData.splice(i--, 1);
+                }
+            }
+            curDaysData.splice(index, 1);
+            if (!curDaysData.length)
+                document.querySelector(".back-button").click();
+
+            element.remove();
+        }
+        else
         {
             for (let i = 0; i < workoutData.length; i++)
             {
@@ -463,21 +527,10 @@ const deleteElement = (e) => {
             curData.splice(index, 1);
             if (!workoutData.length)
                 generatePrevSessionData();
+            
+            element.remove();
         }
-        else
-        {
-            for (let i = 0; i < workoutData.length; i++)
-            {
-                if (workoutData[i].date.month === curData[index].date.month &&
-                    workoutData[i].date.year === curData[index].date.year &&
-                    workoutData[i].date.day === curData[index].date.day)
-                    workoutData.splice(i--, 1);
-            }
-            curData.splice(index, 1);
-            curDaysData.splice(index, 1);
-            if (!curDaysData.length)
-                document.querySelector(".back-button").click();
-        }
+        
         saveDataToStorage('workoutData', workoutData);
         element.remove();
     }
