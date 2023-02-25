@@ -112,7 +112,7 @@ const saveButtonFunction = ({target}) => {
     setTimeout(() => {
         while (contentBack.querySelector(".select-sets").nextElementSibling)
             contentBack.querySelector(".select-sets").nextElementSibling.remove();
-        // selectedDate = new Date();
+        selectedDate = new Date();
         addSessionButton.disabled = false;
     }, 1500);
 }

@@ -94,10 +94,10 @@ const getDataOfExercise = (inputValue) => {
     let sumSets = 0;
     let sumReps = 0;
     exerciseCounter = 0;
-    maxWeight = 0;
-    minWeight = workoutData[0].sets[0].weight;
-    maxReps = 0;
-    minReps = workoutData[0].sets[0].reps;
+    maxWeightOfExercise = 0;
+    minWeightOfExercise = 9999;
+    maxRepsOfExercise = 0;
+    minRepsOfExercise = 9999;
     averageReps = 0;
     lastExercise = undefined;
     exerciseBeforeYear = undefined;
@@ -113,13 +113,13 @@ const getDataOfExercise = (inputValue) => {
         if (workoutData[i].exercise == inputValue)
         {
             allOfExercise.push(workoutData[i]);
-            if (workoutData[i].sets[0].reps > maxReps)
-                maxReps = workoutData[i].sets[0].reps;
+            if (workoutData[i].sets[0].reps > maxRepsOfExercise)
+                maxRepsOfExercise = workoutData[i].sets[0].reps;
             
-            if (workoutData[i].sets[0].reps < minReps)
-                minReps = workoutData[i].sets[0].reps;
-            if (workoutData[i].sets[0].weight < minWeight)
-                minWeight = workoutData[i].sets[0].weight;
+            if (workoutData[i].sets[0].reps < minRepsOfExercise)
+                minRepsOfExercise = workoutData[i].sets[0].reps;
+            if (workoutData[i].sets[0].weight < minWeightOfExercise)
+                minWeightOfExercise = workoutData[i].sets[0].weight;
             
             if (workoutData[i].date.year < latestDate)
                 latestDate = workoutData[i].date.year;
@@ -128,8 +128,8 @@ const getDataOfExercise = (inputValue) => {
             {
                 sumSets++;
                 sumReps += workoutData[i].sets[j].reps;
-                if (workoutData[i].sets[j].weight > maxWeight)
-                    maxWeight = workoutData[i].sets[j].weight;
+                if (workoutData[i].sets[j].weight > maxWeightOfExercise)
+                    maxWeightOfExercise = workoutData[i].sets[j].weight;
             }
         }
     }
@@ -450,11 +450,11 @@ const showDataOfSelectedExercise = () => {
         switch (i) {
             case 0:
                 text.innerHTML = "Personal record [kg]:";
-                data.innerHTML = maxWeight;
+                data.innerHTML = maxWeightOfExercise;
                 break;
             case 1:
                 text.innerHTML = "Personal record [reps]:";
-                data.innerHTML = maxReps;
+                data.innerHTML = maxRepsOfExercise;
                 break;
             case 2:
                 text.innerHTML = "Average reps:";

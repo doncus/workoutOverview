@@ -60,6 +60,13 @@ const createProgressChart = () => {
         chartArray = JSON.parse(JSON.stringify(yearOfExercise));
         firstTime = chartArray[0].date.month-1;
         lastTime = parseInt(chartArray[chartArray.length-1].date.month)-1;
+
+        for (let i = 0; i < chartArray.length; i++)
+        {
+            let dateToTime = new Date(chartArray[i].date.ms);
+            dateToTime.setDate(1);
+            chartArray[i].date.ms = dateToTime.getTime();
+        }
     }
     
     let axisData = [];
@@ -182,7 +189,7 @@ const createProgressChart = () => {
         // determine axis data (month/weight)
         for (let i = 0; i < chartArray.length; i++)
         {
-            let yearData = new Date(chartArray[i].date.year, chartArray[i].date.month).getTime();
+            let yearData = new Date(chartArray[i].date.year, chartArray[i].date.month-1).getTime();
             axisData.push({"x": yearData, "y": chartArray[i].sets[0].weight});
         }
 
@@ -219,7 +226,7 @@ const createProgressChart = () => {
         // determine axis data (month/reps)
         for (let i = 0; i < chartArray.length; i++)
         {
-            let yearData = new Date(chartArray[i].date.year, chartArray[i].date.month).getTime();
+            let yearData = new Date(chartArray[i].date.year, chartArray[i].date.month-1).getTime();
             axisData.push({"x": yearData, "y": chartArray[i].sets[0].reps});
         }
         
@@ -252,7 +259,7 @@ const createProgressChart = () => {
         yUnit = " reps";
     }
 
-    // console.log(chartArray);
+    console.log(chartArray);
 
     let chart = new Chart(chartCanvas, {
         type: 'bar',
@@ -364,11 +371,11 @@ const createProgressChart = () => {
     if (timeUnit === "month")
     {
         chart.options.plugins.tooltip.callbacks.title = (title) => {
-            return months[parseInt(title[0].label.substring(3, 5))-1] + ", " + selectedDate.getFullYear();
+            let monthIndex = parseInt(title[0].label.substring(3, 5))-1;
+            return months[monthIndex] + ", " + selectedDate.getFullYear();
         };
     }
 
-    
     function getMonthSettings() {
         // determine first and last day of selected month
         let lastDay = new Date(chartArray[0].date.year, chartArray[0].date.month, 0).getDate();
