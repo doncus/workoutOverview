@@ -95,7 +95,6 @@
     border-top-left-radius: 0;
     display: flex;
     align-items: center;
-    gap: 20px;
 }
 
 .time-of-exercise-div span {
@@ -110,8 +109,17 @@
     user-select: none;
 }
 .time-of-exercise-div p {
+    margin-left: 4px;
+    padding: 0 10px;
     color: var(--gray);
     text-align: center;
+}
+.time-of-exercise-div p:last-of-type {
+    margin-left: auto;
+    font-size: 16px;
+}
+.time-of-exercise-div .pr {
+    color: var(--highlight)
 }
 .day-container .set-container {
     width: 100%;

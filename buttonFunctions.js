@@ -213,6 +213,12 @@ const previousDayButtonFunction = ({target}) => {
         p.innerHTML = curDay[i].exercise;
         subDiv.append(p);
 
+        p = document.createElement("p");
+        p.innerHTML = curDay[i].sets[0].reps + " reps";
+        if (curDay[i].weightAdded)
+            p.innerHTML = curDay[i].sets[0].weight + " kg";
+        subDiv.append(p);
+
         div.append(subDiv);
         
         for (let j = 0; j < curDay[i].sets.length; j++)
@@ -250,34 +256,39 @@ const previousDayButtonFunction = ({target}) => {
             div.append(setDiv);
 
             // weight
-            setChildDiv = document.createElement("div");
-            setChildDiv.classList.add("set-weight");
-
-            span = document.createElement("span");
-            span.classList.add("weight-label");
-            span.innerHTML = "kg";
-            setChildDiv.append(span);
-            input = document.createElement("input");
-            input.classList.add("weight-value");
-            input.setAttribute("type", "tel");
-            input.setAttribute("onfocus", "setLastValue(this)");
-            input.addEventListener("input", checkIfNumber);
-            input.setAttribute("oninput", "checkIfSmallerThan(this, 999)");
-            input.addEventListener("change", setEditWeightFunction);
-            if (!curDay[i].sets[j].weight)
-                input.value = 0;
-            else
-                input.value = curDay[i].sets[j].weight;
-            setChildDiv.append(input);
+            if (curDay[i].weightAdded)
+            {
+                setChildDiv = document.createElement("div");
+                setChildDiv.classList.add("set-weight");
+    
+                span = document.createElement("span");
+                span.classList.add("weight-label");
+                span.innerHTML = "kg";
+                setChildDiv.append(span);
+                input = document.createElement("input");
+                input.classList.add("weight-value");
+                input.setAttribute("type", "tel");
+                input.setAttribute("onfocus", "setLastValue(this)");
+                input.addEventListener("input", checkIfNumber);
+                input.setAttribute("oninput", "checkIfSmallerThan(this, 999)");
+                input.addEventListener("change", setEditWeightFunction);
+                if (!curDay[i].sets[j].weight)
+                    input.value = 0;
+                else
+                    input.value = curDay[i].sets[j].weight;
+                setChildDiv.append(input);
+            };
 
             setDiv.append(setChildDiv);
             div.append(setDiv);
 
             // minimize all sessions
+            if (curDay.length <= 2) continue;
             setDiv.style.display = "none";
         }
         divSave.push(div);
 
+        if (curDay.length <= 2) continue;
         let setCounter = document.createElement("div");
         setCounter.classList.add("set-counter");
         setCounter.innerHTML = curDay[i].sets.length + " SET";
@@ -299,13 +310,13 @@ const expandSetInfos = ({target}) => {
     let clickedExerciseId = parseInt(target.id.match(/\d+/)[0]);
     const parent = document.querySelector("#dayContainer" + clickedExerciseId);
     let setsToToggle = parent.querySelectorAll(".set-container");
-    const parendClosed = 101;
+    const parentClosed = 101;
     let wait = Math.trunc(120 / setsToToggle.length);
     parent.style.height = parent.getBoundingClientRect().height + "px";
 
     if (window.getComputedStyle(setsToToggle[0]).display == "flex")
     {
-        parent.style.height = parendClosed + "px";
+        parent.style.height = parentClosed + "px";
         setsToToggle.forEach(setInfo => setInfo.style.display = "none");
 
         let setCounter = document.createElement("DIV");
