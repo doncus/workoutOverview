@@ -26,6 +26,7 @@ const createUserButtonFunction = () => {
     loginButton.style.opacity = 0;
 
     // save user to storage
+    sortDataAsc(exercises);
     let dataToStore = {"username": loginInput.value, "exercises": exercises};
     saveDataToStorage("userData", dataToStore);
     userData = getData("userData");
