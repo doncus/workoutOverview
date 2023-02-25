@@ -67,8 +67,6 @@ const backButtonFunctionTwo = ({target}) => {
     button.removeEventListener("click", backButtonFunctionTwo);
     
     setTimeout(() => {
-        let navTop = document.querySelector(".content-back-top");
-        navTop.classList.remove("float");
         button.addEventListener("click", backButtonFunction);
         setTimeout(() => navTop.style.removeProperty("transition"), 10);
     }, 300);
@@ -169,10 +167,6 @@ const previousDayButtonFunction = ({target}) => {
     setTimeout(() => button.remove(), 498);
 
     setTimeout(() => {
-        let topNav = document.querySelector(".content-back-top");
-        topNav.style.transition = "all 0ms";
-        topNav.classList.add("float");
-
         const button2 = button;
         button2.style.marginTop = topOffset + "px";
         button2.style.transform = "translateY(" + 0 + "px)";

@@ -24,6 +24,7 @@ const createProgressChart = () => {
                 yType = filter.value;
         }
     });
+
     // ---------------------------------------------------- CHART VARIABLES
     let chartArray;
     let firstTime;
@@ -259,7 +260,7 @@ const createProgressChart = () => {
         yUnit = " reps";
     }
 
-    console.log(chartArray);
+    // console.log(chartArray);
 
     let chart = new Chart(chartCanvas, {
         type: 'bar',

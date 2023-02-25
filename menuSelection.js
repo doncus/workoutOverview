@@ -205,7 +205,6 @@ const createSelector = () => {
     // create month-selector
     const calendarMonthDiv = document.createElement("DIV");
     calendarMonthDiv.classList.add("calendar-month");
-    calendarMonthDiv.classList.add("float");
     calendarMonthDiv.innerHTML = "";
 
     // create buttons to switch the month within the month selector div
@@ -283,9 +282,8 @@ const handleChart = (inputValue) => {
 
     // scroll to requested position
     const selMenu = document.querySelector(".selected-menu-div");
-    selMenu.style.height = "620px";
     setTimeout(() => selMenu.scrollIntoView({ behavior: 'smooth', block: 'center'}), 100);
-    
+    selMenu.style.height = "600px";
 }
 
 const createChartNav = () => {
@@ -293,7 +291,6 @@ const createChartNav = () => {
     
     let navbarDiv = document.createElement("div");
     navbarDiv.classList.add("chart-navbar");
-    navbarDiv.classList.add("float");
 
     let timefilterDiv = document.createElement("div");
     timefilterDiv.classList.add("time-filter-div");
@@ -411,6 +408,18 @@ const chartFilterY = ({target}) => {
     target.classList.add("active");
 
     handleChart(document.querySelector('.drop-down-div input').value);
+}
+
+// CHANGE SELECTED DATE TO THE LAST DATE OF THE SELECTED EXERCISE
+
+// menuSelection: Zeile 17
+// dropDownLists: Zeile 83
+const choseDate = (inputValue) => {
+    getDataOfExercise(inputValue);
+    console.log("here")
+
+    selectedDate.setFullYear(lastExercise.date.year);
+    selectedDate.setMonth(lastExercise.date.month-1);
 }
 
 // -------------------------------------------------------------- OVERVIEW
