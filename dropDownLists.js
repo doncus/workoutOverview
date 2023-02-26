@@ -70,8 +70,6 @@ const showExercises = (input, name) => {
             autocompleteList.appendChild(suggestion);
         }
     }
-    if (!autocompleteList.querySelector("div"))
-        closeAllLists();
 }
 
 const addOnClick = (functionName, functionHolder) => {
@@ -174,6 +172,4 @@ const showExercisesForUserSettings = (input) => {
             autocompleteList.appendChild(suggestion);
         }
     }
-    if (!autocompleteList.querySelector("div"))
-        closeAllLists();
 }
