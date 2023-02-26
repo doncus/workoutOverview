@@ -333,7 +333,8 @@ const expandSetInfos = ({target}) => {
     }
     else
     {
-        parent.style.height = parent.getBoundingClientRect().height + (70 * setsToToggle.length) + "px";
+        parent.style.height = parent.offsetHeight + (64 * setsToToggle.length) + "px";
+        setTimeout(() => parent.style.removeProperty("height"), 100);
         parent.querySelector(".set-counter").remove();
         setsToToggle.forEach(setInfo => {
             setInfo.style.opacity = 0;
