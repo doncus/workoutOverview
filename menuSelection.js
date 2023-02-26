@@ -22,7 +22,7 @@ const menuButtonAction = ({target}) => {
                 noDataFound();
             break;
         case "monthly-sessions-button active":
-            generatePrevSessionData();
+            generatePrevSessionData(10);
             break;
         case "add-session-button active":
             addSessionButtonFunction();
@@ -175,7 +175,15 @@ const getDataOfMonth = () => {
     {
         if (allOfExercise[i].date.year === selectedDate.getFullYear() &&
             allOfExercise[i].date.month == selectedDate.getMonth()+1)
+        {
+            if (monthOfExercise.length > 0)
+            {
+                let lastEntry = monthOfExercise.length-1;
+                if (monthOfExercise[lastEntry].date.day === allOfExercise[i].date.day)
+                    continue;
+            }
             monthOfExercise.push(allOfExercise[i]);
+        }
     }
 }
 

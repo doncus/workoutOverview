@@ -285,11 +285,13 @@ const previousDayButtonFunction = ({target}) => {
 
             // minimize all sessions
             if (curDay.length <= 2) continue;
+            if (curDay.length <= 2 && curDay[i].sets.length <= 4) continue;
             setDiv.style.display = "none";
         }
         divSave.push(div);
 
-        if (curDay.length <= 2) continue;
+        if (curDay.length === 1) continue;
+        if (curDay.length <= 2 && curDay[i].sets.length <= 4) continue;
         let setCounter = document.createElement("div");
         setCounter.classList.add("set-counter");
         setCounter.innerHTML = curDay[i].sets.length + " SET";

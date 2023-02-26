@@ -26,7 +26,7 @@ const showFrontContainer = () => {
 
     setTimeout(() => contentBack.querySelector(".previous-days-div").innerHTML = "", 800);
 
-    generatePrevSessionData(1500);
+    generatePrevSessionData(1000);
     contentFront.querySelector(".add-session-button").classList.remove("active");
     contentFront.querySelector(".monthly-sessions-button").classList.add("active");
 
