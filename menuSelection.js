@@ -314,7 +314,7 @@ const createChartNav = () => {
         let button = document.createElement("button");
         button.classList.add("chart-filter-button");
         button.id = "chartFilterButton" + i;
-        button.style.transform = "translateY(-100%)";
+        button.style.transform = "translateY(-70%)";
 
         switch (i) {
             case 0:

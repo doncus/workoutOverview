@@ -272,7 +272,7 @@
 }
 
 .selected-menu-div .calendar-month {
-    height: 44px;
+    padding: 2px 0;
     max-width: var(--width-desktop);
     background-color: black;
     border: solid 2px var(--btn-border);
