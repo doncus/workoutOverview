@@ -68,11 +68,6 @@ const showDropDownInput = (isChartMenu) => {
     dropDownInput.id = "chartInput";
     dropDownInput.addEventListener("keypress", confirmEnter);
     dropDownInput.setAttribute("type", "text");
-    dropDownInput.setAttribute("autocomplete", "off");
-    dropDownInput.setAttribute("onfocusout", "getLastValue(this)");
-
-    backgroundDiv.append(dropDownInput);
-    selectedMenuDiv.append(backgroundDiv);
 
     if (isChartMenu)
     {
@@ -86,6 +81,11 @@ const showDropDownInput = (isChartMenu) => {
         dropDownInput.setAttribute("onfocus", "resetInputValue(this), showExercises(this, 'overview')");
         dropDownInput.setAttribute("oninput", "showExercises(this, 'overview')");
     }
+    dropDownInput.setAttribute("onfocusout", "getLastValue(this)");
+    dropDownInput.setAttribute("autocomplete", "off");
+
+    backgroundDiv.append(dropDownInput);
+    selectedMenuDiv.append(backgroundDiv);
 }
 
 const getDataOfExercise = (inputValue) => {
