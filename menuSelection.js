@@ -290,7 +290,7 @@ const handleChart = (inputValue) => {
 
     // scroll to requested position
     const selMenu = document.querySelector(".selected-menu-div");
-    setTimeout(() => selMenu.scrollIntoView({ behavior: 'smooth', block: 'center'}), 100);
+    // setTimeout(() => selMenu.scrollIntoView({ behavior: 'smooth', block: 'center'}), 100);
     selMenu.style.height = "600px";
 }
 
