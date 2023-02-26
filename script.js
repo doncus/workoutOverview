@@ -21,7 +21,7 @@ const showFrontContainer = () => {
                 backTop.style.opacity = 0;
             }, 400);
         }, 50);
-    }, 600);
+    }, 500);
     
 
     setTimeout(() => contentBack.querySelector(".previous-days-div").innerHTML = "", 800);
@@ -30,7 +30,7 @@ const showFrontContainer = () => {
     contentFront.querySelector(".add-session-button").classList.remove("active");
     contentFront.querySelector(".monthly-sessions-button").classList.add("active");
 
-    setTimeout(() => menuButtons.forEach(btn => btn.addEventListener("click", menuButtonAction)), 1500);
+    setTimeout(() => menuButtons.forEach(btn => btn.addEventListener("click", menuButtonAction)), 1200);
 }
 
 const hideFrontContainer = () => {
@@ -49,7 +49,7 @@ const hideFrontContainer = () => {
             backTop.style.opacity = 1;
             contentBack.style.opacity = 1;
         }, 400);
-    }, 600);
+    }, 200);
 }
 
 const inputClicked = (input) => {

@@ -48,7 +48,7 @@ const createUserButtonFunction = () => {
 const addSessionButtonFunction = () => {
     calendarDate.addEventListener("click", createCalendar);
     setDate();
-    setTimeout(() => hideFrontContainer(), 200);
+    hideFrontContainer();
 }
 
 const backButtonFunction = ({target}) => {
@@ -60,7 +60,7 @@ const backButtonFunction = ({target}) => {
         let addSessionElements = getNextSiblings(contentBack.querySelector(".select-sets"));
         if (addSessionElements.length)
             addSessionElements.forEach(ele => ele.style.removeProperty("display"));
-    }, 1000);
+    }, 600);
 }
 const backButtonFunctionTwo = ({target}) => {
     let button = target.tagName.toLowerCase() === 'i' ? target.parentElement : target;
@@ -105,17 +105,15 @@ const saveButtonFunction = ({target}) => {
     target.style.width = 40 + "%";
     target.style.opacity = 0;
     target.disabled = true;
-    setTimeout(() => {
-        showFrontContainer();
-        contentBack.querySelectorAll("input").forEach(input => input.value = "");
-    }, 600);
+    setTimeout(() => showFrontContainer(), 200);
+    setTimeout(() => contentBack.querySelectorAll("input").forEach(input => input.value = ""), 600);
     putDataToArray();
     setTimeout(() => {
         while (contentBack.querySelector(".select-sets").nextElementSibling)
             contentBack.querySelector(".select-sets").nextElementSibling.remove();
         selectedDate = new Date();
         addSessionButton.disabled = false;
-    }, 1500);
+    }, 1200);
 }
 
 const previousMonthButtonFunction = ({target}) => {
@@ -313,7 +311,7 @@ const expandSetInfos = ({target}) => {
     let clickedExerciseId = parseInt(target.id.match(/\d+/)[0]);
     const parent = document.querySelector("#dayContainer" + clickedExerciseId);
     let setsToToggle = parent.querySelectorAll(".set-container");
-    const parentClosed = 101;
+    const parentClosed = document.querySelector("#exercise" + clickedExerciseId).offsetHeight + 56;
     let wait = Math.trunc(120 / setsToToggle.length);
     parent.style.height = parent.getBoundingClientRect().height + "px";
 

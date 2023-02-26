@@ -7,8 +7,7 @@
     font-weight: bold;
 
     opacity: 0;
-    transition: 800ms;
-
+    transition: 600ms;
 
     display: none;
     justify-content: center;

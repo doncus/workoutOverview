@@ -128,7 +128,7 @@
 }
 .time-of-exercise-div p {
     margin-left: 4px;
-    padding: 0 10px;
+    padding: 4px 10px;
     color: var(--gray);
     text-align: center;
 }
@@ -159,9 +159,7 @@
 
     transition: all 200ms;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    text-align: center;
     font-style: italic;
     padding: 6px 0;
     user-select: none;
