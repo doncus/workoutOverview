@@ -80,9 +80,7 @@ const addOnClick = (functionName, functionHolder) => {
             functionHolder.setAttribute("onclick", "getLastSessionData(this.innerText)");
             break;
         case "chart":
-            functionHolder.setAttribute("onclick", "choseDate(this.innerText)");
-            functionHolder.setAttribute("onclick", "createChartNav()");
-            functionHolder.setAttribute("onclick", "handleChart(this.innerText)");
+            functionHolder.setAttribute("onclick", "createSelector(), createChartNav(), choseDate(this.innerText), handleChart(this.innerText)");
             break;
         case "overview":
             functionHolder.setAttribute("onclick", "getLastSessionData(this.innerText)");

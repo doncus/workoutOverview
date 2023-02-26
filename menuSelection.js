@@ -18,8 +18,6 @@ const menuButtonAction = ({target}) => {
         case "progress-chart active":
             selectedDate = new Date();
             showDropDownInput(true);
-            createSelector();
-            createChartNav();
             if (!userData.exercises.length)
                 noDataFound();
             break;
@@ -201,6 +199,8 @@ const noDataFound = () => {
 
 // -------------------------------------------------------------- CHART
 const createSelector = () => {
+    if (document.querySelector(".calendar-month"))
+        document.querySelector(".calendar-month").remove();
     const selectedMenuDiv = document.querySelector(".selected-menu-div");
     // create month-selector
     const calendarMonthDiv = document.createElement("DIV");
@@ -287,6 +287,8 @@ const handleChart = (inputValue) => {
 }
 
 const createChartNav = () => {
+    if (document.querySelector(".chart-navbar"))
+        document.querySelector(".chart-navbar").remove();
     const selectedMenuDiv = document.querySelector(".selected-menu-div");
     
     let navbarDiv = document.createElement("div");
@@ -410,16 +412,22 @@ const chartFilterY = ({target}) => {
     handleChart(document.querySelector('.drop-down-div input').value);
 }
 
-// CHANGE SELECTED DATE TO THE LAST DATE OF THE SELECTED EXERCISE
-
-// menuSelection: Zeile 17
-// dropDownLists: Zeile 83
 const choseDate = (inputValue) => {
     getDataOfExercise(inputValue);
-    console.log("here")
+    if (!lastExercise) return;
 
     selectedDate.setFullYear(lastExercise.date.year);
     selectedDate.setMonth(lastExercise.date.month-1);
+    document.querySelector(".calendar-month span").innerHTML = months[selectedDate.getMonth()];
+
+    let yearBtn = document.querySelector("#chartFilterButton1");
+    let weightBtn = document.querySelector("#chartFilterButton2");
+    let repsBtn = document.querySelector("#chartFilterButton3");
+
+    if (lastExercise.date.year < new Date().getFullYear())
+        yearBtn.click();
+    if (!lastExercise.weightAdded)
+        repsBtn.click();
 }
 
 // -------------------------------------------------------------- OVERVIEW
