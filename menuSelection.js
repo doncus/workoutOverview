@@ -292,7 +292,7 @@ const handleChart = (inputValue) => {
     const selMenu = document.querySelector(".selected-menu-div");
     // setTimeout(() => selMenu.scrollIntoView({ behavior: 'smooth', block: 'center'}), 100);
     selMenu.style.height = "560px";
-    document.body.scrollTo(0, selMenu.scrollHeight);
+    setTimeout(() => document.body.scrollTo(0, selMenu.scrollHeight), 100);
 }
 
 const createChartNav = () => {
