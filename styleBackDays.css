@@ -101,6 +101,7 @@
     border-top-left-radius: 0;
     display: flex;
     align-items: center;
+    text-overflow: unset;
 
     transition: all 800ms, opacity 400ms;
 }
@@ -125,6 +126,8 @@
     padding: 8px;
     background-color: black;
     user-select: none;
+    display: flex;
+    align-items: center;
 }
 .time-of-exercise-div p {
     margin-left: 4px;
@@ -159,10 +162,18 @@
 
     transition: all 200ms;
 
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-style: italic;
-    padding: 6px 0;
+    padding: 10px 0 10px 36%;
     user-select: none;
+}
+.set-counter i {
+    margin-left: auto;
+}
+.set-counter i:active {
+    color: var(--highlight);
 }
 
 .set-container .set-weight,

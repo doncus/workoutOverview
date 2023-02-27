@@ -27,6 +27,11 @@ const createUserContent = () => {
     div.querySelector("input").setAttribute("oninput", "showExercisesForUserSettings(this)");
     div.querySelector("input").setAttribute("onfocus", "showExercisesForUserSettings(this)");
     userExercises.append(div);
+    // change name of exercise
+    // div = buildOneUserInputField("remove-exercise-div", true, "CHANGE NAME OF EXERCISE", true,
+    //     "fa-pen", "remove-exercise-button", "del");
+    // div.querySelector("label").style.fontSize = "12px";
+    // userExercises.append(div);
 
     userSettings.append(userExercises);
 

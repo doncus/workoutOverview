@@ -222,12 +222,14 @@ const initSets = () => {
             input.setAttribute("type", "tel");
             input.setAttribute("onfocus", "setLastValue(this), inputClicked(this), resetInputValue(this)");
             input.setAttribute("onfocusout", "inputLeft(this), getLastValue(this)");
-            if (i == 1)
+            if (!lastExercise && i == 1)
                 input.setAttribute("oninput", "copyPasteWeight(this), checkIfSmallerThan(this, 999)");
             else
                 input.setAttribute("oninput", "checkIfSmallerThan(this, 999)");
             input.addEventListener("input", checkIfNumber);
-            input.value = weightOfLastSession;
+            if (lastExercise && lastExercise.weightAdded && i < lastExercise.sets.length+1)
+                input.value = lastExercise.sets[i-1].weight;
+
             div.append(input);
 
             p = document.createElement("p");
@@ -251,12 +253,14 @@ const initSets = () => {
         input.setAttribute("type", "tel");
         input.setAttribute("onfocus", "setLastValue(this), inputClicked(this), resetInputValue(this)");
         input.setAttribute("onfocusout", "inputLeft(this), getLastValue(this)");
-        if (i == 1)
+        if (!lastExercise && i == 1)
                 input.setAttribute("oninput", "copyPasteReps(this), checkIfSmallerThan(this, 999)");
             else
                 input.setAttribute("oninput", "checkIfSmallerThan(this, 999)");
         input.addEventListener("input", checkIfInteger);
-        input.value = repsOfLastSession;
+        if (lastExercise && i < lastExercise.sets.length+1)
+            input.value = lastExercise.sets[i-1].reps;
+            
         div.append(input);
     }
 
@@ -265,7 +269,7 @@ const initSets = () => {
     let button = document.createElement("button");
     button.classList.add("save-button");
     button.innerHTML = "SAVE";
-    button.addEventListener('click', saveButtonFunction);
+    button.setAttribute("onclick", "saveButtonFunction(this, false)");
     contentBack.append(button);
     setTimeout(() => button.style.opacity = 1, 20);
 
@@ -276,8 +280,9 @@ const initSets = () => {
     contentBack.append(span);
 }
 
-const putDataToArray = () => {
-    const sessionInputs = document.querySelectorAll(".content-back input:not([type=checkbox])");
+const getSessionAsObject = () => {
+    const sessionInputs = document.querySelectorAll(".content-back input:not([type=checkbox]):not(.reps-value):not(.weight-value)");
+    console.log(sessionInputs)
 
     let sessionData = {};
     let sets = [];
@@ -322,11 +327,7 @@ const putDataToArray = () => {
     }
     sessionData.sets = sets;
 
-    workoutData.push(sessionData);
-    sortByDateAsc(workoutData);
-    saveDataToStorage("workoutData", workoutData);
-    console.log("workoutData: ");
-    console.log(workoutData);
+    return sessionData;
 }
 
 const buttonAnimation = ({target}) => {

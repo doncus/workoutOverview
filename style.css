@@ -59,7 +59,7 @@ input {
     margin-top: 10px;
     
     opacity: 0;
-    transition: opacity 1000ms;
+    transition: opacity 500ms;
 
     display: none;
     flex-direction: column;

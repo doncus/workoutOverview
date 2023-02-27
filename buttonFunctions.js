@@ -55,7 +55,7 @@ const backButtonFunction = ({target}) => {
     showFrontContainer();
     setTimeout(() => {
         addSessionButton.disabled = false;
-        const contentBackDivs = document.querySelectorAll(".content-back div");
+        const contentBackDivs = document.querySelectorAll(".content-back div:not(.body-weight):not(.set-counter)");
         contentBackDivs.forEach(div => div.style.display = "flex");
         let addSessionElements = getNextSiblings(contentBack.querySelector(".select-sets"));
         if (addSessionElements.length)
@@ -71,13 +71,128 @@ const backButtonFunctionTwo = ({target}) => {
         navTop.classList.remove("float");
         button.addEventListener("click", backButtonFunction);
         setTimeout(() => navTop.style.removeProperty("transition"), 10);
-    }, 300);
+    }, 400);
     
     createFilterButtons();
     createPreviousDays(300);
 }
+const backButtonFunctionThree = ({target}) => {
+    let button = target.tagName.toLowerCase() === 'i' ? target.parentElement : target;
+    button.removeEventListener("click", backButtonFunctionThree);
+    button.addEventListener("click", backButtonFunctionTwo);
 
-const saveButtonFunction = ({target}) => {
+    calendarDate.removeEventListener("click", createCalendar);
+    contentBack.style.opacity = 0;
+    
+    setTimeout(() => {
+        let selectSets = contentBack.querySelector(".select-sets");
+        let selectExercise = contentBack.querySelector(".select-exercise");
+        while (selectSets.nextElementSibling)
+            selectSets.nextElementSibling.remove();
+        selectSets.style.display = "none";
+        selectSets.querySelector("input").value = "";
+        selectExercise.style.display = "none";
+        selectExercise.querySelector("input").value = "";
+
+        let topNav = document.querySelector(".content-back-top");
+        topNav.style.transition = "all 0ms";
+        topNav.classList.add("float");
+
+        document.querySelector(".previous-days-div").style.display = "flex";
+        const prevDays = document.querySelectorAll(".previous-days-button");
+        prevDays.forEach(prevDay => prevDay.style.removeProperty("display"));
+        const days = document.querySelectorAll(".day-container");
+        days.forEach(day => day.style.removeProperty("display"));
+
+        selectExercise.querySelector("input").setAttribute(
+            "oninput", "showExercises(this, 'session')");
+        selectExercise.querySelector("input").setAttribute(
+            "onfocus", "setLastValue(this), inputClicked(this), resetInputValue(this), showExercises(this, 'session')");
+        selectSets.querySelector("input").setAttribute("oninput", "initSets()");
+        selectSets.querySelector("#bw").setAttribute("onchange", "markChecked(this)");
+
+        calendarDate.innerHTML = curSession.date.monthName + " " + curSession.date.year;
+        contentBack.style.opacity = 1;
+    }, 500);
+}
+
+const editSet = ({target}) => {
+    contentBack.style.opacity = 0;
+
+    // get index of clicked date
+    const index = parseInt(target.closest(".day-container").id.match(/\d+/)[0]);
+
+    // set curSession
+    curSession = curDay[index];
+    
+    // change the functionality of the back button
+    let backBbutton = document.querySelector(".back-button");
+    backBbutton.removeEventListener("click", backButtonFunctionTwo);
+    backBbutton.addEventListener("click", backButtonFunctionThree);
+
+    // remove/hide all contentBack elements
+    const prevDays = document.querySelectorAll(".previous-days-button");
+    prevDays.forEach(prevDay => setTimeout(() => prevDay.style.display = "none", 500));
+    const days = document.querySelectorAll(".day-container");
+    days.forEach(day => setTimeout(() => day.style.display = "none", 500));
+    while (contentBack.querySelector(".select-sets").nextElementSibling)
+        contentBack.querySelector(".select-sets").nextElementSibling.remove();
+
+    // remove floating status from navbar
+    setTimeout(() => {
+        let navTop = document.querySelector(".content-back-top");
+        navTop.classList.remove("float");
+        setTimeout(() => navTop.style.removeProperty("transition"), 10);
+    }, 510);
+
+    // set the date at navbar
+    selectedDate.setTime(curDay[index].date.ms);
+    calendarDate.addEventListener("click", createCalendar);
+    setDate();
+
+    // recreate all sets with their values in edit mode
+    setTimeout(() => {
+        contentBack.style.opacity = 1;
+        contentBack.querySelector(".select-sets").style.display = "flex";
+        document.querySelector(".select-exercise").style.display = "flex";
+
+        lastExercise = curDay[index];
+
+        let exerciseInput = contentBack.querySelector(".select-exercise input");
+        let setsInput = contentBack.querySelector(".select-sets input");
+        exerciseInput.value = curDay[index].exercise;
+        setsInput.value = curDay[index].sets.length;
+
+        let checkbox = contentBack.querySelector(".body-weight input");
+        if (curDay[index].weightAdded)
+            checkbox.checked = false;
+        else
+            checkbox.checked = true;
+        markChecked(checkbox);
+
+        let weightInputs = document.querySelectorAll(".select-weight input");
+        let repsInputs = document.querySelectorAll(".select-reps input");
+        for (let i = 0; i < repsInputs.length; i++)
+        {
+            if (curDay[index].weightAdded)
+                weightInputs[i].value = curDay[index].sets[i].weight;
+            repsInputs[i].value = curDay[index].sets[i].reps;
+        }
+
+        let saveButton = contentBack.querySelector(".save-button");
+        saveButton.setAttribute("onclick", "saveButtonFunction(this, true)");
+
+        exerciseInput.setAttribute("oninput", "showExercises(this, '')");
+        exerciseInput.setAttribute("onfocus", "setLastValue(this), inputClicked(this), resetInputValue(this), showExercises(this, '')");
+        setsInput.setAttribute("oninput", "initSets(), changeSaveButtonBehavior()");
+        contentBack.querySelector("#bw").setAttribute("onchange", "markChecked(this), changeSaveButtonBehavior()");
+    }, 650);
+}
+const changeSaveButtonBehavior = () => {
+    document.querySelector('.save-button').setAttribute('onclick', 'saveButtonFunction(this, true)');
+}
+
+const saveButtonFunction = (button, overwrite) => {
     const inputs = contentBack.querySelectorAll("input:not([type=checkbox])");
     for (let i = 0; i < inputs.length; i++)
     {
@@ -99,19 +214,56 @@ const saveButtonFunction = ({target}) => {
         messageUser("Error", "You can't protocol for the future. </br></br> Check your date!", false, true);
         return;
     }
+    console.log(overwrite)
+    if (overwrite)
+    {
+        console.log("here")
+        let backBtn = document.querySelector(".back-button");
+        backBtn.removeEventListener("click", backButtonFunctionThree);
+        backBtn.addEventListener("click", backButtonFunction);
+        contentBack.querySelector(".select-exercise input").setAttribute(
+            "oninput", "showExercises(this, 'session')");
+        contentBack.querySelector(".select-exercise input").setAttribute(
+            "onfocus", "setLastValue(this), inputClicked(this), resetInputValue(this), showExercises(this, 'session')");
+        contentBack.querySelector(".select-sets input").setAttribute("oninput", "initSets()");
+        contentBack.querySelector("#bw").setAttribute("onchange", "markChecked(this)");
+    }
 
-    target.style.backgroundColor = "hsl(60, 25%, 60%)";
-    target.style.color = "black";
-    target.style.width = 40 + "%";
-    target.style.opacity = 0;
-    target.disabled = true;
+    button.style.backgroundColor = "hsl(60, 25%, 60%)";
+    button.style.color = "black";
+    button.style.width = 40 + "%";
+    button.style.opacity = 0;
+    button.disabled = true;
     setTimeout(() => showFrontContainer(), 200);
     setTimeout(() => contentBack.querySelectorAll("input").forEach(input => input.value = ""), 600);
-    putDataToArray();
+    if (document.querySelector(".day-container"))
+        document.querySelector(".day-container").remove();
+    if (document.querySelector(".previous-days-button"))
+        document.querySelector(".previous-days-button").remove();
+    
+    if (overwrite)
+    {
+        for (let i = 0; i < workoutData.length; i++)
+        {
+            if (workoutData[i].date.ms === curSession.date.ms)
+            {
+                workoutData[i] = getSessionAsObject();
+                break;
+            }
+        }
+    }
+    else
+        workoutData.push(getSessionAsObject());
+    sortByDateAsc(workoutData);
+    saveDataToStorage("workoutData", workoutData);
+    console.log("workoutData: ");
+    console.log(workoutData);
+
     setTimeout(() => {
         while (contentBack.querySelector(".select-sets").nextElementSibling)
             contentBack.querySelector(".select-sets").nextElementSibling.remove();
         selectedDate = new Date();
+        lastExercise = undefined;
         addSessionButton.disabled = false;
     }, 1200);
 }
@@ -124,7 +276,7 @@ const previousMonthButtonFunction = ({target}) => {
     button.style.color = "black";
     button.style.backgroundColor = "hsl(60, 25%, 60%)";
 
-    let contentBackDivs = contentBack.querySelectorAll("div");
+    let contentBackDivs = contentBack.querySelectorAll("div:not(.body-weight)");
     let addSessionElements = getNextSiblings(contentBack.querySelector(".select-sets"));
     contentBackDivs.forEach(div => div.style.display = "none");
     addSessionElements.forEach(ele => ele.style.display = "none");
@@ -292,11 +444,22 @@ const previousDayButtonFunction = ({target}) => {
 
         if (curDay.length === 1) continue;
         if (curDay.length <= 2 && curDay[i].sets.length <= 4) continue;
+
         let setCounter = document.createElement("div");
         setCounter.classList.add("set-counter");
-        setCounter.innerHTML = curDay[i].sets.length + " SET";
+
+        let setCounterSpan = document.createElement("span");
+        setCounterSpan.innerHTML = curDay[i].sets.length + " SET";
         if (curDay[i].sets.length > 1)
-            setCounter.innerHTML += "S";
+            setCounterSpan.innerHTML += "S";
+        setCounter.append(setCounterSpan);
+
+        let setCounterIcon = document.createElement("i");
+        setCounterIcon.classList.add("fa-solid");
+        setCounterIcon.classList.add("fa-pen-to-square");
+        setCounterIcon.onclick = editSet;
+        setCounter.append(setCounterIcon);
+
         div.append(setCounter);
     }
     setTimeout(() => {
@@ -313,7 +476,7 @@ const expandSetInfos = ({target}) => {
     let clickedExerciseId = parseInt(target.id.match(/\d+/)[0]);
     const parent = document.querySelector("#dayContainer" + clickedExerciseId);
     let setsToToggle = parent.querySelectorAll(".set-container");
-    const parentClosed = document.querySelector("#exercise" + clickedExerciseId).offsetHeight + 56;
+    const parentClosed = document.querySelector("#exercise" + clickedExerciseId).offsetHeight + 64;
     let wait = Math.trunc(120 / setsToToggle.length);
     parent.style.height = parent.getBoundingClientRect().height + "px";
 
@@ -324,10 +487,20 @@ const expandSetInfos = ({target}) => {
 
         let setCounter = document.createElement("DIV");
         setCounter.classList.add("set-counter");
-        setCounter.innerHTML = setsToToggle.length + " SET";
-        setCounter.style.opacity = 0;
+
+        let setCounterSpan = document.createElement("span");
+        setCounterSpan.innerHTML = setsToToggle.length + " SET";
         if (setsToToggle.length > 1)
-            setCounter.innerHTML += "S";
+            setCounterSpan.innerHTML += "S";
+        setCounter.append(setCounterSpan);
+
+        let setCounterIcon = document.createElement("i");
+        setCounterIcon.classList.add("fa-solid");
+        setCounterIcon.classList.add("fa-pen-to-square");
+        setCounterIcon.onclick = editSet;
+        setCounter.append(setCounterIcon);
+
+        setCounter.style.opacity = 0;
         parent.append(setCounter);
         setTimeout(() => setCounter.style.opacity = 1, 80);
     }
