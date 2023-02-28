@@ -128,6 +128,7 @@ const selectCalendarDay = ({target}) => {
     target.classList.add("selected-day");
     selectedDate.setDate(parseInt(target.innerHTML));
     setDate();
+    closeCalendarSmooth();
 }
 
 const setDate = () => {
