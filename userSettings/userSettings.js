@@ -2,6 +2,11 @@ const createUserContent = () => {
     const userSettings = document.querySelector(".user-settings");
 
     // (1) CHANGE USERNAME
+    let label = document.createElement("label");
+    label.classList.add("header-label");
+    label.innerHTML = "USER DATA";
+    userSettings.append(label);
+
     let div = buildOneUserInputField("user-change-name", false, "SET USERNAME", false,
         "SET", "set-username-button", "set");
     userSettings.append(div);
@@ -15,12 +20,18 @@ const createUserContent = () => {
     userSettings.append(button);
     
     // (3) CHANGE EXERCISES
+    label = document.createElement("label");
+    label.classList.add("header-label");
+    label.innerHTML = "EXERCISE LIST";
+    userSettings.append(label);
+
     const userExercises = document.createElement("div");
     userExercises.classList.add("user-change-exercises");
     // add exercise
     div = buildOneUserInputField("add-exercise-div", true, "ADD EXERCISE", true,
         "fa-plus", "add-exercise-button", "add");
     userExercises.append(div);
+
     // remove exercise
     div = buildOneUserInputField("remove-exercise-div", true, "REMOVE EXERCISE", true,
         "fa-minus", "remove-exercise-button", "del");
@@ -47,8 +58,10 @@ const createUserContent = () => {
     input.setAttribute("onfocusout", "closeAllLists()");
     div.append(input);
 
-    let label = document.createElement("label");
+    label = document.createElement("label");
     label.innerHTML = "CHANGE NAME OF EXERCISE";
+    label.style.transform = "translateY(-42px)";
+    label.style.fontSize = "12px";
     div.append(label);
 
     setTimeout(() => {

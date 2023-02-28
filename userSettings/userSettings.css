@@ -38,7 +38,6 @@
 }
 
 .user-settings .add-exercise-div {
-    border-top: 2px solid var(--btn-border);
     padding-top: 40px;
 }
 
@@ -60,7 +59,7 @@
     justify-content: center;
 }
 
-.user-settings label {
+.user-settings label:not(.header-label) {
     z-index: 4;
     background-color: var(--base-border);
     border-top-left-radius: 8px;
@@ -76,6 +75,15 @@
     font-size: 14px;
     font-style: italic;
     user-select: none;
+}
+.user-settings .header-label {
+    text-align: center;
+    padding: 8px 6px;
+    background-color: var(--base-border);
+    color: var(--btn-active);
+}
+.user-settings .header-label:last-of-type {
+    border-top: 5px solid var(--btn-border);
 }
 
 .user-settings input {

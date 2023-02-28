@@ -488,7 +488,7 @@ const showDataOfSelectedExercise = () => {
                     "." + lastExercise.date.year;
                 break;
             default:
-                text.innerHTML = "Last time (hours):";
+                text.innerHTML = "Last time [hours]:";
                 data.innerHTML = hoursSinceLastTime;
                 break;
         }
