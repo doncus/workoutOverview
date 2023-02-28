@@ -16,6 +16,12 @@
     flex-direction: column;
 }
 
+.user-settings div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .user-change-exercises {
     display: flex;
     justify-content: center;
@@ -30,13 +36,6 @@
     align-items: center;
 }
 
-.user-settings .add-exercise-div,
-.user-settings .remove-exercise-div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
 .user-settings .add-exercise-div {
     border-top: 2px solid var(--btn-border);
     padding-top: 40px;
@@ -44,20 +43,20 @@
 
 .user-change-name span,
 .user-change-exercises span {
-    z-index: 5;
-    left: 10%;
+    z-index: 21;
     position: absolute;
+    left: calc(8% - 3px);
     padding: 2px 8px;
     background-color: var(--base-border);
-    text-align: center;
     opacity: 0;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
     transition: all 400ms, opacity 600ms;
     color: var(--highlight);
-    font-weight: bold;
-    font-style: italic;
     user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .user-settings label {
@@ -73,6 +72,7 @@
     opacity: 0;
     color: var(--btn-active);
     font-weight: bold;
+    font-size: 14px;
     font-style: italic;
     user-select: none;
 }
@@ -98,7 +98,7 @@
 .user-settings button {
     width: 50px; 
     height: 50px; 
-    z-index: 6;
+    z-index: 22;
     background-color: var(--btn-bg);
     padding: 2px 10px;
     font-size: 18px;
@@ -124,4 +124,22 @@
     align-self: flex-start;
     margin-bottom: 30px;
     width: 150px;
+}
+
+.user-settings .change-exercise-name-button {
+    height: 90px;
+}
+.user-settings .change-exercise-name-div {
+    display: flex;
+}
+.user-settings .change-exercise-name-inputs-div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.change-exercise-name-inputs-div label {
+    padding: 3px 8px;
+    transform: translateY(-43px);
+    font-size: 12px;
 }

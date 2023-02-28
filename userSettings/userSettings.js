@@ -24,17 +24,61 @@ const createUserContent = () => {
     // remove exercise
     div = buildOneUserInputField("remove-exercise-div", true, "REMOVE EXERCISE", true,
         "fa-minus", "remove-exercise-button", "del");
-    div.querySelector("input").setAttribute("oninput", "showExercisesForUserSettings(this)");
-    div.querySelector("input").setAttribute("onfocus", "showExercisesForUserSettings(this)");
+    div.querySelector("input").setAttribute("oninput", "showExercisesForUserSettings(this, true)");
+    div.querySelector("input").setAttribute("onfocus", "showExercisesForUserSettings(this, true)");
     userExercises.append(div);
     // change name of exercise
-    // div = buildOneUserInputField("remove-exercise-div", true, "CHANGE NAME OF EXERCISE", true,
-    //     "fa-pen", "remove-exercise-button", "del");
-    // div.querySelector("label").style.fontSize = "12px";
-    // userExercises.append(div);
+    let parent = document.createElement("div");
+    parent.classList.add("change-exercise-name-div");
+    // change from
+    div = document.createElement("div");
+    div.classList.add("change-exercise-name-inputs-div");
+
+    let input = document.createElement("input");
+    input.type = "text";
+    input.placeholder = "from ...";
+    input.id = "from";
+    input.style.width = document.querySelector(".user-change-name input").offsetWidth + "px";
+    input.addEventListener("input", checkIfCharacters);
+    input.setAttribute("oninput", "showExercisesForUserSettings(this, false)");
+    input.setAttribute("onfocus", "showExercisesForUserSettings(this, false)");
+    div.append(input);
+
+    let label = document.createElement("label");
+    label.innerHTML = "CHANGE NAME OF EXERCISE";
+    div.append(label);
+
+    setTimeout(() => {
+        input.style.transform = "scaleX(1)";
+        setTimeout(() => label.style.opacity = 1, 300);
+    }, 100);
+    // change to
+    inputTwo = document.createElement("input");
+    inputTwo.type = "text";
+    inputTwo.placeholder = "to ...";
+    inputTwo.id = "to";
+    inputTwo.style.width = document.querySelector(".user-change-name input").offsetWidth + "px";
+    inputTwo.addEventListener("input", checkIfCharacters);
+    div.append(inputTwo);
+
+    setTimeout(() => inputTwo.style.transform = "scaleX(1)", 100);
+    parent.append(div);
+
+    button = document.createElement("button");
+    button.addEventListener("click", buttonAnimation);
+    button.setAttribute("onclick", "changeExerciseName()");
+    button.classList.add("change-exercise-name-button");
+    let icon = document.createElement("i");
+    icon.classList.add("fa-solid");
+    icon.classList.add("fa-pen");
+
+    button.append(icon);
+    parent.append(button);
+
+    userExercises.append(parent);
 
     userSettings.append(userExercises);
-
+    // (4) EMPTY EXERCISE LIST
     button = document.createElement("button");
     button.classList.add("empty-list-button");
     button.innerHTML = "Empty list";
@@ -120,10 +164,11 @@ const manageExerciseArray = (clickedButton, addToList) => {
             isInList = true;
             message = addToList ? "ALREADY IN LIST" : "EXERCISE REMOVED";
             originalString = userData.exercises[i];
+            break;
         }
     }
 
-    showMessage(exerciseDiv, message);
+    showMessage(input, message);
 
     if (!isInList && addToList)
     {
@@ -155,27 +200,93 @@ const setUsername = (clickedButton) => {
         message = "USERNAME CHANGED";
         saveDataToStorage("userData", userData);
         document.querySelector(".content-front-top h2 > span").innerHTML = username;
-
     }
     else if (username.length > 12)
         message = "MAX: 12 CHARACTERS";
 
-    showMessage(exerciseDiv, message);
+    showMessage(input, message);
 }
 
-const showMessage = (exerciseDiv, message) => {
+const showMessage = (input, message) => {
+    exerciseDiv = input.parentElement;
     if (exerciseDiv.querySelector("span"))
         exerciseDiv.querySelector("span").remove();
 
     let messageSpan = document.createElement("span");
-    messageSpan.innerHTML = message;
+    messageSpan.style.top = input.getBoundingClientRect().top -105 + "px";
+    messageSpan.style.width = input.offsetWidth + 4 + "px";
+    messageSpan.style.height = input.offsetHeight + "px";
+    messageSpan.innerHTML = message.toLowerCase();
+    setTimeout(() => messageSpan.style.opacity = 1, 10);
     setTimeout(() => {
-        messageSpan.style.transform = "translateY(-26px)";
-        messageSpan.style.opacity = 1;
-    }, 30);
-    setTimeout(() => {
-        messageSpan.style.transform = "translateY(0)";
         messageSpan.style.opacity = 0;
-    }, 3000);
+        setTimeout(() => messageSpan.remove(), 500);
+    }, 2000);
+
     exerciseDiv.append(messageSpan);
+}
+
+const changeExerciseName = () => {
+    let parent = document.querySelector(".change-exercise-name-inputs-div");
+    let inputs = parent.querySelectorAll("input");
+
+    let message = "FILL HERE";
+    if (!inputs[0].value.length) 
+    {
+        showMessage(inputs[0], message);
+        return;
+    }
+    else if (!inputs[1].value.length)
+    {
+        showMessage(inputs[1], message);
+        return;
+    }
+    
+    let exerciseFrom = inputs[0].value.replace(/[-\s]/g, '').toLowerCase();
+    let exerciseTo = inputs[1].value.replace(/[-\s]/g, '').toLowerCase();
+
+    let FromIsInList = false;
+    let ToIsInList = false;
+    message = "NAME CHANGED";
+    let exerciseOfList;
+    
+    for (let i = 0; i < userData.exercises.length; i++)
+    {
+        let exerciseInArray = userData.exercises[i].replace(/[-\s]/g, '').toLowerCase();
+        if (exerciseTo === exerciseInArray)
+        {
+            ToIsInList = true;
+            message = "ALREADY IN LIST";
+        }
+        if (exerciseFrom === exerciseInArray)
+        {
+            FromIsInList = true;
+            exerciseOfList = userData.exercises[i];
+        }
+    }
+    if (!FromIsInList)
+    {
+        message = "EXERCISE NOT FOUND";
+        showMessage(inputs[0], message);
+    }
+    if (ToIsInList)
+        showMessage(inputs[1], message);
+
+    if (FromIsInList && !ToIsInList)
+    {
+        let index = userData.exercises.indexOf(exerciseOfList);
+        userData.exercises[index] = inputs[1].value;
+        sortDataAsc(userData.exercises);
+        saveDataToStorage("userData", userData);
+        
+        for (let i = 0; i < workoutData.length; i++)
+        {
+            if (workoutData[i].exercise === exerciseOfList)
+                workoutData[i].exercise = inputs[1].value;
+        }
+        saveDataToStorage("workoutData", workoutData);
+        inputs[0].value = "";
+        inputs[1].value = "";
+        window.location.reload();
+    }
 }

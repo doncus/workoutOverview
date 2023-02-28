@@ -101,19 +101,19 @@ const closeAllLists = (e) => {
     }
 }
 
-const showExercisesForUserSettings = (input) => {
+const showExercisesForUserSettings = (input, sameDiv) => {
     closeAllLists();
 
     const autocompleteList = document.createElement("div");
     autocompleteList.classList.add("autocomplete-list");
-    autocompleteList.style.width = input.getBoundingClientRect().width + "px";
-    autocompleteList.style.alignSelf = "flex-start";
-    autocompleteList.style.left = input.parentElement.querySelector("button").getBoundingClientRect().left 
-        - 25 - input.getBoundingClientRect().width + "px";
-    autocompleteList.style.transform = "translateY(40px)";
+    let listWidth = input.getBoundingClientRect().width;
+    autocompleteList.style.width = listWidth + "px";
     autocompleteList.style.position = "absolute";
-
-    input.parentElement.appendChild(autocompleteList);
+    autocompleteList.style.top = input.getBoundingClientRect().top + input.offsetHeight + "px";
+    let btn = (sameDiv) ? input.parentElement.querySelector("button") : input.parentElement.parentElement.querySelector("button");
+    autocompleteList.style.left = btn.getBoundingClientRect().left - listWidth + "px";
+    
+    document.body.appendChild(autocompleteList);
     input.classList.add("drop-down-input");
 
     if (input.value == "")
