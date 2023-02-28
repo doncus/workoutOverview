@@ -330,7 +330,7 @@ const previousDayButtonFunction = ({target}) => {
         document.querySelector(".previous-days-div").append(button2);
     }, 500);
     setTimeout(() => backButton.disabled = false, 700);
-    ///////////////////////////////////////////////////////////
+    
     const id = parseInt(button.id.match(/\d+/)[0]);
     const dayOfMonth = curDaysData[id].date.day;
 
@@ -341,7 +341,6 @@ const previousDayButtonFunction = ({target}) => {
             curDay.push(curData[i]);
     }
 
-    //////////
     const prevDays = document.querySelector(".previous-days-div");
     
     let divSave = [];

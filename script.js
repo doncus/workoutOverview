@@ -1,4 +1,5 @@
 const showFrontContainer = () => {
+    calendarDate.removeEventListener("click", createCalendar);
     let menuButtons = contentFront.querySelectorAll(".menu-select button");
     menuButtons.forEach(curBtn => curBtn.removeEventListener("click", menuButtonAction));
 
