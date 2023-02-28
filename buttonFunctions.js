@@ -304,6 +304,9 @@ const previousDayButtonFunction = ({target}) => {
     button.style.transform = "translateY(" + (-transY) + "px)";
     button.style.borderRadius = "10px";
     button.style.fontWeight = "bold";
+    button.removeEventListener('click', previousDayButtonFunction);
+    button.removeEventListener('touchstart', deleteElement);
+    button.removeEventListener('touchend', deleteElement);
     
     prevButtons.forEach(btn => {
         btn.disabled = true;

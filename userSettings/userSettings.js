@@ -5,10 +5,12 @@ const createUserContent = () => {
     let label = document.createElement("label");
     label.classList.add("header-label");
     label.innerHTML = "USER DATA";
+    label.addEventListener("click", open);
     userSettings.append(label);
 
     let div = buildOneUserInputField("user-change-name", false, "SET USERNAME", false,
         "SET", "set-username-button", "set");
+    div.style.display = "none";
     userSettings.append(div);
 
     // (2) RESET USER
@@ -17,12 +19,38 @@ const createUserContent = () => {
     button.innerHTML = "Reset data";
     button.addEventListener("click", buttonAnimation);
     button.addEventListener("click", resetData);
+    button.style.display = "none";
     userSettings.append(button);
+
+    // (3) DOWNLOAD / UPLOAD
+    label = document.createElement("label");
+    label.classList.add("header-label");
+    label.innerHTML = "TRANSFER DATA";
+    label.addEventListener("click", open);
+    userSettings.append(label);
+
+    div = document.createElement("div");
+    div.classList.add("data-transfer-div");
+    div.style.display = "none";
+    userSettings.append(div);
+
+    button = document.createElement("button");
+    button.classList.add("download-button");
+    button.innerHTML = "Download";
+    button.addEventListener("click", buttonAnimation);
+    div.append(button);
+
+    button = document.createElement("button");
+    button.classList.add("upload-button");
+    button.innerHTML = "Upload";
+    button.addEventListener("click", buttonAnimation);
+    div.append(button);
     
-    // (3) CHANGE EXERCISES
+    // (4) CHANGE EXERCISES
     label = document.createElement("label");
     label.classList.add("header-label");
     label.innerHTML = "EXERCISE LIST";
+    label.addEventListener("click", open);
     userSettings.append(label);
 
     const userExercises = document.createElement("div");
@@ -51,7 +79,6 @@ const createUserContent = () => {
     input.type = "text";
     input.placeholder = "from ...";
     input.id = "from";
-    input.style.width = document.querySelector(".user-change-name input").offsetWidth + "px";
     input.addEventListener("input", checkIfCharacters);
     input.setAttribute("oninput", "showExercisesForUserSettings(this, false)");
     input.setAttribute("onfocus", "showExercisesForUserSettings(this, false), resetInputValue(this)");
@@ -60,7 +87,7 @@ const createUserContent = () => {
 
     label = document.createElement("label");
     label.innerHTML = "CHANGE NAME OF EXERCISE";
-    label.style.transform = "translateY(-42px)";
+    label.style.transform = "translateY(-44px)";
     label.style.fontSize = "12px";
     div.append(label);
 
@@ -73,7 +100,6 @@ const createUserContent = () => {
     inputTwo.type = "text";
     inputTwo.placeholder = "to ...";
     inputTwo.id = "to";
-    inputTwo.style.width = document.querySelector(".user-change-name input").offsetWidth + "px";
     inputTwo.addEventListener("input", checkIfCharacters);
     div.append(inputTwo);
 
@@ -94,7 +120,7 @@ const createUserContent = () => {
     userExercises.append(parent);
 
     userSettings.append(userExercises);
-    // (4) EMPTY EXERCISE LIST
+    // (5) EMPTY EXERCISE LIST
     button = document.createElement("button");
     button.classList.add("empty-list-button");
     button.innerHTML = "Empty list";
@@ -325,7 +351,7 @@ const openUserButtonFunction = () => {
     header.style.opacity = 0;
     setTimeout(() => {
         header.style.opacity = 1;
-        header.innerHTML = "User Settings";
+        header.innerHTML = "Settings";
     }, 200);
     userButton.classList.add("active");
 
@@ -337,4 +363,16 @@ const openUserButtonFunction = () => {
     document.querySelector(".main-container").append(userSettings);
 
     setTimeout(() => createUserContent(), 100);
+}
+
+const open = (e) => {
+    document.querySelector(".user-settings").style.minHeight = "0";
+    let sibling = e.target.nextElementSibling;
+    let status = (window.getComputedStyle(sibling).display == "none") ? "flex" : "none";
+
+    while (sibling && sibling.tagName !== 'LABEL')
+    {
+        sibling.style.display = status;
+        sibling = sibling.nextElementSibling;
+    }
 }

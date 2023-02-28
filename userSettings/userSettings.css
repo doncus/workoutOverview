@@ -13,14 +13,82 @@
     transition: all 200ms;
     transform-origin: top right;
     display: flex;
+    align-items: center;
     flex-direction: column;
 }
-
-.user-settings div {
+.user-settings > div {
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+}
+.user-settings .user-change-name,
+.user-settings .data-transfer-div {
+    flex-direction: row;
+}
+.user-settings .data-transfer-div {
+    padding: 20px 0;
+    gap: 10px;
+}
+.user-settings .user-change-exercises > div {
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.user-settings .change-exercise-name-inputs-div {
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+}
+.user-settings .add-exercise-div {
+    padding-top: 40px;
+}
+
+.user-settings button {
+    width: 50px; 
+    height: 50px; 
+    z-index: 22;
+    background-color: var(--btn-bg);
+    padding: 2px 10px;
+    font-size: 16px;
+    border: 4px solid var(--btn-border);
+    border-radius: 12px;
+    transition: all 200ms;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--gray);
+}
+.user-settings button:active {
+    background-color: var(--btn-active);
+    color: black;
+}
+.user-settings .reset-button,
+.user-settings .empty-list-button {
+    margin-left: 26px;
+    align-self: flex-start;
+    margin-bottom: 30px;
+    width: 120px;
+}
+.user-settings .reset-button {
+    margin-bottom: 30px;
+}
+
+.user-settings .change-exercise-name-button {
+    height: 90px;
+}
+
+.user-settings .data-transfer-div button {
+    height: 40px;
+    width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .user-change-exercises {
@@ -30,15 +98,32 @@
     flex-direction: column;
     gap: 16px;
 }
-.user-change-name {
+.user-settings .user-change-name {
     padding-top: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.user-settings .add-exercise-div {
-    padding-top: 40px;
+.user-settings input {
+    width: 70%;
+    z-index: 6;
+    border: none;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    padding: 4px 12px 4px 10px;
+    outline: none;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 400ms;
+
+    font-size: 18px;
+}
+.user-settings .change-exercise-name-inputs-div input {
+    width: 100%;
+}
+.user-settings input.drop-down-input {
+    border-bottom-left-radius: 0;
 }
 
 .user-change-name span,
@@ -77,79 +162,14 @@
     user-select: none;
 }
 .user-settings .header-label {
+    width: 100%;
+    border-top: 5px solid var(--btn-border);
     text-align: center;
     padding: 8px 6px;
     background-color: var(--base-border);
     color: var(--btn-active);
+    user-select: none;
 }
-.user-settings .header-label:last-of-type {
-    border-top: 5px solid var(--btn-border);
-}
-
-.user-settings input {
-    z-index: 6;
-    width: 70%;
-    border: none;
-    border-top-left-radius: 12px;
-    border-bottom-left-radius: 12px;
-    padding: 4px 12px 4px 10px;
-    outline: none;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 400ms;
-
-    font-size: 18px;
-}
-.user-settings input.drop-down-input {
-    border-bottom-left-radius: 0;
-}
-
-.user-settings button {
-    width: 50px; 
-    height: 50px; 
-    z-index: 22;
-    background-color: var(--btn-bg);
-    padding: 2px 10px;
-    font-size: 18px;
-    border: 4px solid var(--btn-border);
-    border-radius: 12px;
-    transition: all 200ms;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--gray);
-}
-.user-settings .set-username-button {
-    font-size: 14px;
-    font-weight: bold;
-}
-.user-settings button:active {
-    background-color: var(--btn-active);
-    color: black;
-}
-.user-settings .reset-button,
-.user-settings .empty-list-button {
-    margin-left: 26px;
-    align-self: flex-start;
-    margin-bottom: 30px;
-    width: 150px;
-}
-
-.user-settings .change-exercise-name-button {
-    height: 90px;
-}
-.user-settings .change-exercise-name-div {
-    width: 70%;
-    display: flex;
-}
-.user-settings .change-exercise-name-inputs-div {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.change-exercise-name-inputs-div label {
-    padding: 3px 8px;
-    transform: translateY(-43px);
-    font-size: 12px;
+.user-settings .header-label:first-of-type {
+    border-top: none;
 }
