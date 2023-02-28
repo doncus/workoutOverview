@@ -214,10 +214,8 @@ const saveButtonFunction = (button, overwrite) => {
         messageUser("Error", "You can't protocol for the future. </br></br> Check your date!", false, true);
         return;
     }
-    console.log(overwrite)
     if (overwrite)
     {
-        console.log("here")
         let backBtn = document.querySelector(".back-button");
         backBtn.removeEventListener("click", backButtonFunctionThree);
         backBtn.addEventListener("click", backButtonFunction);
@@ -634,7 +632,7 @@ const createFilterButtons = () => {
                 span.id = "date";
                 span.innerHTML = "Date";
                 span.classList.add("active");
-                span.addEventListener('click', filterDateDesc);
+                span.addEventListener('click', filterDateAsc);
                 break;
             default:
                 span.id = "weekday";

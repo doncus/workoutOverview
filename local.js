@@ -154,6 +154,8 @@ const showEachDay = (index) => {
     }
     curDaysData = [...tempDataSpliced];
 
+    sortByDateDesc(curDaysData);
+    
     createFilterButtons();
     createPreviousDays(1000);
 }

@@ -291,10 +291,10 @@ const handleChart = (inputValue) => {
     // scroll to requested position
     const selMenu = document.querySelector(".selected-menu-div");
     
-    selMenu.style.height = "570px";
-    setTimeout(() => selMenu.scrollIntoView({ behavior: 'auto', block: 'center'}), 100);
-    // setTimeout(() => document.body.scrollTo(0, selMenu.scrollHeight), 100);     // desktop
-    // setTimeout(() => selMenu.scrollTo(0, selMenu.scrollHeight), 100);           // mobile
+    selMenu.style.height = "580px";
+    setTimeout(() => document.body.scrollTo(0, selMenu.scrollHeight), 100);
+    // setTimeout(() => selMenu.scrollIntoView({ behavior: 'auto', block: 'center'}), 100);
+    // setTimeout(() => selMenu.scrollTo(0, selMenu.scrollHeight), 100);
 }
 
 const createChartNav = () => {
