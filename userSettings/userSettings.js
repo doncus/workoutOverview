@@ -38,12 +38,14 @@ const createUserContent = () => {
     button.classList.add("download-button");
     button.innerHTML = "Download";
     button.addEventListener("click", buttonAnimation);
+    button.addEventListener("click", download);
     div.append(button);
 
     button = document.createElement("button");
     button.classList.add("upload-button");
     button.innerHTML = "Upload";
     button.addEventListener("click", buttonAnimation);
+    button.addEventListener("click", upload);
     div.append(button);
     
     // (4) CHANGE EXERCISES
@@ -64,8 +66,7 @@ const createUserContent = () => {
     div = buildOneUserInputField("remove-exercise-div", true, "REMOVE EXERCISE", true,
         "fa-minus", "remove-exercise-button", "del");
     div.querySelector("input").setAttribute("oninput", "showExercisesForUserSettings(this, true)");
-    div.querySelector("input").setAttribute("onfocus", "showExercisesForUserSettings(this, true), resetInputValue(this)");
-    div.querySelector("input").setAttribute("onfocusout", "closeAllLists()");
+    div.querySelector("input").setAttribute("onfocus", "resetInputValue(this), showExercisesForUserSettings(this, true)");
 
     userExercises.append(div);
     // change name of exercise
@@ -81,8 +82,7 @@ const createUserContent = () => {
     input.id = "from";
     input.addEventListener("input", checkIfCharacters);
     input.setAttribute("oninput", "showExercisesForUserSettings(this, false)");
-    input.setAttribute("onfocus", "showExercisesForUserSettings(this, false), resetInputValue(this)");
-    input.setAttribute("onfocusout", "closeAllLists()");
+    input.setAttribute("onfocus", "resetInputValue(this), showExercisesForUserSettings(this, false)");
     div.append(input);
 
     label = document.createElement("label");
@@ -262,7 +262,7 @@ const showMessage = (input, message) => {
     setTimeout(() => {
         messageSpan.style.opacity = 0;
         setTimeout(() => messageSpan.remove(), 500);
-    }, 2000);
+    }, 1000);
 
     exerciseDiv.append(messageSpan);
 }
@@ -375,4 +375,148 @@ const open = (e) => {
         sibling.style.display = status;
         sibling = sibling.nextElementSibling;
     }
+}
+
+const download = () => {
+    let workoutJson = "data:text/json;charset=utf-8," + encodeURIComponent(
+        JSON.stringify(getData("workoutData"))
+        );
+    let userJson = "data:text/json;charset=utf-8," + encodeURIComponent(
+        JSON.stringify(getData("userData"))
+        );
+
+    let link = document.createElement("a");
+    link.style.display = "none";
+    document.body.append(link);
+
+    link.setAttribute("href", workoutJson);
+    link.setAttribute("download", "workoutData.json");
+    link.click();
+
+    link.setAttribute("href", userJson);
+    link.setAttribute("download", "userData.json");
+    link.click();
+    link.remove();
+}
+
+const upload = () => {
+    let fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = ".json";
+    fileInput.style.display = "none";
+    fileInput.onchange = ({target}) => {
+        if (target.files[0].name.slice(-5) !== ".json") {
+            messageUser("ERROR", "only .json files allowed", false, true, 2000);
+            return;
+        }
+        let fileReader = new FileReader();
+    
+        fileReader.onload = (e) => {
+            if (e.target.result.charAt(0) !== "[")
+            {
+                console.error("The .json workout file has to contain an array of workout objects");
+                return;
+            }
+            let result = JSON.parse(e.target.result);
+            let formatted = JSON.stringify(result);
+
+            let uploadedWorkout = JSON.parse(formatted);
+            checkUploadKeyValues(uploadedWorkout, target.files[0].name);
+            // console.log(uploadedWorkout);
+        }
+        fileReader.readAsText(fileInput.files.item(0));
+    }
+    document.body.append(fileInput);
+
+    fileInput.click();
+}
+
+const checkUploadKeyValues = (uploadData, filename) => {
+    // console.log(Object.keys(uploadData));
+    let workoutKeys = ["date", "exercise", "weightAdded", "sets"];
+    let dateKeys = ["weekday", "day", "monthName", "month", "year", "time", "ms"];
+    let setKeys = ["weight", "reps"];
+    // console.log(Object.keys(uploadData[0]));
+
+    for (let i = 0; i < uploadData.length; i++)
+    {
+        // console.log(Object.keys(uploadData[i]));
+        // check if the json contains all needed keys: [date, exercise, weightAdded, sets]
+        if (Object.keys(uploadData[i]).length < 4 || Object.keys(uploadData[i]).length > 4)
+        {
+            console.error("invalid number of keys");
+            return;
+        }
+        for (let j = 0; j < workoutKeys.length; j++) // [date, exercise, weightAdded, sets]
+        {
+            let obj = Object.keys(uploadData[i])[j];
+            if (obj !== workoutKeys[j])
+            {
+                console.error("invalid key: '" + obj + "'");
+                console.error("at object number {" + (i+1) + "}");
+                return;
+            }
+            // console.log(obj);
+            // console.log(Object.values(uploadData[i])[j]);
+
+            switch (obj) {
+                case "date":
+                    for (let k = 0; k < dateKeys.length; k++)   // ["day", "month", "monthName", "ms", "time", "weekday", "year"]
+                    {
+                        let dateObj = Object.keys(Object.values(uploadData[i])[j])[k];
+                        if (dateObj !== dateKeys[k])
+                        {
+                            console.error("invalid key: '" + dateObj + "'");
+                            console.error("at object number {" + (i+1) + "}");
+                            return;
+                        }
+                    }
+                    break;
+                case "sets":
+                    for (let k = 0; k < Object.values(uploadData[i])[j].length; k++)   // ["weight", "reps"]
+                    {
+                        let setArray = Object.keys(Object.values(uploadData[i])[j][k]);
+                        // if object contains "weight" key although weightAdded is false:
+                        if (setArray[0] === setKeys[0] && !Object.values(uploadData[i])[2]) 
+                        {
+                            console.error("invalid set value: '" + setArray[0] + "'");
+                            console.error("at object number {" + (i+1) + "}");
+                            console.error("weightAdded is false !");
+                            return;
+                        }
+                        if (setArray[0] !== setKeys[0])
+                        {
+                            console.error("invalid key: '" + setArray[0] + "'");
+                            console.error("at object number {" + (i+1) + "}");
+                            return;
+                        }
+                        if (setArray[1] !== setKeys[1])
+                        {
+                            console.error("invalid key: '" + setArray[1] + "'");
+                            console.error("at object number {" + (i+1) + "}");
+                            return;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    
+    for (let i = 0; i < uploadData.length; i++)
+    {
+        workoutData.push(uploadData[i]);
+        if (!userData.exercises.includes(uploadData[i].exercise))
+            userData.exercises.push(uploadData[i].exercise);
+    }
+
+    sortDataAsc(userData.exercises);
+    saveDataToStorage("userData", userData);
+    
+    sortByDateAsc(workoutData);
+    saveDataToStorage("workoutData", workoutData);
+    console.log(workoutData);
+    messageUser(filename, "uploaded successfully", false, true, 3000);
+    setTimeout(() => window.location.reload(), 2500);
 }
