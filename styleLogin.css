@@ -5,7 +5,7 @@
     margin-top: 20px;
 
     opacity: 0;
-    transition: 800ms;
+    transition: all 800ms;
 
     display: none;
     justify-content: center;

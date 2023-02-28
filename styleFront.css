@@ -2,7 +2,7 @@
     width: 100%;
 
     transform: translateX(-120%);
-    transition: 800ms;
+    transition: transform 600ms;
 
     display: flex;
     justify-content: center;
