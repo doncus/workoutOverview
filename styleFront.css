@@ -196,21 +196,24 @@
 }
 .overview-row-div span {
     color: var(--gray);
+    font-size: 16px;
 }
 
 .overview-row-div, .no-data-div {
-    width: 100%;
-    padding: 10px 12%;
+    width: 90%;
+    padding: 14px 10%;
     display: flex;
     align-items: center;
     justify-content: space-between;
     user-select: none;
     transition: opacity 400ms;
     opacity: 0;
+    border-top: solid 2px var(--btn-border);
 }
-.overview-row-div span {
-    font-size: 16px;
+.no-data-div {
+    border-top: none;
 }
+
 .overview-row-div .exercise-data {
     color: var(--highlight);
     font-weight: bold;
@@ -237,6 +240,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 50px;
 }
 .chart-navbar .time-filter-div,
 .chart-navbar .value-filter-div {

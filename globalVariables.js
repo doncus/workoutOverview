@@ -11,7 +11,6 @@ let lastExercise = undefined;
 let exerciseBeforeYear = undefined;
 let exerciseBeforeMonth = undefined;
 let latestDate = new Date().getFullYear();
-let averageReps = 0;
 let maxRepsOfExercise = 0;
 let minRepsOfExercise = 9999;
 let maxWeightOfExercise = 0;

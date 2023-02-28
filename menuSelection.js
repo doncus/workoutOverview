@@ -291,10 +291,8 @@ const handleChart = (inputValue) => {
     // scroll to requested position
     const selMenu = document.querySelector(".selected-menu-div");
     
-    selMenu.style.height = "580px";
+    selMenu.style.height = "620px";
     setTimeout(() => document.body.scrollTo(0, selMenu.scrollHeight), 100);
-    // setTimeout(() => selMenu.scrollIntoView({ behavior: 'auto', block: 'center'}), 100);
-    // setTimeout(() => selMenu.scrollTo(0, selMenu.scrollHeight), 100);
 }
 
 const createChartNav = () => {
@@ -464,41 +462,33 @@ const showDataOfSelectedExercise = () => {
     hoursSinceLastTime = curDate.getTime() - lastExercise.date.ms;
     hoursSinceLastTime = Math.trunc(hoursSinceLastTime / 3600000);
 
-    for (let i = 0; i < 6; i++)
+    for (let i = 0; i < 4; i++)
     {
         let rowDiv = document.createElement("div");
         rowDiv.classList.add("overview-row-div");
         rowDiv.id = "info" + i;
-        if (i == 0)
-            rowDiv.style.marginTop = "30px";
         
         let text = document.createElement("span");
         let data = document.createElement("span");
         data.classList.add("exercise-data");
         switch (i) {
             case 0:
-                text.innerHTML = "Personal record [kg]:";
-                data.innerHTML = maxWeightOfExercise;
+                rowDiv.style.borderTop = "none";
+                rowDiv.style.marginTop = "20px";
+                text.innerHTML = (lastExercise.weightAdded) ? "Personal record [kg]:" : "Personal record [reps]:";
+                data.innerHTML = (lastExercise.weightAdded) ? maxWeightOfExercise : maxRepsOfExercise ;
                 break;
             case 1:
-                text.innerHTML = "Personal record [reps]:";
-                data.innerHTML = maxRepsOfExercise;
-                break;
-            case 2:
-                text.innerHTML = "Average reps:";
-                data.innerHTML = averageReps;
-                break;
-            case 3:
                 text.innerHTML = "Times performed:";
                 data.innerHTML = exerciseCounter;
                 break;
-            case 4:
+            case 2:
                 text.innerHTML = "Last time:";
                 data.innerHTML = lastExercise.date.day + "." + lastExercise.date.month + 
                     "." + lastExercise.date.year;
                 break;
             default:
-                text.innerHTML = "Hours since:";
+                text.innerHTML = "Last time (hours):";
                 data.innerHTML = hoursSinceLastTime;
                 break;
         }
