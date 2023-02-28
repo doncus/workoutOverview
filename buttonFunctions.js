@@ -764,25 +764,3 @@ const filterTimeFunction = ({target}) => {
 
     createPreviousDays(200);
 }
-
-const openUserButtonFunction = () => {
-    const userButton = document.querySelector(".user-button");
-    if (document.querySelector(".user-settings"))
-    {
-        userButton.classList.remove("active");
-        userButton.style.transform = "scale(" + 1 + ")";
-        document.querySelector(".user-settings").remove();
-        contentFront.style.display = "flex";
-        return;
-    }
-    userButton.classList.add("active");
-
-    const userSettings = document.createElement("DIV");
-    setTimeout(() => userSettings.style.transform = "scale(1)", 10);
-    userSettings.classList.add("user-settings");
-
-    contentFront.style.display = "none";
-    document.querySelector(".main-container").append(userSettings);
-
-    setTimeout(() => createUserContent(), 100);
-}

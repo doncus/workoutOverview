@@ -199,7 +199,6 @@ const setUsername = (clickedButton) => {
         input.value = "";
         message = "USERNAME CHANGED";
         saveDataToStorage("userData", userData);
-        document.querySelector(".content-front-top h2 > span").innerHTML = username;
     }
     else if (username.length > 12)
         message = "MAX: 12 CHARACTERS";
@@ -289,4 +288,37 @@ const changeExerciseName = () => {
         inputs[1].value = "";
         window.location.reload();
     }
+}
+
+const openUserButtonFunction = () => {
+    const userButton = document.querySelector(".user-button");
+    let header = document.querySelector(".content-front-top .title h2");
+
+    if (document.querySelector(".user-settings"))
+    {
+        userButton.classList.remove("active");
+        header.style.opacity = 0;
+        setTimeout(() => {
+            header.style.opacity = 1;
+            header.innerHTML = "Welcome <span>" + userData.username + "</span>";
+        }, 200);
+        document.querySelector(".user-settings").remove();
+        contentFront.style.display = "flex";
+        return;
+    }
+    header.style.opacity = 0;
+    setTimeout(() => {
+        header.style.opacity = 1;
+        header.innerHTML = "User Settings";
+    }, 200);
+    userButton.classList.add("active");
+
+    const userSettings = document.createElement("DIV");
+    setTimeout(() => userSettings.style.transform = "scale(1)", 10);
+    userSettings.classList.add("user-settings");
+
+    contentFront.style.display = "none";
+    document.querySelector(".main-container").append(userSettings);
+
+    setTimeout(() => createUserContent(), 100);
 }
