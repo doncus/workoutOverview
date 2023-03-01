@@ -409,7 +409,7 @@ const download = () => {
 const upload = () => {
     let fileInput = document.createElement("input");
     fileInput.type = "file";
-    fileInput.accept = ".json";
+    // fileInput.accept = ".json";
     fileInput.style.display = "none";
     fileInput.onchange = ({target}) => {
         if (target.files[0].name.slice(-5) !== ".json") {
