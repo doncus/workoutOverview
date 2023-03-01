@@ -418,10 +418,10 @@ const upload = () => {
         }
         let fileReader = new FileReader();
     
-        fileReader.onload = (e) => {
-            messageUser("EVENT", "here!", false, true, 2000);
+        fileReader.onloadend = (e) => {
             if (e.target.result.charAt(0) !== "[")
             {
+                messageUser("ERROR", "The .json workout file has to contain an array of workout objects", false, true, 2000);
                 console.error("The .json workout file has to contain an array of workout objects");
                 return;
             }
@@ -452,6 +452,7 @@ const checkUploadKeyValues = (uploadData, filename) => {
         // check if the json contains all needed keys: [date, exercise, weightAdded, sets]
         if (Object.keys(uploadData[i]).length < 4 || Object.keys(uploadData[i]).length > 4)
         {
+            messageUser("ERROR", "invalid number of keys", false, true, 2000);
             console.error("invalid number of keys");
             return;
         }
@@ -460,6 +461,7 @@ const checkUploadKeyValues = (uploadData, filename) => {
             let obj = Object.keys(uploadData[i])[j];
             if (obj !== workoutKeys[j])
             {
+                messageUser("ERROR", "invalid key: '" + obj + "'" + " at object number {" + (i+1) + "}", false, true, 2000);
                 console.error("invalid key: '" + obj + "'");
                 console.error("at object number {" + (i+1) + "}");
                 return;
@@ -474,6 +476,7 @@ const checkUploadKeyValues = (uploadData, filename) => {
                         let dateObj = Object.keys(Object.values(uploadData[i])[j])[k];
                         if (dateObj !== dateKeys[k])
                         {
+                            messageUser("ERROR", "invalid key: '" + dateObj + "'" + " at object number {" + (i+1) + "}", false, true, 2000);
                             console.error("invalid key: '" + dateObj + "'");
                             console.error("at object number {" + (i+1) + "}");
                             return;
@@ -487,6 +490,7 @@ const checkUploadKeyValues = (uploadData, filename) => {
                         // if object contains "weight" key although weightAdded is false:
                         if (setArray[0] === setKeys[0] && !Object.values(uploadData[i])[2]) 
                         {
+                            messageUser("ERROR", "invalid set value: '" + setArray[0] + "'" + " at object number {" + (i+1) + "}", false, true, 2000);
                             console.error("invalid set value: '" + setArray[0] + "'");
                             console.error("at object number {" + (i+1) + "}");
                             console.error("weightAdded is false !");
@@ -494,12 +498,14 @@ const checkUploadKeyValues = (uploadData, filename) => {
                         }
                         if (setArray[0] !== setKeys[0])
                         {
+                            messageUser("ERROR", "invalid key: '" + setArray[0] + "'" + " at object number {" + (i+1) + "}", false, true, 2000);
                             console.error("invalid key: '" + setArray[0] + "'");
                             console.error("at object number {" + (i+1) + "}");
                             return;
                         }
                         if (setArray[1] !== setKeys[1])
                         {
+                            messageUser("ERROR", "invalid key: '" + setArray[0] + "'" + " at object number {" + (i+1) + "}", false, true, 2000);
                             console.error("invalid key: '" + setArray[1] + "'");
                             console.error("at object number {" + (i+1) + "}");
                             return;
