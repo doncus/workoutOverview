@@ -46,12 +46,23 @@ const createUserButtonFunction = () => {
 }
 
 const addSessionButtonFunction = () => {
+    if (contentBack.querySelector("#comment").checked)
+    {
+        setTimeout(() => {
+            let textArea = document.querySelector("textArea");
+            textArea.style.display = "block";
+            setTimeout(() => textArea.style.opacity = 1, 10);
+        }, 600);
+    }
     calendarDate.addEventListener("click", createCalendar);
     setDate();
     hideFrontContainer();
 }
 
 const backButtonFunction = ({target}) => {
+    document.querySelector("textarea").style.opacity = 0;
+    setTimeout(() => document.querySelector("textarea").style.display = "none", 500);
+
     showFrontContainer();
     setTimeout(() => {
         addSessionButton.disabled = false;
@@ -77,6 +88,9 @@ const backButtonFunctionTwo = ({target}) => {
     createPreviousDays(300);
 }
 const backButtonFunctionThree = ({target}) => {
+    document.querySelector("textarea").style.opacity = 0;
+    setTimeout(() => document.querySelector("textarea").style.display = "none", 500);
+
     let button = target.tagName.toLowerCase() === 'i' ? target.parentElement : target;
     button.removeEventListener("click", backButtonFunctionThree);
     button.addEventListener("click", backButtonFunctionTwo);
@@ -142,6 +156,7 @@ const editSet = ({target}) => {
     setTimeout(() => {
         let navTop = document.querySelector(".content-back-top");
         navTop.classList.remove("float");
+        
         setTimeout(() => navTop.style.removeProperty("transition"), 10);
     }, 510);
 
@@ -169,6 +184,15 @@ const editSet = ({target}) => {
         else
             checkbox.checked = true;
         markChecked(checkbox);
+
+        // let checkboxComment = contentBack.querySelector(".comment input");
+        // if (!curDay[index].comment.length)
+        //     checkboxComment.checked = false;
+        // else
+        //     checkboxComment.checked = true;
+        // markChecked(checkboxComment);
+        // openTextfield(checkboxComment);
+
         initSets();
 
         let weightInputs = document.querySelectorAll(".select-weight input");
@@ -233,7 +257,11 @@ const saveButtonFunction = (button, overwrite) => {
     button.style.width = 40 + "%";
     button.style.opacity = 0;
     button.disabled = true;
-    setTimeout(() => showFrontContainer(), 200);
+    setTimeout(() => {
+        showFrontContainer();
+        document.querySelector("textarea").style.opacity = 0;
+        setTimeout(() => document.querySelector("textarea").style.display = "none", 500);
+    }, 200);
     setTimeout(() => contentBack.querySelectorAll("input").forEach(input => input.value = ""), 600);
     if (document.querySelector(".day-container"))
         document.querySelector(".day-container").remove();

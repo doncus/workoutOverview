@@ -7,6 +7,7 @@ const showFrontContainer = () => {
     const frontTop = document.querySelector(".content-front-top");
     
     contentBack.style.opacity = 0;
+    
     backTop.style.transform = "translateX(" + (-120) + "%)";
     setTimeout(() => {
         contentBack.style.display = "none";
@@ -160,9 +161,37 @@ const getDateAsObject = () => {
     return timeObject;
 }
 
+const openTextfield = (element) => {
+    console.log(element.checked);
+    let div = element.parentElement;
+    div.style.height = div.offsetHeight + "px";
+    let label = div.querySelector("label");
+    let textArea = document.querySelector("textArea");
+    if (!element.checked)
+    {
+        label.classList.remove("opened");
+        div.style.height = div.offsetHeight - 80 + "px";
+        textArea.style.display = "none";
+        textArea.style.opacity = 0;
+        return;
+    }
+    
+    label.classList.add("opened");
+    
+    div.style.height = div.offsetHeight + 80 + "px";
+    setTimeout(() => {
+        textArea.style.top = label.getBoundingClientRect().top + label.offsetHeight + "px";
+        textArea.style.width = label.offsetWidth + "px";
+        textArea.style.display = "block";
+        setTimeout(() => textArea.style.opacity = 1, 10);
+    }, 100);
+    
+}
+
 const markChecked = (checkbox) => {
     const div = checkbox.parentElement;
     const check = div.querySelector("i");
+    const label = div.querySelector("label");
     if (checkbox.checked)
     {
         check.style.color = "rgb(182, 248, 0)";
@@ -173,9 +202,9 @@ const markChecked = (checkbox) => {
         check.style.removeProperty("color");
         check.style.removeProperty("font-size");
     }
-    div.style.transform = "scale(" + 1.1 + ")";
+    label.style.transform = "scale(" + 1.1 + ")";
     setTimeout(() => {
-        div.style.removeProperty("transform");
+        label.style.removeProperty("transform");
     }, 200);
 }
 
@@ -190,8 +219,8 @@ const initSets = () => {
         setInput.value = MAX_SETS;
     }
 
-    while (contentBack.querySelector(".select-sets").nextElementSibling)
-        contentBack.querySelector(".select-sets").nextElementSibling.remove();
+    while (contentBack.querySelector(".comment").nextElementSibling)
+        contentBack.querySelector(".comment").nextElementSibling.remove();
 
     for (let i = 1; i < nrSets + 1; i++)
     {
