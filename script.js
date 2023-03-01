@@ -21,7 +21,7 @@ const showFrontContainer = () => {
                 backTop.style.opacity = 0;
             }, 400);
         }, 50);
-    }, 500);
+    }, 540);
     
 
     setTimeout(() => contentBack.querySelector(".previous-days-div").innerHTML = "", 800);
@@ -173,11 +173,10 @@ const markChecked = (checkbox) => {
         check.style.removeProperty("color");
         check.style.removeProperty("font-size");
     }
-    div.style.transform = "scale(" + 1.2 + ")";
+    div.style.transform = "scale(" + 1.1 + ")";
     setTimeout(() => {
         div.style.removeProperty("transform");
     }, 200);
-    initSets();
 }
 
 const initSets = () => {

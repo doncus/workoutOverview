@@ -103,12 +103,18 @@
                         oninput="initSets()"
                         autocomplete="off"
                     >
-                    <div class="body-weight">
-                        <label for="bw">body weight only?
-                            <i class="fa-solid fa-check"></i>
-                        </label>
-                        <input type="checkbox" id="bw" onchange="markChecked(this)">
-                    </div>
+                </div>
+                <div class="body-weight">
+                    <label for="bw">body weight only?
+                        <i class="fa-solid fa-check"></i>
+                    </label>
+                    <input type="checkbox" id="bw" onchange="markChecked(this), initSets()">
+                </div>
+                <div class="comment">
+                    <label for="comment">Comment?
+                        <i class="fa-solid fa-check"></i>
+                    </label>
+                    <input type="checkbox" id="comment" onchange="markChecked(this), initSets()">
                 </div>
             </div>
         </div>

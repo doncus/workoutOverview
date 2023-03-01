@@ -109,7 +109,7 @@ const backButtonFunctionThree = ({target}) => {
         selectExercise.querySelector("input").setAttribute(
             "onfocus", "setLastValue(this), inputClicked(this), resetInputValue(this), showExercises(this, 'session')");
         selectSets.querySelector("input").setAttribute("oninput", "initSets()");
-        selectSets.querySelector("#bw").setAttribute("onchange", "markChecked(this)");
+        selectSets.querySelector("#bw").setAttribute("onchange", "markChecked(this), initSets()");
 
         calendarDate.innerHTML = curSession.date.monthName + " " + curSession.date.year;
         contentBack.style.opacity = 1;
@@ -169,6 +169,7 @@ const editSet = ({target}) => {
         else
             checkbox.checked = true;
         markChecked(checkbox);
+        initSets();
 
         let weightInputs = document.querySelectorAll(".select-weight input");
         let repsInputs = document.querySelectorAll(".select-reps input");
@@ -185,7 +186,7 @@ const editSet = ({target}) => {
         exerciseInput.setAttribute("oninput", "showExercises(this, '')");
         exerciseInput.setAttribute("onfocus", "setLastValue(this), inputClicked(this), resetInputValue(this), showExercises(this, '')");
         setsInput.setAttribute("oninput", "initSets(), changeSaveButtonBehavior()");
-        contentBack.querySelector("#bw").setAttribute("onchange", "markChecked(this), changeSaveButtonBehavior()");
+        contentBack.querySelector("#bw").setAttribute("onchange", "markChecked(this), initSets(), changeSaveButtonBehavior()");
     }, 650);
 }
 const changeSaveButtonBehavior = () => {
@@ -224,7 +225,7 @@ const saveButtonFunction = (button, overwrite) => {
         contentBack.querySelector(".select-exercise input").setAttribute(
             "onfocus", "setLastValue(this), inputClicked(this), resetInputValue(this), showExercises(this, 'session')");
         contentBack.querySelector(".select-sets input").setAttribute("oninput", "initSets()");
-        contentBack.querySelector("#bw").setAttribute("onchange", "markChecked(this)");
+        contentBack.querySelector("#bw").setAttribute("onchange", "markChecked(this), initSets()");
     }
 
     button.style.backgroundColor = "hsl(60, 25%, 60%)";
