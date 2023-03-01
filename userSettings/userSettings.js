@@ -409,7 +409,7 @@ const download = () => {
 const upload = () => {
     let fileInput = document.createElement("input");
     fileInput.type = "file";
-    // fileInput.accept = ".json";
+    fileInput.accept = ".json";
     fileInput.style.display = "none";
     fileInput.onchange = ({target}) => {
         if (target.files[0].name.slice(-5) !== ".json") {
@@ -419,6 +419,7 @@ const upload = () => {
         let fileReader = new FileReader();
     
         fileReader.onload = (e) => {
+            messageUser("EVENT", "here!", false, true, 2000);
             if (e.target.result.charAt(0) !== "[")
             {
                 console.error("The .json workout file has to contain an array of workout objects");
