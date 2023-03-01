@@ -28,8 +28,12 @@
     flex-direction: row;
 }
 .user-settings .data-transfer-div {
-    padding: 20px 0;
+    padding: 20px 0 10px 0;
     gap: 10px;
+}
+.user-settings .data-transfer-div ~div {
+    color: var(--gray);
+    padding-bottom: 20px;
 }
 .user-settings .user-change-exercises > div {
     width: 100%;

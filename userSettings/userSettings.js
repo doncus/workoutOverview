@@ -34,6 +34,11 @@ const createUserContent = () => {
     div.style.display = "none";
     userSettings.append(div);
 
+    let divSpan = document.createElement("div");
+    divSpan.innerHTML = "workout data as .json";
+    divSpan.style.display = "none";
+    userSettings.append(divSpan);
+
     button = document.createElement("button");
     button.classList.add("download-button");
     button.innerHTML = "Download";
@@ -67,6 +72,7 @@ const createUserContent = () => {
         "fa-minus", "remove-exercise-button", "del");
     div.querySelector("input").setAttribute("oninput", "showExercisesForUserSettings(this, true)");
     div.querySelector("input").setAttribute("onfocus", "resetInputValue(this), showExercisesForUserSettings(this, true)");
+    div.querySelector("input").setAttribute("onfocusout", "closeAllListsTimed()");
 
     userExercises.append(div);
     // change name of exercise
@@ -83,6 +89,7 @@ const createUserContent = () => {
     input.addEventListener("input", checkIfCharacters);
     input.setAttribute("oninput", "showExercisesForUserSettings(this, false)");
     input.setAttribute("onfocus", "resetInputValue(this), showExercisesForUserSettings(this, false)");
+    input.setAttribute("onfocusout", "closeAllListsTimed()");
     div.append(input);
 
     label = document.createElement("label");
