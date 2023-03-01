@@ -407,6 +407,7 @@ const download = () => {
 }
 
 const upload = () => {
+    // TEST
     let fileInput = document.createElement("input");
     fileInput.type = "file";
     fileInput.accept = ".json";
