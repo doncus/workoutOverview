@@ -388,9 +388,6 @@ const download = () => {
     let workoutJson = "data:text/json;charset=utf-8," + encodeURIComponent(
         JSON.stringify(getData("workoutData"))
         );
-    let userJson = "data:text/json;charset=utf-8," + encodeURIComponent(
-        JSON.stringify(getData("userData"))
-        );
 
     let link = document.createElement("a");
     link.style.display = "none";
@@ -399,14 +396,11 @@ const download = () => {
     link.setAttribute("href", workoutJson);
     link.setAttribute("download", "workoutData.json");
     link.click();
-
-    link.setAttribute("href", userJson);
-    link.setAttribute("download", "userData.json");
-    link.click();
     link.remove();
 }
 
 const upload = () => {
+    // TEST
     let fileInput = document.createElement("input");
     fileInput.type = "file";
     fileInput.accept = ".json";
@@ -418,9 +412,10 @@ const upload = () => {
         }
         let fileReader = new FileReader();
     
-        fileReader.onload = (e) => {
+        fileReader.onloadend = (e) => {
             if (e.target.result.charAt(0) !== "[")
             {
+                messageUser("ERROR", "invalid .json file", false, true, 2000);
                 console.error("The .json workout file has to contain an array of workout objects");
                 return;
             }
@@ -451,6 +446,7 @@ const checkUploadKeyValues = (uploadData, filename) => {
         // check if the json contains all needed keys: [date, exercise, weightAdded, sets]
         if (Object.keys(uploadData[i]).length < 4 || Object.keys(uploadData[i]).length > 4)
         {
+            messageUser("ERROR", "invalid .json file", false, true, 2000);
             console.error("invalid number of keys");
             return;
         }
@@ -459,6 +455,7 @@ const checkUploadKeyValues = (uploadData, filename) => {
             let obj = Object.keys(uploadData[i])[j];
             if (obj !== workoutKeys[j])
             {
+                messageUser("ERROR", "invalid .json file", false, true, 2000);
                 console.error("invalid key: '" + obj + "'");
                 console.error("at object number {" + (i+1) + "}");
                 return;
@@ -473,6 +470,7 @@ const checkUploadKeyValues = (uploadData, filename) => {
                         let dateObj = Object.keys(Object.values(uploadData[i])[j])[k];
                         if (dateObj !== dateKeys[k])
                         {
+                            messageUser("ERROR", "invalid .json file", false, true, 2000);
                             console.error("invalid key: '" + dateObj + "'");
                             console.error("at object number {" + (i+1) + "}");
                             return;
@@ -484,24 +482,48 @@ const checkUploadKeyValues = (uploadData, filename) => {
                     {
                         let setArray = Object.keys(Object.values(uploadData[i])[j][k]);
                         // if object contains "weight" key although weightAdded is false:
-                        if (setArray[0] === setKeys[0] && !Object.values(uploadData[i])[2]) 
+                        if (setArray.length == 1)
                         {
-                            console.error("invalid set value: '" + setArray[0] + "'");
-                            console.error("at object number {" + (i+1) + "}");
-                            console.error("weightAdded is false !");
-                            return;
+                            if (Object.values(uploadData[i])[2])
+                            {
+                                messageUser("ERROR", "invalid .json file", false, true, 2000);
+                                console.error("invalid set value: '" + setArray[0] + "'");
+                                console.error("at object number {" + (i+1) + "}");
+                                console.error("weightAdded is true !");
+                                return;
+                            }
+                            if (setArray[0] !== setKeys[1])
+                            {
+                                messageUser("ERROR", "invalid .json file", false, true, 2000);
+                                console.error("invalid key: '" + setArray[0] + "'");
+                                console.error("at object number {" + (i+1) + "}");
+                                return;
+                            }
                         }
-                        if (setArray[0] !== setKeys[0])
+                        else
                         {
-                            console.error("invalid key: '" + setArray[0] + "'");
-                            console.error("at object number {" + (i+1) + "}");
-                            return;
-                        }
-                        if (setArray[1] !== setKeys[1])
-                        {
-                            console.error("invalid key: '" + setArray[1] + "'");
-                            console.error("at object number {" + (i+1) + "}");
-                            return;
+                            if (!Object.values(uploadData[i])[2])
+                            {
+                                messageUser("ERROR", "invalid .json file", false, true, 2000);
+                                console.error("invalid set value: '" + setArray[0] + "'");
+                                console.error("at object number {" + (i+1) + "}");
+                                console.error("weightAdded is false !");
+                                return;
+                            }
+                            if (setArray[0] !== setKeys[0])
+                            {
+                                messageUser("ERROR", "invalid .json file", false, true, 2000);
+                                console.error("invalid key: '" + setArray[0] + "'");
+                                console.error("at object number {" + (i+1) + "}");
+                                return;
+                            }
+                            if (setArray[1] !== setKeys[1])
+                            {
+                                messageUser("ERROR", "invalid .json file", false, true, 2000);
+                                console.error("invalid key: '" + setArray[1] + "'");
+                                console.error("at object number {" + (i+1) + "}");
+                                return;
+                            }
                         }
                     }
                     break;
@@ -511,19 +533,38 @@ const checkUploadKeyValues = (uploadData, filename) => {
         }
     }
     
+    let allDuplicates = true;
+    let isDuplicate = false;
     for (let i = 0; i < uploadData.length; i++)
     {
-        workoutData.push(uploadData[i]);
-        if (!userData.exercises.includes(uploadData[i].exercise))
-            userData.exercises.push(uploadData[i].exercise);
+        isDuplicate = false;
+        for (let j = 0; j < workoutData.length; j++)
+        {
+            if (workoutData[j].date.ms === uploadData[i].date.ms)
+            {
+                isDuplicate = true;
+                break;
+            }
+        }
+        if (!isDuplicate)
+        {
+            allDuplicates = false;
+            workoutData.push(uploadData[i]);
+            if (!userData.exercises.includes(uploadData[i].exercise))
+                userData.exercises.push(uploadData[i].exercise);
+        }
     }
-
+    if (allDuplicates)
+    {
+        messageUser("UPLOAD FAILED", "'" + filename + "' already saved", false, true, 3000);
+        return;
+    }
     sortDataAsc(userData.exercises);
     saveDataToStorage("userData", userData);
     
     sortByDateAsc(workoutData);
     saveDataToStorage("workoutData", workoutData);
     console.log(workoutData);
-    messageUser(filename, "uploaded successfully", false, true, 3000);
+    messageUser("UPLOAD SUCCESS", "'" + filename + "' added", false, true, 3000);
     setTimeout(() => window.location.reload(), 2500);
 }
