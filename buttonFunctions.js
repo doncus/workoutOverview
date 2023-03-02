@@ -487,13 +487,22 @@ const previousDayButtonFunction = ({target}) => {
         }
         divSave.push(div);
 
+        let commentDiv = document.createElement("div");
+        commentDiv.classList.add("comment-div");
+        
+        let textArea = document.createElement("textarea");
+        textArea.classList.add("textarea-readonly");
+        textArea.readOnly = true;
+        commentDiv.append(textArea);
+
+        div.append(commentDiv);
+
         if (curDay.length === 1) continue;
         if (curDay.length <= 2 && curDay[i].sets.length <= 4) continue;
 
         let setCounter = document.createElement("div");
         setCounter.classList.add("set-counter");
 
-        // add function onclick for comments
         let setCounterIcon = document.createElement("i");
         setCounterIcon.classList.add("fa-solid");
         setCounterIcon.classList.add("fa-comment");
@@ -513,16 +522,6 @@ const previousDayButtonFunction = ({target}) => {
         setCounter.append(setCounterIcon);
 
         div.append(setCounter);
-
-        let commentDiv = document.createElement("div");
-        commentDiv.classList.add("comment-div");
-        
-        let textArea = document.createElement("textarea");
-        textArea.classList.add("textarea-readonly");
-        textArea.readOnly = true;
-        commentDiv.append(textArea);
-
-        div.append(commentDiv);
     }
     setTimeout(() => {
         for (let i = 0; i < divSave.length; i++)
