@@ -489,7 +489,6 @@ const previousDayButtonFunction = ({target}) => {
 
         let commentDiv = document.createElement("div");
         commentDiv.classList.add("comment-div");
-        
         let textArea = document.createElement("textarea");
         textArea.classList.add("textarea-readonly");
         textArea.readOnly = true;
@@ -497,7 +496,7 @@ const previousDayButtonFunction = ({target}) => {
 
         div.append(commentDiv);
 
-        if (curDay.length === 1) continue;
+        if (curDay.length <= 2) continue;
         if (curDay.length <= 2 && curDay[i].sets.length <= 4) continue;
 
         let setCounter = document.createElement("div");
@@ -521,7 +520,7 @@ const previousDayButtonFunction = ({target}) => {
         setCounterIcon.onclick = editSet;
         setCounter.append(setCounterIcon);
 
-        div.append(setCounter);
+        div.insertBefore(setCounter, commentDiv);
     }
     setTimeout(() => {
         for (let i = 0; i < divSave.length; i++)
