@@ -69,6 +69,7 @@ const getLastSessionData = (inputValue) => {
     weightOfLastSession = "";
     repsOfLastSession = "";
     nrSetsOfLastSession = "";
+    taText = "";
 
     for (let i = 0; i < workoutData.length; i++)
     {
@@ -80,9 +81,27 @@ const getLastSessionData = (inputValue) => {
                 lastExercise = workoutData[i];
         }
     }
+
+    let checkbox = document.querySelector("#bw");
+    let commentCheckbox = document.querySelector("#comment");
+
     if (lastExercise)
     {
-        let checkbox = document.querySelector(".body-weight input[type=checkbox]");
+        taText = lastExercise.comment;
+        if (lastExercise.comment.length)
+        {
+            commentCheckbox.checked = true;
+            markChecked(commentCheckbox);
+            if (!document.querySelector(".textarea-absolute"))
+                openTextfield(commentCheckbox);
+        }
+        else
+        {
+            commentCheckbox.checked = false;
+            markChecked(commentCheckbox);
+            if (document.querySelector(".textarea-absolute"))
+                openTextfield(commentCheckbox);
+        }
         if (lastExercise.weightAdded)
         {
             weightOfLastSession = lastExercise.sets[0].weight;
@@ -103,6 +122,22 @@ const getLastSessionData = (inputValue) => {
         repsOfLastSession = lastExercise.sets[0].reps;
         nrSetsOfLastSession = lastExercise.sets.length;
     }
+    else
+    {
+        if (document.querySelector(".textarea-absolute"))
+        {
+            commentCheckbox.checked = false;
+            markChecked(commentCheckbox);
+            openTextfield(commentCheckbox);
+        }
+        if (checkbox.checked)
+        {
+            checkbox.checked = false;
+            markChecked(checkbox);
+        }
+    }
+    if (document.querySelector(".textarea-absolute"))
+        document.querySelector(".textarea-absolute").value = taText;
 
     let setInput = document.querySelector(".select-sets input");
     setInput.value = nrSetsOfLastSession;
@@ -190,6 +225,7 @@ const createTextfield = () => {
 
     let label = document.querySelector(".comment label");
     let textArea = document.createElement("textarea");
+    textArea.classList.add("textarea-absolute");
     textArea.style.top = label.getBoundingClientRect().top + label.offsetHeight + "px";
     textArea.style.width = label.offsetWidth + "px";
     textArea.style.display = "block";
@@ -199,10 +235,10 @@ const createTextfield = () => {
     setTimeout(() => textArea.style.opacity = 1, 10);
 }
 const removeTextfield = (ms = 500) => {
-    if (document.querySelector("textarea"))
+    if (document.querySelector(".textarea-absolute"))
     {
-        document.querySelector("textarea").style.opacity = 0;
-        setTimeout(() => document.querySelector("textarea").remove(), ms);
+        document.querySelector(".textarea-absolute").style.opacity = 0;
+        setTimeout(() => document.querySelector(".textarea-absolute").remove(), ms);
     }
 }
 

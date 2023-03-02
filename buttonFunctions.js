@@ -269,7 +269,7 @@ const saveButtonFunction = (button, overwrite) => {
     setTimeout(() => {
         showFrontContainer();
         if (contentBack.querySelector("#comment").checked)
-            document.querySelector("textarea").style.opacity = 0;
+            document.querySelector(".textarea-absolute").style.opacity = 0;
     }, 200);
     setTimeout(() => {
         if (contentBack.querySelector("#comment").checked)
@@ -497,6 +497,7 @@ const previousDayButtonFunction = ({target}) => {
         let setCounterIcon = document.createElement("i");
         setCounterIcon.classList.add("fa-solid");
         setCounterIcon.classList.add("fa-comment");
+        setCounterIcon.onclick = openComment;
         setCounter.append(setCounterIcon);
 
         let setCounterSpan = document.createElement("span");
@@ -512,12 +513,22 @@ const previousDayButtonFunction = ({target}) => {
         setCounter.append(setCounterIcon);
 
         div.append(setCounter);
+
+        let commentDiv = document.createElement("div");
+        commentDiv.classList.add("comment-div");
+        
+        let textArea = document.createElement("textarea");
+        textArea.classList.add("textarea-readonly");
+        textArea.readOnly = true;
+        commentDiv.append(textArea);
+
+        div.append(commentDiv);
     }
     setTimeout(() => {
         for (let i = 0; i < divSave.length; i++)
         {
             prevDays.append(divSave[i]);
-            setTimeout(() => divSave[i].style.opacity = 1, 50);
+            setTimeout(() => divSave[i].style.opacity = 1, 10);
         }
     }, 500);
 }
@@ -526,14 +537,14 @@ const expandSetInfos = ({target}) => {
     target = (target.className == "DIV") ? target : target.parentElement;
     let clickedExerciseId = parseInt(target.id.match(/\d+/)[0]);
     const parent = document.querySelector("#dayContainer" + clickedExerciseId);
+    let textarea = parent.querySelector("textarea");
     let setsToToggle = parent.querySelectorAll(".set-container");
-    const parentClosed = document.querySelector("#exercise" + clickedExerciseId).offsetHeight + 64;
     let wait = Math.trunc(120 / setsToToggle.length);
     parent.style.height = parent.getBoundingClientRect().height + "px";
 
     if (window.getComputedStyle(setsToToggle[0]).display == "flex")
     {
-        parent.style.height = parentClosed + "px";
+        parent.style.removeProperty("height");
         setsToToggle.forEach(setInfo => setInfo.style.display = "none");
 
         let setCounter = document.createElement("DIV");
@@ -542,6 +553,7 @@ const expandSetInfos = ({target}) => {
         let setCounterIcon = document.createElement("i");
         setCounterIcon.classList.add("fa-solid");
         setCounterIcon.classList.add("fa-comment");
+        setCounterIcon.onclick = openComment;
         setCounter.append(setCounterIcon);
 
         let setCounterSpan = document.createElement("span");
@@ -557,7 +569,7 @@ const expandSetInfos = ({target}) => {
         setCounter.append(setCounterIcon);
 
         setCounter.style.opacity = 0;
-        parent.append(setCounter);
+        parent.insertBefore(setCounter, textarea.parentElement);
         setTimeout(() => setCounter.style.opacity = 1, 80);
     }
     else
@@ -819,4 +831,29 @@ const filterTimeFunction = ({target}) => {
     curDaysData = sortedArray;
 
     createPreviousDays(200);
+}
+
+const openComment = ({target}) => {
+    let container = target.closest(".day-container");
+    let textarea = container.querySelector("textarea");
+    
+    // get index of clicked date
+    const index = parseInt(container.id.match(/\d+/)[0]);
+
+    // set curSession
+    curSession = curDay[index];
+    textarea.value = curDay[index].comment;
+
+    if (window.getComputedStyle(textarea).display == "block")
+    {
+        textarea.style.opacity = 0;
+        setTimeout(() => textarea.style.display = "none", 200);
+    }
+    else
+    {
+        textarea.style.display = "block";
+        setTimeout(() => textarea.style.opacity = 1, 10);
+    }
+    // container.style.height = container.getBoundingClientRect().height + "px";
+    
 }
