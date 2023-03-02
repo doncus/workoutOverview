@@ -297,7 +297,6 @@ const saveButtonFunction = (button, overwrite) => {
         workoutData.push(getSessionAsObject());
     sortByDateAsc(workoutData);
     saveDataToStorage("workoutData", workoutData);
-    console.log("workoutData: ");
     console.log(workoutData);
 
     setTimeout(() => {
@@ -494,13 +493,18 @@ const previousDayButtonFunction = ({target}) => {
         let setCounter = document.createElement("div");
         setCounter.classList.add("set-counter");
 
+        let setCounterIcon = document.createElement("i");
+        setCounterIcon.classList.add("fa-solid");
+        setCounterIcon.classList.add("fa-comment");
+        setCounter.append(setCounterIcon);
+
         let setCounterSpan = document.createElement("span");
         setCounterSpan.innerHTML = curDay[i].sets.length + " SET";
         if (curDay[i].sets.length > 1)
             setCounterSpan.innerHTML += "S";
         setCounter.append(setCounterSpan);
 
-        let setCounterIcon = document.createElement("i");
+        setCounterIcon = document.createElement("i");
         setCounterIcon.classList.add("fa-solid");
         setCounterIcon.classList.add("fa-pen-to-square");
         setCounterIcon.onclick = editSet;
@@ -534,13 +538,18 @@ const expandSetInfos = ({target}) => {
         let setCounter = document.createElement("DIV");
         setCounter.classList.add("set-counter");
 
+        let setCounterIcon = document.createElement("i");
+        setCounterIcon.classList.add("fa-solid");
+        setCounterIcon.classList.add("fa-comment");
+        setCounter.append(setCounterIcon);
+
         let setCounterSpan = document.createElement("span");
         setCounterSpan.innerHTML = setsToToggle.length + " SET";
         if (setsToToggle.length > 1)
             setCounterSpan.innerHTML += "S";
         setCounter.append(setCounterSpan);
 
-        let setCounterIcon = document.createElement("i");
+        setCounterIcon = document.createElement("i");
         setCounterIcon.classList.add("fa-solid");
         setCounterIcon.classList.add("fa-pen-to-square");
         setCounterIcon.onclick = editSet;

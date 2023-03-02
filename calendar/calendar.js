@@ -9,6 +9,8 @@ const createCalendar = () => {
         closeCalendarSmooth();
         return;
     }
+    if (contentBack.querySelector("#comment").checked)
+        document.querySelector("textarea").style.visibility = "hidden";
     contentBack.style.visibility = "hidden";
 
     calendarDate.classList.add("active");
@@ -109,6 +111,8 @@ const closeCalendar = ({target}) => {
     calendar.remove();
     calendarDate.classList.remove("active");
     contentBack.style.removeProperty("visibility");
+    if (contentBack.querySelector("#comment").checked)
+        document.querySelector("textarea").style.removeProperty("visibility");
     if (document.querySelector(".date-control"))
         document.querySelector(".date-control").innerHTML = getWholeDate();
 }
@@ -119,6 +123,8 @@ const closeCalendarSmooth = () => {
     setTimeout(() => calendar.remove(), 300);
     calendarDate.classList.remove("active");
     contentBack.style.removeProperty("visibility");
+    if (contentBack.querySelector("#comment").checked)
+        document.querySelector("textarea").style.removeProperty("visibility");
     if (document.querySelector(".date-control"))
         document.querySelector(".date-control").innerHTML = getWholeDate();
 }

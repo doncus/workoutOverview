@@ -164,14 +164,14 @@
     transition: all 200ms;
 
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     font-style: italic;
-    padding: 10px 0 10px 36%;
+    padding-top: 8px;
     user-select: none;
 }
 .set-counter i {
-    margin-left: auto;
+    padding: 4px;
 }
 .set-counter i:active {
     color: var(--highlight);
@@ -192,7 +192,7 @@
 
 .set-container input {
     width: 70px;
-    background-color: black;
+    background-color: var(--base-bg);
     border: 5px solid var(--btn-border);
     border-radius: 10px;
     outline: none;

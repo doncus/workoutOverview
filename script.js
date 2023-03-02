@@ -551,6 +551,14 @@ const deleteElement = (e) => {
             }
 
             element.parentElement.remove();
+
+            // reset all id numbers
+            let j = 0;
+            let curButtons = document.querySelectorAll(".time-of-exercise-div");
+            curButtons.forEach(btn => {
+                btn.setAttribute("id", "exercise" + j);
+                btn.parentElement.setAttribute("id", "dayContainer" + j++);
+            });
         }
         else if (element.classList.contains("previous-days-button"))
         {
@@ -568,6 +576,11 @@ const deleteElement = (e) => {
                 document.querySelector(".back-button").click();
 
             element.remove();
+
+            // reset all id numbers
+            let j = 0;
+            let curButtons = document.querySelectorAll(".previous-days-button");
+            curButtons.forEach(btn => btn.setAttribute("id", "prevDayButton" + j++));
         }
         else
         {
@@ -583,9 +596,13 @@ const deleteElement = (e) => {
                 generatePrevSessionData();
             
             element.remove();
+
+            // reset all id numbers
+            let j = 0;
+            let curButtons = document.querySelectorAll(".previous-session-button");
+            curButtons.forEach(btn => btn.setAttribute("id", "prevButton" + j++));
         }
         
         saveDataToStorage('workoutData', workoutData);
-        element.remove();
     }
 }

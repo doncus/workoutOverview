@@ -434,8 +434,13 @@ const upload = () => {
 }
 
 const checkUploadKeyValues = (uploadData, filename) => {
+    for (let i = 0; i < uploadData.length; i++)
+    {
+        if (uploadData[i]["comment"] == undefined)
+            uploadData[i].comment = "";
+    }
     // console.log(Object.keys(uploadData));
-    let workoutKeys = ["date", "exercise", "weightAdded", "sets"];
+    let workoutKeys = ["date", "exercise", "weightAdded", "sets", "comment"];
     let dateKeys = ["weekday", "day", "monthName", "month", "year", "time", "ms"];
     let setKeys = ["weight", "reps"];
     // console.log(Object.keys(uploadData[0]));
@@ -444,7 +449,7 @@ const checkUploadKeyValues = (uploadData, filename) => {
     {
         // console.log(Object.keys(uploadData[i]));
         // check if the json contains all needed keys: [date, exercise, weightAdded, sets]
-        if (Object.keys(uploadData[i]).length < 4 || Object.keys(uploadData[i]).length > 4)
+        if (Object.keys(uploadData[i]).length < 5 || Object.keys(uploadData[i]).length > 5)
         {
             messageUser("ERROR", "invalid .json file", false, true, 2000);
             console.error("invalid number of keys");
