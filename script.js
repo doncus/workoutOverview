@@ -161,37 +161,53 @@ const getDateAsObject = () => {
     return timeObject;
 }
 
+const moveTextfield = () => {
+    if (!document.querySelector("textArea")) return;
+    let label = document.querySelector(".comment label");
+    let textArea = document.querySelector("textArea");
+    textArea.style.top = label.getBoundingClientRect().top + label.offsetHeight + "px";
+}
 const openTextfield = (element) => {
-    console.log(element.checked);
     let div = element.parentElement;
     div.style.height = div.offsetHeight + "px";
     let label = div.querySelector("label");
-    let textArea = document.querySelector("textArea");
+    
     if (!element.checked)
     {
         label.classList.remove("opened");
         div.style.height = div.offsetHeight - 80 + "px";
-        textArea.style.display = "none";
-        textArea.style.opacity = 0;
+        removeTextfield(0);
         return;
     }
     
     label.classList.add("opened");
     
     div.style.height = div.offsetHeight + 80 + "px";
-    setTimeout(() => {
-        textArea.style.top = label.getBoundingClientRect().top + label.offsetHeight + "px";
-        textArea.style.width = label.offsetWidth + "px";
-        textArea.style.display = "block";
-        setTimeout(() => textArea.style.opacity = 1, 10);
-    }, 100);
-    
+    createTextfield();
+}
+const createTextfield = () => {
+    if (!contentBack.querySelector("#comment").checked) return;
+
+    let label = document.querySelector(".comment label");
+    let textArea = document.createElement("textarea");
+    textArea.style.top = label.getBoundingClientRect().top + label.offsetHeight + "px";
+    textArea.style.width = label.offsetWidth + "px";
+    textArea.style.display = "block";
+    textArea.value = taText;
+    textArea.oninput = () => taText = textArea.value;
+    document.body.append(textArea);
+    setTimeout(() => textArea.style.opacity = 1, 10);
+}
+const removeTextfield = (ms = 500) => {
+    if (document.querySelector("textarea"))
+    {
+        document.querySelector("textarea").style.opacity = 0;
+        setTimeout(() => document.querySelector("textarea").remove(), ms);
+    }
 }
 
 const markChecked = (checkbox) => {
-    const div = checkbox.parentElement;
-    const check = div.querySelector("i");
-    const label = div.querySelector("label");
+    const check = checkbox.parentElement.querySelector("i");
     if (checkbox.checked)
     {
         check.style.color = "rgb(182, 248, 0)";
@@ -202,10 +218,14 @@ const markChecked = (checkbox) => {
         check.style.removeProperty("color");
         check.style.removeProperty("font-size");
     }
+}
+const checkAnimation = (checkbox) => {
+    const label = checkbox.parentElement.querySelector("label");
+
     label.style.transform = "scale(" + 1.1 + ")";
     setTimeout(() => {
         label.style.removeProperty("transform");
-    }, 200);
+    }, 100);
 }
 
 const initSets = () => {
@@ -310,7 +330,6 @@ const initSets = () => {
 
 const getSessionAsObject = () => {
     const sessionInputs = document.querySelectorAll(".content-back input:not([type=checkbox]):not(.reps-value):not(.weight-value)");
-    console.log(sessionInputs)
 
     let sessionData = {};
     let sets = [];
@@ -354,7 +373,13 @@ const getSessionAsObject = () => {
         }
     }
     sessionData.sets = sets;
-
+    if (document.querySelector("#comment").checked && document.querySelector(".comment").value == "")
+        sessionData.comment = "";
+    else if (document.querySelector("#comment").checked)
+        sessionData.comment = taText;
+    else
+        sessionData.comment = "";
+    
     return sessionData;
 }
 

@@ -108,18 +108,15 @@
                     <label for="bw">body weight only?
                         <i class="fa-solid fa-check"></i>
                     </label>
-                    <input type="checkbox" id="bw" onchange="markChecked(this), initSets()">
+                    <input type="checkbox" id="bw" onchange="markChecked(this), checkAnimation(this), initSets()">
                 </div>
                 <div class="comment">
                     <label for="comment">comment?
                         <i class="fa-solid fa-check"></i>
                     </label>
-                    <input type="checkbox" id="comment" onchange="markChecked(this), openTextfield(this)">
+                    <input type="checkbox" id="comment" onchange="markChecked(this), checkAnimation(this), openTextfield(this)">
                 </div>
             </div>
         </div>
-        <textarea>
-
-        </textarea>
     </body>
 </html>

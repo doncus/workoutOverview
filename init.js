@@ -3,8 +3,9 @@ window.onload = () => {
     initMessageBox();
 
     document.addEventListener("click", closeAllLists);
-    document.body.addEventListener("scroll", closeAllLists);
     document.addEventListener("click", closeCalendar);
+    document.body.addEventListener("scroll", closeAllLists);
+    document.body.addEventListener("scroll", moveTextfield);
     
     const setsInput = document.querySelector(".select-sets input");
     setsInput.addEventListener("input", checkIfInteger);
@@ -18,7 +19,6 @@ window.onload = () => {
     if (getData("userData") === null)
     {
         showUserContainer();
-
         /**
          * remove here: addtestData()
          */

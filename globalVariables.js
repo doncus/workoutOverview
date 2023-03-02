@@ -2,6 +2,7 @@ const contentFront = document.querySelector(".content-front");
 const contentBack = document.querySelector(".content-back");
 const addSessionButton = contentFront.querySelector(".add-session-button");
 
+let taText = "";
 let messaging = false;
 let weightOfLastSession = "";
 let repsOfLastSession = "";

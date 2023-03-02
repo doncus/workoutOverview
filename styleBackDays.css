@@ -136,6 +136,7 @@
     text-align: center;
 }
 .time-of-exercise-div p:last-of-type {
+    padding-left: 0;
     margin-left: auto;
     font-size: 16px;
 }

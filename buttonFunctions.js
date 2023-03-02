@@ -46,23 +46,14 @@ const createUserButtonFunction = () => {
 }
 
 const addSessionButtonFunction = () => {
-    if (contentBack.querySelector("#comment").checked)
-    {
-        setTimeout(() => {
-            let textArea = document.querySelector("textArea");
-            textArea.style.display = "block";
-            setTimeout(() => textArea.style.opacity = 1, 10);
-        }, 600);
-    }
+    setTimeout(() => createTextfield(), 620);
     calendarDate.addEventListener("click", createCalendar);
     setDate();
     hideFrontContainer();
 }
 
 const backButtonFunction = ({target}) => {
-    document.querySelector("textarea").style.opacity = 0;
-    setTimeout(() => document.querySelector("textarea").style.display = "none", 500);
-
+    removeTextfield();
     showFrontContainer();
     setTimeout(() => {
         addSessionButton.disabled = false;
@@ -88,8 +79,7 @@ const backButtonFunctionTwo = ({target}) => {
     createPreviousDays(300);
 }
 const backButtonFunctionThree = ({target}) => {
-    document.querySelector("textarea").style.opacity = 0;
-    setTimeout(() => document.querySelector("textarea").style.display = "none", 500);
+    removeTextfield();
 
     let button = target.tagName.toLowerCase() === 'i' ? target.parentElement : target;
     button.removeEventListener("click", backButtonFunctionThree);
@@ -99,14 +89,18 @@ const backButtonFunctionThree = ({target}) => {
     contentBack.style.opacity = 0;
     
     setTimeout(() => {
+        let commentDiv = contentBack.querySelector(".comment");
+        let bodyWeightDiv = contentBack.querySelector(".body-weight");
         let selectSets = contentBack.querySelector(".select-sets");
         let selectExercise = contentBack.querySelector(".select-exercise");
-        while (selectSets.nextElementSibling)
-            selectSets.nextElementSibling.remove();
+        while (commentDiv.nextElementSibling)
+            commentDiv.nextElementSibling.remove();
         selectSets.style.display = "none";
         selectSets.querySelector("input").value = "";
         selectExercise.style.display = "none";
         selectExercise.querySelector("input").value = "";
+        commentDiv.style.display = "none";
+        bodyWeightDiv.style.display = "none";
 
         let topNav = document.querySelector(".content-back-top");
         topNav.style.transition = "all 0ms";
@@ -123,7 +117,9 @@ const backButtonFunctionThree = ({target}) => {
         selectExercise.querySelector("input").setAttribute(
             "onfocus", "setLastValue(this), inputClicked(this), resetInputValue(this), showExercises(this, 'session')");
         selectSets.querySelector("input").setAttribute("oninput", "initSets()");
-        selectSets.querySelector("#bw").setAttribute("onchange", "markChecked(this), initSets()");
+        contentBack.querySelector("#bw").setAttribute("onchange", "markChecked(this), checkAnimation(this), initSets()");
+
+        taText = "";
 
         calendarDate.innerHTML = curSession.date.monthName + " " + curSession.date.year;
         contentBack.style.opacity = 1;
@@ -149,8 +145,8 @@ const editSet = ({target}) => {
     prevDays.forEach(prevDay => setTimeout(() => prevDay.style.display = "none", 500));
     const days = document.querySelectorAll(".day-container");
     days.forEach(day => setTimeout(() => day.style.display = "none", 500));
-    while (contentBack.querySelector(".select-sets").nextElementSibling)
-        contentBack.querySelector(".select-sets").nextElementSibling.remove();
+    while (contentBack.querySelector(".comment").nextElementSibling)
+        contentBack.querySelector(".comment").nextElementSibling.remove();
 
     // remove floating status from navbar
     setTimeout(() => {
@@ -166,32 +162,45 @@ const editSet = ({target}) => {
     setDate();
 
     // recreate all sets with their values in edit mode
+    lastExercise = curDay[index];
+
     setTimeout(() => {
         contentBack.style.opacity = 1;
         contentBack.querySelector(".select-sets").style.display = "flex";
-        document.querySelector(".select-exercise").style.display = "flex";
-
-        lastExercise = curDay[index];
+        contentBack.querySelector(".select-exercise").style.display = "flex";
+        contentBack.querySelector(".body-weight").style.display = "flex";
+        contentBack.querySelector(".comment").style.display = "flex";
 
         let exerciseInput = contentBack.querySelector(".select-exercise input");
         let setsInput = contentBack.querySelector(".select-sets input");
         exerciseInput.value = curDay[index].exercise;
         setsInput.value = curDay[index].sets.length;
 
-        let checkbox = contentBack.querySelector(".body-weight input");
+        // activate checkboxes if the data indicates so
+        let checkbox = contentBack.querySelector("#bw");
         if (curDay[index].weightAdded)
             checkbox.checked = false;
         else
             checkbox.checked = true;
         markChecked(checkbox);
 
-        // let checkboxComment = contentBack.querySelector(".comment input");
-        // if (!curDay[index].comment.length)
-        //     checkboxComment.checked = false;
-        // else
-        //     checkboxComment.checked = true;
-        // markChecked(checkboxComment);
-        // openTextfield(checkboxComment);
+        let checkboxComment = contentBack.querySelector("#comment");
+        taText = curDay[index].comment;
+
+        if (checkboxComment.checked && !taText.length)
+        {
+            checkboxComment.checked = false;
+            markChecked(checkboxComment);
+            openTextfield(checkboxComment);
+        }
+        else if (!checkboxComment.checked && taText.length)
+        {
+            checkboxComment.checked = true;
+            markChecked(checkboxComment);
+            openTextfield(checkboxComment);
+        }
+        else
+            createTextfield();
 
         initSets();
 
@@ -210,7 +219,7 @@ const editSet = ({target}) => {
         exerciseInput.setAttribute("oninput", "showExercises(this, '')");
         exerciseInput.setAttribute("onfocus", "setLastValue(this), inputClicked(this), resetInputValue(this), showExercises(this, '')");
         setsInput.setAttribute("oninput", "initSets(), changeSaveButtonBehavior()");
-        contentBack.querySelector("#bw").setAttribute("onchange", "markChecked(this), initSets(), changeSaveButtonBehavior()");
+        contentBack.querySelector("#bw").setAttribute("onchange", "markChecked(this), checkAnimation(this), initSets(), changeSaveButtonBehavior()");
     }, 650);
 }
 const changeSaveButtonBehavior = () => {
@@ -249,7 +258,7 @@ const saveButtonFunction = (button, overwrite) => {
         contentBack.querySelector(".select-exercise input").setAttribute(
             "onfocus", "setLastValue(this), inputClicked(this), resetInputValue(this), showExercises(this, 'session')");
         contentBack.querySelector(".select-sets input").setAttribute("oninput", "initSets()");
-        contentBack.querySelector("#bw").setAttribute("onchange", "markChecked(this), initSets()");
+        contentBack.querySelector("#bw").setAttribute("onchange", "markChecked(this), checkAnimation(this), initSets()");
     }
 
     button.style.backgroundColor = "hsl(60, 25%, 60%)";
@@ -259,10 +268,15 @@ const saveButtonFunction = (button, overwrite) => {
     button.disabled = true;
     setTimeout(() => {
         showFrontContainer();
-        document.querySelector("textarea").style.opacity = 0;
-        setTimeout(() => document.querySelector("textarea").style.display = "none", 500);
+        if (contentBack.querySelector("#comment").checked)
+            document.querySelector("textarea").style.opacity = 0;
     }, 200);
-    setTimeout(() => contentBack.querySelectorAll("input").forEach(input => input.value = ""), 600);
+    setTimeout(() => {
+        if (contentBack.querySelector("#comment").checked)
+            contentBack.querySelector("#comment").click();
+        contentBack.querySelectorAll("input").forEach(input => input.value = "");
+        taText = "";
+    }, 600);
     if (document.querySelector(".day-container"))
         document.querySelector(".day-container").remove();
     if (document.querySelector(".previous-days-button"))
@@ -287,12 +301,15 @@ const saveButtonFunction = (button, overwrite) => {
     console.log(workoutData);
 
     setTimeout(() => {
-        while (contentBack.querySelector(".select-sets").nextElementSibling)
-            contentBack.querySelector(".select-sets").nextElementSibling.remove();
+        if (contentBack.querySelector("#bw").checked)
+            contentBack.querySelector("#bw").click();
+        
+        while (contentBack.querySelector(".comment").nextElementSibling)
+            contentBack.querySelector(".comment").nextElementSibling.remove();
         selectedDate = new Date();
         lastExercise = undefined;
         addSessionButton.disabled = false;
-    }, 1200);
+    }, 1000);
 }
 
 const previousMonthButtonFunction = ({target}) => {
