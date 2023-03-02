@@ -493,6 +493,7 @@ const previousDayButtonFunction = ({target}) => {
         let setCounter = document.createElement("div");
         setCounter.classList.add("set-counter");
 
+        // add function onclick for comments
         let setCounterIcon = document.createElement("i");
         setCounterIcon.classList.add("fa-solid");
         setCounterIcon.classList.add("fa-comment");
