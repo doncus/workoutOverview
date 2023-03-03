@@ -212,13 +212,21 @@
 }
 
 .day-container .textarea-readonly {
+    height: 80px;
+    resize: none;
+    outline: none;
+    border: 5px solid var(--base-border);
+    padding: 4px;
+    font-size: 14px;
+
+    opacity: 0;
+    display: none;
+    transition: opacity 500ms;
+
     background-color: black;
     color: var(--gray);
-    position: relative;
     width: 100%;
     text-align: center;
     border-radius: 10px;
     margin-bottom: 8px;
-    /* display: block;
-    opacity: 1; */
 }

@@ -100,6 +100,7 @@
     user-select: none;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 .body-weight {
     border-top: none;
@@ -108,10 +109,27 @@
     padding-top: 10px;
 }
 .comment {
+    flex-direction: column;
     border-top: none;
     margin-bottom: 10px;
     padding-top: 10px;
     transition: height 100ms;
+}
+.textarea-absolute {
+    width: 86%;
+    height: 80px;
+    position: relative;
+    background-color: var(--gray);
+    resize: none;
+    outline: none;
+    border: 5px solid var(--base-border);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 4px;
+    font-size: 14px;
+    opacity: 0;
+
+    transition: opacity 500ms;
 }
 .body-weight input[type="checkbox"],
 .comment input[type="checkbox"] {
@@ -140,23 +158,6 @@
 .comment label.opened {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-}
-textarea {
-    width: 200px;
-    height: 80px;
-    position: absolute;
-    background-color: var(--gray);
-    resize: none;
-    outline: none;
-    border: 5px solid var(--base-border);
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    padding: 4px;
-    font-size: 14px;
-
-    opacity: 0;
-    display: none;
-    transition: opacity 500ms;
 }
 
 .autocomplete-list {

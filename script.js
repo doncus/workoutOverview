@@ -196,12 +196,6 @@ const getDateAsObject = () => {
     return timeObject;
 }
 
-const moveTextfield = () => {
-    if (!document.querySelector("textArea")) return;
-    let label = document.querySelector(".comment label");
-    let textArea = document.querySelector("textArea");
-    textArea.style.top = label.getBoundingClientRect().top + label.offsetHeight + "px";
-}
 const openTextfield = (element) => {
     let div = element.parentElement;
     div.style.height = div.offsetHeight + "px";
@@ -226,12 +220,9 @@ const createTextfield = () => {
     let label = document.querySelector(".comment label");
     let textArea = document.createElement("textarea");
     textArea.classList.add("textarea-absolute");
-    textArea.style.top = label.getBoundingClientRect().top + label.offsetHeight + "px";
-    textArea.style.width = label.offsetWidth + "px";
-    textArea.style.display = "block";
     textArea.value = taText;
     textArea.oninput = () => taText = textArea.value;
-    document.body.append(textArea);
+    label.closest(".comment").append(textArea);
     setTimeout(() => textArea.style.opacity = 1, 10);
 }
 const removeTextfield = (ms = 500) => {

@@ -9,8 +9,6 @@ const createCalendar = () => {
         closeCalendarSmooth();
         return;
     }
-    if (contentBack.querySelector("#comment").checked)
-        document.querySelector("textarea").style.visibility = "hidden";
     contentBack.style.visibility = "hidden";
 
     calendarDate.classList.add("active");
