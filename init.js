@@ -31,6 +31,11 @@ window.onload = () => {
             
     // check if a storage for workoutData exists otherwise create it
     workoutData = getData('workoutData');
+    for (let i = 0; i < workoutData.length; i++)
+    {
+        if (workoutData[i]["comment"] == undefined)
+            workoutData[i].comment = "";
+    }
         
     initFrontContainer();
     // getExercises();
