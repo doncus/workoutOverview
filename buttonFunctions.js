@@ -503,8 +503,7 @@ const previousDayButtonFunction = ({target}) => {
         setCounter.classList.add("set-counter");
 
         let setCounterIcon = document.createElement("i");
-
-        if (curDay[i].comment.length > 0) 
+        if (curDay[i].comment.length) 
         {
             setCounterIcon.classList.add("fa-solid");
             setCounterIcon.classList.add("fa-comment");
@@ -553,9 +552,12 @@ const expandSetInfos = ({target}) => {
         setCounter.classList.add("set-counter");
 
         let setCounterIcon = document.createElement("i");
-        setCounterIcon.classList.add("fa-solid");
-        setCounterIcon.classList.add("fa-comment");
-        setCounterIcon.onclick = openComment;
+        if (curDay[clickedExerciseId].comment.length) 
+        {
+            setCounterIcon.classList.add("fa-solid");
+            setCounterIcon.classList.add("fa-comment");
+            setCounterIcon.onclick = openComment;
+        }
         setCounter.append(setCounterIcon);
 
         let setCounterSpan = document.createElement("span");
