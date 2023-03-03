@@ -506,6 +506,7 @@ const previousDayButtonFunction = ({target}) => {
 
         if (curDay[i].comment.length) 
         {
+            console.log("here");
             setCounterIcon.classList.add("fa-solid");
             setCounterIcon.classList.add("fa-comment");
             setCounterIcon.onclick = openComment;
