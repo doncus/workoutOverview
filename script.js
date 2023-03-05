@@ -259,11 +259,22 @@ const initSets = () => {
     const MAX_SETS = 20;
     let setInput = document.querySelector(".select-sets input");
     if (isNaN(setInput.value)) return;
+    if (setInput.value == "" || setInput.value == 0) return;
     let nrSets = parseInt(setInput.value);
     if (nrSets > MAX_SETS)
     {
         nrSets = MAX_SETS;
         setInput.value = MAX_SETS;
+    }
+
+    if (!initiation)
+    {
+        setValues.reps = [];
+        setValues.weight = [];
+        if (document.querySelector(".select-weight"))
+            document.querySelectorAll(".select-weight input").forEach(inp => setValues.weight.push(inp.value));
+
+        document.querySelectorAll(".select-reps input").forEach(inp => setValues.reps.push(inp.value));
     }
 
     while (contentBack.querySelector(".comment").nextElementSibling)
@@ -338,6 +349,31 @@ const initSets = () => {
             
         div.append(input);
     }
+
+    if (!initiation)
+    {
+        let k = 0;
+        if (document.querySelector(".select-weight"))
+            document.querySelectorAll(".select-weight input").forEach(inp => {
+                if (setValues.weight[k] == undefined)
+                    inp.value = "";
+                else
+                    inp.value = setValues.weight[k];
+            k++;
+            });
+        
+        k = 0;
+        document.querySelectorAll(".select-reps input").forEach(inp => {
+            if (setValues.reps[k] == undefined)
+                inp.value = "";
+            else
+                inp.value = setValues.reps[k];
+            k++;
+        });
+    }
+    console.log(setValues)
+
+    initiation = false;
 
     if (setInput.value == "" || setInput.value == 0) return;
 

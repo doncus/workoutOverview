@@ -77,6 +77,7 @@ const showExercises = (input, name) => {
 const addOnClick = (functionName, functionHolder) => {
     switch (functionName) {
         case "session":
+            initiation = true;
             functionHolder.setAttribute("onclick", "getLastSessionData(this.innerText)");
             break;
         case "chart":
