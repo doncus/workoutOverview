@@ -110,7 +110,7 @@ const closeAllListsTimed = (e) => {
             const dropDownInput = document.querySelector(".drop-down-input");
             dropDownInput.classList.remove("drop-down-input");
         }
-    }, 50);
+    }, 100);
 }
 
 const showExercisesForUserSettings = (input, sameDiv) => {
