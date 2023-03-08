@@ -27,6 +27,8 @@ window.onload = () => {
         return;
     }
     userData = getData('userData');
+    if (userData["chartType"] == undefined)
+        userData.chartType = "bar";
     sortDataAsc(userData.exercises);
             
     // check if a storage for workoutData exists otherwise create it
