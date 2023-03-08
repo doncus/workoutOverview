@@ -32,7 +32,6 @@ const createProgressChart = () => {
     yLabel.style.marginTop = "10px";
     yLabel.style.color = "rgb(182, 248, 0)";
     yLabel.style.fontSize = "12px";
-    yLabel.style.marginLeft = "2px";
     if (yType === "reps")
         yLabel.innerHTML = "reps";
     else
@@ -450,22 +449,24 @@ const createProgressChart = () => {
         let lastDay = new Date(chartArray[0].date.year, chartArray[0].date.month, 0).getDate();
         lastDay = (lastDay < 10) ? "0" + lastDay : lastDay;
 
+        // let offsetDay = parseInt(chartArray[0].date.day) - 1;
+        // offsetDay = (offsetDay < 10) ? '0' + offsetDay : offsetDay;
 
-        let offsetDay = parseInt(chartArray[0].date.day) - 1;
-        offsetDay = (offsetDay < 10) ? '0' + offsetDay : offsetDay;
+        // if (chartArray[0].date.day > 2)
+        //     minX = chartArray[0].date.year + '-' + chartArray[0].date.month + '-' + offsetDay;
+        // else
+        //     minX = chartArray[0].date.year + '-' + chartArray[0].date.month + '-01';
+        // // ------------------------------------------------------------------
+        // offsetDay = parseInt(chartArray[chartArray.length-1].date.day) + 1;
+        // offsetDay = (offsetDay < 10) ? '0' + offsetDay : offsetDay;
 
-        if (chartArray[0].date.day > 2)
-            minX = chartArray[0].date.year + '-' + chartArray[0].date.month + '-' + offsetDay;
-        else
-            minX = chartArray[0].date.year + '-' + chartArray[0].date.month + '-01';
-        // ------------------------------------------------------------------
-        offsetDay = parseInt(chartArray[chartArray.length-1].date.day) + 1;
-        offsetDay = (offsetDay < 10) ? '0' + offsetDay : offsetDay;
+        // if (chartArray[chartArray.length-1].date.day < lastDay-1)
+        //     maxX = chartArray[0].date.year + '-' + chartArray[0].date.month + '-' + offsetDay;
+        // else
+        //     maxX = chartArray[0].date.year + '-' + chartArray[0].date.month + '-' + lastDay;
 
-        if (chartArray[chartArray.length-1].date.day < lastDay-1)
-            maxX = chartArray[0].date.year + '-' + chartArray[0].date.month + '-' + offsetDay;
-        else
-            maxX = chartArray[0].date.year + '-' + chartArray[0].date.month + '-' + lastDay;
+        minX = chartArray[0].date.year + '-' + chartArray[0].date.month + '-01';
+        maxX = chartArray[0].date.year + '-' + chartArray[0].date.month + '-' + lastDay;
         
         // format selection
         formatX = {"day": 'd'};
