@@ -281,7 +281,7 @@ const handleChart = (inputValue) => {
         document.querySelector("#progressChart").remove();
     if (document.querySelector(".no-data-div"))
         document.querySelector(".no-data-div").remove();
-
+    
     getDataOfExercise(inputValue);
     if (workoutData.length != 0 && userData.exercises.length != 0 && exerciseCounter > 0)
         createProgressChart();

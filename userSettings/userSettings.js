@@ -52,8 +52,69 @@ const createUserContent = () => {
     button.addEventListener("click", buttonAnimation);
     button.addEventListener("click", upload);
     div.append(button);
-    
-    // (4) CHANGE EXERCISES
+
+    // (4) CHART TYPE
+    label = document.createElement("label");
+    label.classList.add("header-label");
+    label.innerHTML = "CHART DATA";
+    label.addEventListener("click", open);
+    userSettings.append(label);
+
+    let parentDiv = document.createElement("div");
+    parentDiv.style.display = "none";
+
+    div = document.createElement("div");
+    div.classList.add("chart-type-title-div");
+    div.innerHTML = "Type of chart:";
+    parentDiv.append(div);
+
+    div = document.createElement("div");
+    div.classList.add("chart-type-div");
+    parentDiv.append(div);
+
+    for (let i = 0; i < 2; i++)
+    {
+        let label = document.createElement("label");
+        label.classList.add("container-label");
+        if (i == 0) label.innerHTML = "Bar";
+        else label.innerHTML = "Line";
+        div.append(label);
+
+        let rButton = document.createElement("input");
+        rButton.type = "radio";
+        rButton.name = "type";
+        if (i == 0) 
+        {
+            if (!userData["chartType"])
+                rButton.checked = true;
+            else if (userData.chartType == "bar") 
+                rButton.checked = true;
+            rButton.value = "bar";
+        }
+        else
+        {
+            if (userData.chartType == "line") 
+                rButton.checked = true;
+            rButton.value = "line";
+        }
+        rButton.onchange = () => {
+            userData.chartType = rButton.value;
+            saveDataToStorage("userData", userData);
+            if (document.querySelector("#progressChart"))
+            {
+                document.querySelector("#progressChart").remove();
+                createProgressChart();
+            }
+        }
+        label.append(rButton);
+
+        let span = document.createElement("span");
+        span.classList.add("checkmark");
+        label.append(span);
+    }
+    userSettings.append(parentDiv);
+
+    // (5) CHANGE EXERCISES
     label = document.createElement("label");
     label.classList.add("header-label");
     label.innerHTML = "EXERCISE LIST";
@@ -127,7 +188,7 @@ const createUserContent = () => {
     userExercises.append(parent);
 
     userSettings.append(userExercises);
-    // (5) EMPTY EXERCISE LIST
+    // (6) EMPTY EXERCISE LIST
     button = document.createElement("button");
     button.classList.add("empty-list-button");
     button.innerHTML = "Empty list";
@@ -377,7 +438,7 @@ const open = (e) => {
     let sibling = e.target.nextElementSibling;
     let status = (window.getComputedStyle(sibling).display == "none") ? "flex" : "none";
 
-    while (sibling && sibling.tagName !== 'LABEL')
+    while (sibling && !sibling.classList.contains("header-label"))
     {
         sibling.style.display = status;
         sibling = sibling.nextElementSibling;

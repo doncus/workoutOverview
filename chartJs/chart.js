@@ -5,7 +5,7 @@ const createProgressChart = () => {
     chartCanvas.id = "progressChart";
     chartCanvas.style.height = "100px";
     chartCanvas.style.width = "100px";
-    chartCanvas.style.marginTop = "20px";
+    chartCanvas.style.marginLeft = "-20px";
     chartCanvas.style.backgroundColor = "black";
     chartCanvas.style.opacity = 0;
     chartCanvas.style.transition = "opacity 500ms";
@@ -24,6 +24,21 @@ const createProgressChart = () => {
                 yType = filter.value;
         }
     });
+
+    if (selectedMenuDiv.querySelector(".y-label"))
+        selectedMenuDiv.querySelector(".y-label").remove();
+    let yLabel = document.createElement("span");
+    yLabel.classList.add("y-label");
+    yLabel.style.alignSelf = "flex-start";
+    yLabel.style.marginTop = "10px";
+    yLabel.style.color = "rgb(182, 248, 0)";
+    yLabel.style.fontSize = "12px";
+    yLabel.style.marginLeft = "6px";
+    if (yType === "reps")
+        yLabel.innerHTML = "reps";
+    else
+        yLabel.innerHTML = "kg";
+    selectedMenuDiv.insertBefore(yLabel, chartCanvas);
 
     // ---------------------------------------------------- CHART VARIABLES
     let chartArray;
@@ -104,7 +119,7 @@ const createProgressChart = () => {
     }
 
     // label x axis
-    // xUnit = selectedDate.getFullYear();
+    xUnit = selectedDate.getFullYear();
 
     // ---------------------------------------------------- SPECIFIC DATA
     if (xType === "month" && yType === "weight")
@@ -304,8 +319,17 @@ const createProgressChart = () => {
 
     // console.log(chartArray);
 
+    if (userData.chartType === "line")
+    {
+        bgColor = bgColor.map(c => {
+            if (c === 'rgb(230, 230, 230)')
+                return 'rgb(0, 0, 0)';
+            return c;
+        });
+    }
+
     let chart = new Chart(chartCanvas, {
-        type: 'bar',
+        type: userData.chartType,
         data: {
             datasets: [{
                 data: axisData,
@@ -318,7 +342,7 @@ const createProgressChart = () => {
             scales: {
                 y: {
                     title: {
-                        text: yUnit,
+                        // text: yUnit,
                         display: true,
                         color: "rgb(182, 248, 0)",
                         font: {
@@ -336,11 +360,14 @@ const createProgressChart = () => {
                     ticks: {
                         stepSize: 2,
                         color: "hsl(60, 25%, 37%)",
+                        font: {
+                            size: 14,
+                        }
                     },
                 },
                 x: {
                     title: {
-                        text: xUnit,
+                        // text: xUnit,
                         display: true,
                         color: "rgb(182, 248, 0)",
                         font: {
@@ -364,17 +391,17 @@ const createProgressChart = () => {
                     color: "white",
                     ticks: {
                         color: "hsl(60, 25%, 37%)",
-                        padding: 6,
                         autoSkip: false,
-                        maxRotation: 45,
-                        minRotation: 45,
+                        maxRotation: 0,
+                        minRotation: 0,
+                        padding: 4,
                         font: {
                             size: 14,
-                        }
-                        // font: {
-                        //     size: 15,
-                        //     weight: 'bold',
-                        // }
+                        },
+                        // callback: (value, index, values) => {
+                        //     if (index !== values.length -1)
+                        //         return value;
+                        // },
                     },
                     // callback: ((value, index, values) => {
                     //     if (index !== values.length -1)
@@ -382,11 +409,11 @@ const createProgressChart = () => {
                     // })
                 },
             },
-            layout: {
-                padding: {
-                    right: 10
-                }
-            },
+            // layout: {
+            //     padding: {
+            //         right: 10
+            //     }
+            // },
             plugins: {
                 tooltip: {
                     titleFont: {
@@ -424,11 +451,25 @@ const createProgressChart = () => {
         let lastDay = new Date(chartArray[0].date.year, chartArray[0].date.month, 0).getDate();
         lastDay = (lastDay < 10) ? "0" + lastDay : lastDay;
 
-        minX = chartArray[0].date.year + '-' + chartArray[0].date.month + '-01';
-        maxX = chartArray[0].date.year + '-' + chartArray[0].date.month + '-' + lastDay;
 
+        let offsetDay = parseInt(chartArray[0].date.day) - 1;
+        offsetDay = (offsetDay < 10) ? '0' + offsetDay : offsetDay;
+
+        if (chartArray[0].date.day > 2)
+            minX = chartArray[0].date.year + '-' + chartArray[0].date.month + '-' + offsetDay;
+        else
+            minX = chartArray[0].date.year + '-' + chartArray[0].date.month + '-01';
+        // ------------------------------------------------------------------
+        offsetDay = parseInt(chartArray[chartArray.length-1].date.day) + 1;
+        offsetDay = (offsetDay < 10) ? '0' + offsetDay : offsetDay;
+
+        if (chartArray[chartArray.length-1].date.day < lastDay-1)
+            maxX = chartArray[0].date.year + '-' + chartArray[0].date.month + '-' + offsetDay;
+        else
+            maxX = chartArray[0].date.year + '-' + chartArray[0].date.month + '-' + lastDay;
+        
         // format selection
-        formatX = {"day": 'dd.MM.'};
+        formatX = {"day": 'd'};
         timeUnit = "day";
     }
     function getYearSettings() {

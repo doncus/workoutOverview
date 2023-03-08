@@ -371,8 +371,6 @@ const initSets = () => {
             k++;
         });
     }
-    console.log(setValues)
-
     initiation = false;
 
     if (setInput.value == "" || setInput.value == 0) return;

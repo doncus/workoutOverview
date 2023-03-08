@@ -108,8 +108,65 @@
     justify-content: center;
     align-items: center;
 }
-
-.user-settings input {
+/* USER SETTINGS --- CHART RADIO BUTTONS */
+.user-settings .chart-type-title-div {
+    color: var(--btn-active);
+    width: 100%;
+    padding: 20px 15% 0 15%;
+}
+.user-settings .chart-type-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10px;
+    gap: 20%;
+}
+/* The container */
+.container-label {
+    height: 20px;
+    display: block;
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+    user-select: none;
+    color: var(--gray)
+}
+/* Hide the browser's default radio button */
+.container-label input[type="radio"] {
+    position: absolute;
+    display: none;
+}
+/* Create a custom radio button */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: var(--base-border);
+    border-radius: 50%;
+}
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+/* Show the indicator (dot/circle) when checked */
+.container-label input[type="radio"]:checked ~ .checkmark:after {
+    display: block;
+}
+/* Style the indicator (dot/circle) */
+.container-label .checkmark:after {
+    top: 6px;
+    left: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--highlight);
+}
+/* ------------------------------------- */
+.user-settings input[type="text"] {
     width: 70%;
     z-index: 6;
     border: none;
@@ -148,7 +205,7 @@
     justify-content: center;
 }
 
-.user-settings label:not(.header-label) {
+.user-settings label:not(.header-label):not(.container-label) {
     z-index: 4;
     background-color: var(--base-border);
     border-top-left-radius: 8px;

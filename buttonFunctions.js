@@ -27,7 +27,11 @@ const createUserButtonFunction = () => {
 
     // save user to storage
     sortDataAsc(exercises);
-    let dataToStore = {"username": loginInput.value, "exercises": exercises};
+    let dataToStore = {
+        "username": loginInput.value, 
+        "exercises": exercises,
+        "chartType": "bar",
+    };
     saveDataToStorage("userData", dataToStore);
     userData = getData("userData");
     if (!workoutData || !workoutData.length)
