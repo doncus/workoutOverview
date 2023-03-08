@@ -101,17 +101,6 @@ const closeAllLists = (e) => {
         dropDownInput.classList.remove("drop-down-input");
     }
 }
-const closeAllListsTimed = (e) => {
-    setTimeout(() => {
-        if (e && e.target == document.querySelector('.drop-down-input')) return;
-        if (document.querySelector('.autocomplete-list'))
-        {
-            document.querySelector('.autocomplete-list').remove();
-            const dropDownInput = document.querySelector(".drop-down-input");
-            dropDownInput.classList.remove("drop-down-input");
-        }
-    }, 100);
-}
 
 const showExercisesForUserSettings = (input, sameDiv) => {
     closeAllLists();
