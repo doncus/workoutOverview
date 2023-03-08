@@ -5,7 +5,6 @@ const createProgressChart = () => {
     chartCanvas.id = "progressChart";
     chartCanvas.style.height = "100px";
     chartCanvas.style.width = "100px";
-    chartCanvas.style.marginLeft = "-20px";
     chartCanvas.style.backgroundColor = "black";
     chartCanvas.style.opacity = 0;
     chartCanvas.style.transition = "opacity 500ms";
@@ -33,7 +32,7 @@ const createProgressChart = () => {
     yLabel.style.marginTop = "10px";
     yLabel.style.color = "rgb(182, 248, 0)";
     yLabel.style.fontSize = "12px";
-    yLabel.style.marginLeft = "6px";
+    yLabel.style.marginLeft = "2px";
     if (yType === "reps")
         yLabel.innerHTML = "reps";
     else
@@ -409,11 +408,11 @@ const createProgressChart = () => {
                     // })
                 },
             },
-            // layout: {
-            //     padding: {
-            //         right: 10
-            //     }
-            // },
+            layout: {
+                padding: {
+                    left: -28
+                }
+            },
             plugins: {
                 tooltip: {
                     titleFont: {
