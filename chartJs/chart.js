@@ -91,12 +91,16 @@ const createProgressChart = () => {
             hasWeight = true;
         if (chartArray[i].sets[0].weight < minWeight)
             minWeight = chartArray[i].sets[0].weight;
-        if (chartArray[i].sets[0].weight > maxWeight)
-            maxWeight = chartArray[i].sets[0].weight;
         if (chartArray[i].sets[0].reps < minReps)
             minReps = chartArray[i].sets[0].reps;
         if (chartArray[i].sets[0].reps > maxReps)
             maxReps = chartArray[i].sets[0].reps;
+
+        for (let j = 0; j < chartArray[i].sets.length; j++)
+        {
+            if (chartArray[i].sets[j].weight > maxWeight)
+                maxWeight = chartArray[i].sets[j].weight;
+        }
     }
 
     // label x axis
@@ -113,8 +117,19 @@ const createProgressChart = () => {
         }
         
         // determine axis data (month/weight)
+        let mostWeight = [];
         for (let i = 0; i < chartArray.length; i++)
-            axisData.push({"x": chartArray[i].date.ms, "y": chartArray[i].sets[0].weight});
+        {
+            let curWeight = 0;
+            for (let j = 0; j < chartArray[i].sets.length; j++)
+            {
+                if (chartArray[i].sets[j].weight > curWeight)
+                    curWeight = chartArray[i].sets[j].weight;
+            }
+            mostWeight.push(curWeight);
+        }
+        for (let i = 0; i < chartArray.length; i++)
+            axisData.push({"x": chartArray[i].date.ms, "y": mostWeight[i]});
 
         // set minY and maxY
         minY = (minWeight > 6)  ? Math.trunc(minWeight - 6) : 0;
@@ -125,14 +140,22 @@ const createProgressChart = () => {
             bgColor.push('rgb(230, 230, 230)');
         else
         {
-            if (exerciseBeforeMonth.sets[0].weight < chartArray[0].sets[0].weight)
+            let mostWeightOfBeforeMonth = 0;
+
+            for (let i = 0; i < exerciseBeforeMonth.sets.length; i++)
+            {
+                if (exerciseBeforeMonth.sets[i].weight > mostWeightOfBeforeMonth)
+                    mostWeightOfBeforeMonth = exerciseBeforeMonth.sets[i].weight;
+            }
+
+            if (mostWeightOfBeforeMonth < mostWeight[0])
                 bgColor.push('rgb(182, 248, 0)');
             else
                 bgColor.push('rgb(230, 230, 230)');
         }
         for (let i = 1; i < chartArray.length; i++)
         {
-            if (chartArray[i].sets[0].weight > chartArray[i-1].sets[0].weight)
+            if (mostWeight[i] > mostWeight[i-1])
                 bgColor.push('rgb(182, 248, 0)');
             else
                 bgColor.push('rgb(230, 230, 230)');
@@ -188,10 +211,21 @@ const createProgressChart = () => {
         }
         
         // determine axis data (month/weight)
+        let mostWeight = [];
+        for (let i = 0; i < chartArray.length; i++)
+        {
+            let curWeight = 0;
+            for (let j = 0; j < chartArray[i].sets.length; j++)
+            {
+                if (chartArray[i].sets[j].weight > curWeight)
+                    curWeight = chartArray[i].sets[j].weight;
+            }
+            mostWeight.push(curWeight);
+        }
         for (let i = 0; i < chartArray.length; i++)
         {
             let yearData = new Date(chartArray[i].date.year, chartArray[i].date.month-1).getTime();
-            axisData.push({"x": yearData, "y": chartArray[i].sets[0].weight});
+            axisData.push({"x": yearData, "y": mostWeight[i]});
         }
 
         // set minY and maxY
@@ -203,14 +237,22 @@ const createProgressChart = () => {
             bgColor.push('rgb(230, 230, 230)');
         else
         {
-            if (exerciseBeforeYear.sets[0].weight < chartArray[0].sets[0].weight)
+            let mostWeightOfBeforeYear = 0;
+
+            for (let i = 0; i < exerciseBeforeYear.sets.length; i++)
+            {
+                if (exerciseBeforeYear.sets[i].weight > mostWeightOfBeforeYear)
+                    mostWeightOfBeforeYear = exerciseBeforeYear.sets[i].weight;
+            }
+
+            if (mostWeightOfBeforeYear < mostWeight[0])
                 bgColor.push('rgb(182, 248, 0)');
             else
                 bgColor.push('rgb(230, 230, 230)');
         }
         for (let i = 1; i < chartArray.length; i++)
         {
-            if (chartArray[i].sets[0].weight > chartArray[i-1].sets[0].weight)
+            if (mostWeight[i] > mostWeight[i-1])
                 bgColor.push('rgb(182, 248, 0)');
             else
                 bgColor.push('rgb(230, 230, 230)');
