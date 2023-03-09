@@ -43,6 +43,7 @@ const createProgressChart = () => {
     let firstTime;
     let lastTime;
     let hasWeight = false;
+    let borderValue = (userData.chartType === "bar") ? 0 : 2;
 
     if (xType === "month")
     {
@@ -106,13 +107,13 @@ const createProgressChart = () => {
             minWeight = chartArray[i].sets[0].weight;
         if (chartArray[i].sets[0].reps < minReps)
             minReps = chartArray[i].sets[0].reps;
-        if (chartArray[i].sets[0].reps > maxReps)
-            maxReps = chartArray[i].sets[0].reps;
 
         for (let j = 0; j < chartArray[i].sets.length; j++)
         {
             if (chartArray[i].sets[j].weight > maxWeight)
                 maxWeight = chartArray[i].sets[j].weight;
+            if (chartArray[i].sets[j].reps > maxReps)
+                maxReps = chartArray[i].sets[j].reps;
         }
     }
 
@@ -182,9 +183,21 @@ const createProgressChart = () => {
     }
     else if (xType === "month" && yType === "reps")
     {
-        // determine axis data (month/weight)
+        // determine axis data (month/reps)
+        let mostReps = [];
         for (let i = 0; i < chartArray.length; i++)
-            axisData.push({"x": chartArray[i].date.ms, "y": chartArray[i].sets[0].reps});
+        {
+            let curReps = 0;
+            for (let j = 0; j < chartArray[i].sets.length; j++)
+            {
+                if (chartArray[i].sets[j].reps > curReps)
+                    curReps = chartArray[i].sets[j].reps;
+            }
+            mostReps.push(curReps);
+        }
+
+        for (let i = 0; i < chartArray.length; i++)
+            axisData.push({"x": chartArray[i].date.ms, "y": mostReps[i]});
 
         // set minY and maxY
         minY = (minReps > 6)  ? Math.trunc(minReps - 6) : 0;
@@ -195,14 +208,22 @@ const createProgressChart = () => {
             bgColor.push('rgb(230, 230, 230)');
         else
         {
-            if (exerciseBeforeMonth.sets[0].reps < chartArray[0].sets[0].reps)
+            let mostRepsOfBeforeMonth = 0;
+
+            for (let i = 0; i < exerciseBeforeMonth.sets.length; i++)
+            {
+                if (exerciseBeforeMonth.sets[i].reps > mostRepsOfBeforeMonth)
+                    mostRepsOfBeforeMonth = exerciseBeforeMonth.sets[i].reps;
+            }
+
+            if (mostRepsOfBeforeMonth < mostReps[0])
                 bgColor.push('rgb(182, 248, 0)');
             else
                 bgColor.push('rgb(230, 230, 230)');
         }
         for (let i = 1; i < chartArray.length; i++)
         {
-            if (chartArray[i].sets[0].reps > chartArray[i-1].sets[0].reps)
+            if (mostReps[i] > mostReps[i-1])
                 bgColor.push('rgb(182, 248, 0)');
             else
                 bgColor.push('rgb(230, 230, 230)');
@@ -223,7 +244,7 @@ const createProgressChart = () => {
             return;
         }
         
-        // determine axis data (month/weight)
+        // determine axis data (year/weight)
         let mostWeight = [];
         for (let i = 0; i < chartArray.length; i++)
         {
@@ -279,11 +300,22 @@ const createProgressChart = () => {
     }
     else if (xType === "year" && yType === "reps")
     {
-        // determine axis data (month/reps)
+        // determine axis data (year/reps)
+        let mostReps = [];
+        for (let i = 0; i < chartArray.length; i++)
+        {
+            let curReps = 0;
+            for (let j = 0; j < chartArray[i].sets.length; j++)
+            {
+                if (chartArray[i].sets[j].reps > curReps)
+                    curReps = chartArray[i].sets[j].reps;
+            }
+            mostReps.push(curReps);
+        }
         for (let i = 0; i < chartArray.length; i++)
         {
             let yearData = new Date(chartArray[i].date.year, chartArray[i].date.month-1).getTime();
-            axisData.push({"x": yearData, "y": chartArray[i].sets[0].reps});
+            axisData.push({"x": yearData, "y": mostReps[i]});
         }
         
         // set minY and maxY
@@ -295,14 +327,22 @@ const createProgressChart = () => {
             bgColor.push('rgb(230, 230, 230)');
         else
         {
-            if (exerciseBeforeYear.sets[0].reps < chartArray[0].sets[0].reps)
+            let mostRepsOfBeforeYear = 0;
+
+            for (let i = 0; i < exerciseBeforeYear.sets.length; i++)
+            {
+                if (exerciseBeforeYear.sets[i].reps > mostRepsOfBeforeYear)
+                    mostRepsOfBeforeYear = exerciseBeforeYear.sets[i].reps;
+            }
+
+            if (mostRepsOfBeforeYear < mostReps[0])
                 bgColor.push('rgb(182, 248, 0)');
             else
                 bgColor.push('rgb(230, 230, 230)');
         }
         for (let i = 1; i < chartArray.length; i++)
         {
-            if (chartArray[i].sets[0].reps > chartArray[i-1].sets[0].reps)
+            if (mostReps[i] > mostReps[i-1])
                 bgColor.push('rgb(182, 248, 0)');
             else
                 bgColor.push('rgb(230, 230, 230)');
@@ -334,6 +374,7 @@ const createProgressChart = () => {
                 borderColor: 'white',
                 backgroundColor: bgColor,
                 pointRadius: 6,
+                borderWidth: borderValue,
             }]
         },
         options: {
@@ -359,7 +400,7 @@ const createProgressChart = () => {
                         stepSize: 2,
                         color: "hsl(60, 25%, 37%)",
                         font: {
-                            size: 14,
+                            size: 12,
                         }
                     },
                 },
@@ -394,22 +435,18 @@ const createProgressChart = () => {
                         minRotation: 0,
                         padding: 4,
                         font: {
-                            size: 14,
+                            size: 12,
                         },
                         // callback: (value, index, values) => {
-                        //     if (index !== values.length -1)
+                        //     if (index !== values.length -2)
                         //         return value;
                         // },
-                    },
-                    // callback: ((value, index, values) => {
-                    //     if (index !== values.length -1)
-                    //         return value;
-                    // })
+                    }
                 },
             },
             layout: {
                 padding: {
-                    left: -28
+                    left: -28,
                 }
             },
             plugins: {
@@ -433,7 +470,29 @@ const createProgressChart = () => {
                     display: false,
                 },
             },
-        }
+        },
+        plugins: [{
+            id: 'customPlugin',
+            afterUpdate: function(chart) {
+                // We get the dataset and set the offset here
+                // let dataset = chart.config.data.datasets[0];
+                // let offset = 20;
+
+                // For every data in the dataset ...
+                // for (let i = 0; i < dataset._meta[0].data.length; i++) {
+                //     // We get the model linked to this data
+                //     let model = dataset._meta[0].data[i]._model;
+
+                //     // And add the offset to the `x` property
+                //     model.x += offset;
+
+                //     // .. and also to these two properties
+                //     // to make the bezier curve fits the new graph
+                //     model.controlPointNextX += offset;
+                //     model.controlPointPreviousX += offset;
+                // }
+            }
+        }],
     });
 
     if (timeUnit === "month")

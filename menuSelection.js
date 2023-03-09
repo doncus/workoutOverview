@@ -111,9 +111,6 @@ const getDataOfExercise = (inputValue) => {
         if (workoutData[i].exercise == inputValue)
         {
             allOfExercise.push(workoutData[i]);
-            if (workoutData[i].sets[0].reps > maxRepsOfExercise)
-                maxRepsOfExercise = workoutData[i].sets[0].reps;
-            
             if (workoutData[i].sets[0].reps < minRepsOfExercise)
                 minRepsOfExercise = workoutData[i].sets[0].reps;
             if (workoutData[i].sets[0].weight < minWeightOfExercise)
@@ -128,6 +125,8 @@ const getDataOfExercise = (inputValue) => {
                 sumReps += workoutData[i].sets[j].reps;
                 if (workoutData[i].sets[j].weight > maxWeightOfExercise)
                     maxWeightOfExercise = workoutData[i].sets[j].weight;
+                if (workoutData[i].sets[j].reps > maxRepsOfExercise)
+                    maxRepsOfExercise = workoutData[i].sets[j].reps;
             }
         }
     }

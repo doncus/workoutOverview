@@ -52,11 +52,13 @@ const createUserButtonFunction = () => {
 const addSessionButtonFunction = () => {
     setTimeout(() => createTextfield(), 620);
     calendarDate.addEventListener("click", createCalendar);
+    if (prevDate !== null) selectedDate = new Date(prevDate);
     setDate();
     hideFrontContainer();
 }
 
 const backButtonFunction = ({target}) => {
+    prevDate = new Date(selectedDate);
     removeTextfield();
     showFrontContainer();
     setTimeout(() => {
@@ -309,6 +311,7 @@ const saveButtonFunction = (button, overwrite) => {
         
         while (contentBack.querySelector(".comment").nextElementSibling)
             contentBack.querySelector(".comment").nextElementSibling.remove();
+        prevDate = null;
         selectedDate = new Date();
         lastExercise = undefined;
         addSessionButton.disabled = false;
