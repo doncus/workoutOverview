@@ -4,11 +4,7 @@ window.onload = () => {
 
     document.addEventListener("click", closeAllLists);
     document.addEventListener("click", closeCalendar);
-    document.addEventListener("scroll", e => {
-        console.log("here")
-        closeAllLists(e);
-        document.activeElement.blur();
-    });
+    document.body.addEventListener("scroll", closeAllLists);
     // document.body.addEventListener("scrollend", closeAllLists);
     
     const setsInput = document.querySelector(".select-sets input");
