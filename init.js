@@ -4,7 +4,11 @@ window.onload = () => {
 
     document.addEventListener("click", closeAllLists);
     document.addEventListener("click", closeCalendar);
-    document.body.addEventListener("scroll", closeAllLists);
+    document.body.addEventListener("scroll", e => {
+        closeAllLists(e);
+        document.activeElement.blur();
+    });
+    // document.body.addEventListener("scrollend", closeAllLists);
     
     const setsInput = document.querySelector(".select-sets input");
     setsInput.addEventListener("input", checkIfInteger);

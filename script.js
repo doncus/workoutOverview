@@ -24,7 +24,6 @@ const showFrontContainer = () => {
         }, 50);
     }, 540);
     
-
     setTimeout(() => contentBack.querySelector(".previous-days-div").innerHTML = "", 800);
 
     generatePrevSessionData(1000);
