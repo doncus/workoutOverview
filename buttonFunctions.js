@@ -50,6 +50,15 @@ const createUserButtonFunction = () => {
 }
 
 const addSessionButtonFunction = () => {
+    if (contentBack.querySelector("#comment").checked)
+        contentBack.querySelector("#comment").click();
+    if (contentBack.querySelector("#bw").checked)
+        contentBack.querySelector("#bw").click();
+    contentBack.querySelectorAll("input").forEach(input => input.value = "");
+    taText = "";
+    while (contentBack.querySelector(".comment").nextElementSibling)
+        contentBack.querySelector(".comment").nextElementSibling.remove();
+    
     setTimeout(() => createTextfield(), 620);
     calendarDate.addEventListener("click", createCalendar);
     if (prevDate !== null) selectedDate = new Date(prevDate);
@@ -275,7 +284,7 @@ const saveButtonFunction = (button, overwrite) => {
     setTimeout(() => {
         showFrontContainer();
         if (contentBack.querySelector("#comment").checked)
-            document.querySelector(".textarea-absolute").style.opacity = 0;
+            document.querySelector(".textarea-comment").style.opacity = 0;
     }, 200);
     setTimeout(() => {
         if (contentBack.querySelector("#comment").checked)
@@ -333,11 +342,9 @@ const previousMonthButtonFunction = ({target}) => {
     
     calendarDate.innerHTML = button.innerHTML;
     
-    setTimeout(() => {
-        hideFrontContainer(); 
-        showEachDay(id);
-        document.body.style.overflowY = "hidden";
-    }, 200);
+    hideFrontContainer(); 
+    showEachDay(id);
+    document.body.style.overflowY = "hidden";
 }
 
 const previousDayButtonFunction = ({target}) => {

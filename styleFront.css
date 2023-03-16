@@ -53,7 +53,6 @@
 
 .content-front {
     width: 100%;
-    margin-top: 10px;
     
     opacity: 0;
     transition: opacity 800ms;
@@ -91,6 +90,7 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     column-gap: 10px;
+    padding: 6px;
 
     transition: 600ms;
 }
@@ -99,7 +99,6 @@
     background-color: var(--btn-bg);
     border: 5px solid var(--btn-border);
     border-radius: 14px;
-    margin-bottom: 10px;
     transition: all 150ms;
     color: var(--gray);
 }

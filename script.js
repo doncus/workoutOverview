@@ -28,7 +28,7 @@ const showFrontContainer = () => {
     setTimeout(() => contentBack.querySelector(".previous-days-div").innerHTML = "", 800);
 
     generatePrevSessionData(1000);
-    contentFront.querySelector(".add-session-button").classList.remove("active");
+    contentFront.querySelectorAll(".menu-select button").forEach(btn => btn.classList.remove("active"));
     contentFront.querySelector(".monthly-sessions-button").classList.add("active");
 
     setTimeout(() => menuButtons.forEach(btn => btn.addEventListener("click", menuButtonAction)), 1200);
@@ -92,14 +92,14 @@ const getLastSessionData = (inputValue) => {
         {
             commentCheckbox.checked = true;
             markChecked(commentCheckbox);
-            if (!document.querySelector(".textarea-absolute"))
+            if (!document.querySelector(".textarea-comment"))
                 openTextfield(commentCheckbox);
         }
         else
         {
             commentCheckbox.checked = false;
             markChecked(commentCheckbox);
-            if (document.querySelector(".textarea-absolute"))
+            if (document.querySelector(".textarea-comment"))
                 openTextfield(commentCheckbox);
         }
         if (lastExercise.weightAdded)
@@ -124,7 +124,7 @@ const getLastSessionData = (inputValue) => {
     }
     else
     {
-        if (document.querySelector(".textarea-absolute"))
+        if (document.querySelector(".textarea-comment"))
         {
             commentCheckbox.checked = false;
             markChecked(commentCheckbox);
@@ -136,8 +136,8 @@ const getLastSessionData = (inputValue) => {
             markChecked(checkbox);
         }
     }
-    if (document.querySelector(".textarea-absolute"))
-        document.querySelector(".textarea-absolute").value = taText;
+    if (document.querySelector(".textarea-comment"))
+        document.querySelector(".textarea-comment").value = taText;
 
     let setInput = document.querySelector(".select-sets input");
     setInput.value = nrSetsOfLastSession;
@@ -219,17 +219,17 @@ const createTextfield = () => {
 
     let label = document.querySelector(".comment label");
     let textArea = document.createElement("textarea");
-    textArea.classList.add("textarea-absolute");
+    textArea.classList.add("textarea-comment");
     textArea.value = taText;
     textArea.oninput = () => taText = textArea.value;
     label.closest(".comment").append(textArea);
     setTimeout(() => textArea.style.opacity = 1, 10);
 }
 const removeTextfield = (ms = 500) => {
-    if (document.querySelector(".textarea-absolute"))
+    if (document.querySelector(".textarea-comment"))
     {
-        document.querySelector(".textarea-absolute").style.opacity = 0;
-        setTimeout(() => document.querySelector(".textarea-absolute").remove(), ms);
+        document.querySelector(".textarea-comment").style.opacity = 0;
+        setTimeout(() => document.querySelector(".textarea-comment").remove(), ms);
     }
 }
 

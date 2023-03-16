@@ -457,11 +457,13 @@ const showDataOfSelectedExercise = () => {
 
     // calculate since how many hours an exercise wasn't practiced
     let hoursSinceLastTime = 0;
+    let daysSinceLastTime = 0;
     let curDate = new Date();
     hoursSinceLastTime = curDate.getTime() - lastExercise.date.ms;
     hoursSinceLastTime = Math.trunc(hoursSinceLastTime / 3600000);
+    daysSinceLastTime = Math.trunc(hoursSinceLastTime / 24);
 
-    for (let i = 0; i < 4; i++)
+    for (let i = 0; i < 5; i++)
     {
         let rowDiv = document.createElement("div");
         rowDiv.classList.add("overview-row-div");
@@ -485,6 +487,10 @@ const showDataOfSelectedExercise = () => {
                 text.innerHTML = "Last time:";
                 data.innerHTML = lastExercise.date.day + "." + lastExercise.date.month + 
                     "." + lastExercise.date.year;
+                break;
+            case 3:
+                text.innerHTML = "Last time [days]:";
+                data.innerHTML = daysSinceLastTime;
                 break;
             default:
                 text.innerHTML = "Last time [hours]:";
