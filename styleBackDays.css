@@ -5,6 +5,7 @@
     align-items: center;
     flex-direction: column;
     gap: 6px;
+    overflow: hidden;
 }
 
 .previous-days-button, .day-filter-button {

@@ -157,5 +157,5 @@ const showEachDay = (index) => {
     sortByDateDesc(curDaysData);
     
     createFilterButtons();
-    createPreviousDays(1000);
+    createPreviousDays(500);
 }
