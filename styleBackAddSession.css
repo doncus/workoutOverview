@@ -163,7 +163,7 @@
 .autocomplete-list {
     z-index: 99;
     position: absolute;
-    max-height: 260px;
+    max-height: 165px;
 
     background-color: var(--base-bg);
     border: 3px solid var(--btn-active);

@@ -98,7 +98,8 @@ const closeAllLists = (e) => {
     {
         document.querySelector('.autocomplete-list').remove();
         const dropDownInput = document.querySelector(".drop-down-input");
-        dropDownInput.classList.remove("drop-down-input");
+        if (dropDownInput !== null)
+            dropDownInput.classList.remove("drop-down-input");
     }
 }
 

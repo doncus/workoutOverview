@@ -4,7 +4,8 @@ window.onload = () => {
 
     document.addEventListener("click", closeAllLists);
     document.addEventListener("click", closeCalendar);
-    document.body.addEventListener("scroll", e => {
+    document.addEventListener("scroll", e => {
+        console.log("here")
         closeAllLists(e);
         document.activeElement.blur();
     });
