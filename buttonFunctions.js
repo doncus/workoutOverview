@@ -77,7 +77,7 @@ const backButtonFunction = () => {
         let addSessionElements = getNextSiblings(contentBack.querySelector(".select-sets"));
         if (addSessionElements.length)
             addSessionElements.forEach(ele => ele.style.removeProperty("display"));
-    }, 1000);
+    }, 400);
 }
 const backButtonFunctionTwo = ({target}) => {
     let button = target.tagName.toLowerCase() === 'i' ? target.parentElement : target;
@@ -428,14 +428,20 @@ const previousDayButtonFunction = ({target}) => {
         p = document.createElement("p");
         let max = 0;
         if (curDay[i].weightAdded)
+        {
             for (let j = 0; j < curDay[i].sets.length; j++)
                 if (curDay[i].sets[j].weight > max)
                     max = curDay[i].sets[j].weight;
+            max += " kg";
+        }
         else
+        {
             for (let j = 0; j < curDay[i].sets.length; j++)
-                    if (curDay[i].sets[j].reps > max)
-                        max = curDay[i].sets[j].reps;
-        p.innerHTML = max + " kg";
+                if (curDay[i].sets[j].reps > max)
+                    max = curDay[i].sets[j].reps;
+            max += " reps";
+        }
+        p.innerHTML = max;
         subDiv.append(p);
 
         div.append(subDiv);
