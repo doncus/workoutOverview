@@ -66,7 +66,7 @@ const addSessionButtonFunction = () => {
     hideFrontContainer();
 }
 
-const backButtonFunction = ({target}) => {
+const backButtonFunction = () => {
     prevDate = new Date(selectedDate);
     removeTextfield();
     showFrontContainer();
@@ -77,7 +77,7 @@ const backButtonFunction = ({target}) => {
         let addSessionElements = getNextSiblings(contentBack.querySelector(".select-sets"));
         if (addSessionElements.length)
             addSessionElements.forEach(ele => ele.style.removeProperty("display"));
-    }, 600);
+    }, 1000);
 }
 const backButtonFunctionTwo = ({target}) => {
     let button = target.tagName.toLowerCase() === 'i' ? target.parentElement : target;

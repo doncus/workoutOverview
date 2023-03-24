@@ -7,13 +7,13 @@ const showFrontContainer = () => {
     const frontTop = document.querySelector(".content-front-top");
     
     contentBack.style.opacity = 0;
-    
     backTop.style.transform = "translateX(" + (-120) + "%)";
     setTimeout(() => {
         contentBack.style.display = "none";
         backTop.style.transform = "translateX(" + 0 + ")";
         frontTop.style.display = "flex";
         contentFront.style.display = "flex";
+        document.body.scrollTo(0, 0);
         setTimeout(() => {
             backTop.style.display = "none";
             frontTop.style.transform = "translateX(" + 0 + ")";
@@ -38,16 +38,16 @@ const hideFrontContainer = () => {
     const frontTop = document.querySelector(".content-front-top");
     
     contentFront.style.opacity = 0;
-    contentBack.style.display = "flex";
     setTimeout(() => {
         frontTop.style.transform = "translateX(" + 120 + "%)";
-        backTop.style.display = "flex";
         setTimeout(() => {
-            frontTop.style.display = "none";
+            contentBack.style.display = "flex";
+            backTop.style.display = "flex";
             contentFront.style.display = "none";
+            frontTop.style.display = "none";
             contentFront.querySelector(".selected-menu-div").innerHTML = "";
-            backTop.style.opacity = 1;
-            contentBack.style.opacity = 1;
+            setTimeout(() => backTop.style.opacity = 1, 10);
+            setTimeout(() => contentBack.style.opacity = 1, 10);
         }, 400);
     }, 200);
 }
