@@ -171,7 +171,6 @@
 }
 
 .drop-down-div {
-    height: 80px;
     z-index: 3;
     width: 100%;
     background-color: var(--base-bg);

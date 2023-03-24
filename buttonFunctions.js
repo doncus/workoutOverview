@@ -426,9 +426,16 @@ const previousDayButtonFunction = ({target}) => {
         subDiv.append(p);
 
         p = document.createElement("p");
-        p.innerHTML = curDay[i].sets[0].reps + " reps";
+        let max = 0;
         if (curDay[i].weightAdded)
-            p.innerHTML = curDay[i].sets[0].weight + " kg";
+            for (let j = 0; j < curDay[i].sets.length; j++)
+                if (curDay[i].sets[j].weight > max)
+                    max = curDay[i].sets[j].weight;
+        else
+            for (let j = 0; j < curDay[i].sets.length; j++)
+                    if (curDay[i].sets[j].reps > max)
+                        max = curDay[i].sets[j].reps;
+        p.innerHTML = max + " kg";
         subDiv.append(p);
 
         div.append(subDiv);
